@@ -1,0 +1,16 @@
+{
+  "name": "mockplugin",
+  "version": "1.0.0",
+  "description": "mock webpack plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gleason",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mockjs": "^1.1.0",
+    "watch": "^1.0.2"
+  }
+}
