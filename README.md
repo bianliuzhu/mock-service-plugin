@@ -1,39 +1,40 @@
 # mockplugin
-[中文readme](./readme-zh.md)
 
-> Quickly build mock service for your project as a webpack plugin based on [mockjs](https://github.com/nuysoft/Mock)
 
-# What is the problem this plugin solved
+> 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock) 
 
-Through the way of webpack plugin, we can quickly build a mock service of project for parallel development in front-end and back-end separation mode.
+# 这个插件解决的问题
 
-# Start up
+通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。
 
-## Install
+# 使用
+
+## 安装
 
 ```
 npm i mockplugin --save-dev
 ```
 
-## Config
+## 配置
 
-Add a `mock data storage folder` in your project.
+在工程目录中增加一个 `mock 数据存放的目录`
+
 ```
 .
-├── app         //project folder
+├── app         //工程目录
     ├── dist
     ├── config
     ├── src
-    ├── mock    //mock data folder
-    ⎪   ├── data.js
-    ⎪   ├── data.json
+    ├── mock    //mock数据目录
+    |   ├── data.js
+    |   ├── data.json
         ...
 ```
 
-config proxy and mock-webpck-plugin in `webpack.config.js`
+在 `webpack.config.js` 中，配置 proxy 和 mockjs-webpck-plugin
 
 ```javascript
-// import plugin
+// 引入插件
 const mockplugin = require("mockjs-webpack-plugin");
 
 module.exports = {
@@ -42,41 +43,42 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "my-first-webpack.bundle.js"
   },
-  // config plugin
+  // 配置插件
   plugins: [
+    // 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
     new mockplugin({
-      // mock data folder path
+      // mock数据的存放路径
       path: path.join(__dirname, "./mock"),
-      // mock server port, avoid collision with application port
+      // 配置mock服务的端口，避免与应用端口冲突
       port: 3000
     })
   ],
-  // config proxy
+  // 配置代理，这里的代理为webpack自带功能
   devServer: {
-    // application port
+    // 应用端口，避免与mock服务端口冲突
     port: 5001,
     proxy: {
-      // mock server url
+      // 配置匹配服务的url规则，以及其代理的服务地址，即mock服务的地址
       "/": "http://localhost:3000/"
     }
   }
 };
 ```
 
-if you want to set a special url for mock service, you can use webpack proxy like this:
+如果想要给mock服务指定URL前缀，你可以在webpack的proxy设置进行如下配置：
 ```javascript
 ...
 module.exports = {
   ...
-  // config proxy
+  // 配置代理，这里的代理为webpack自带功能
   devServer: {
-    // application port
+    // 应用端口，避免与mock服务端口冲突
     port: 5001,
     proxy: {
       '/api': {
         target: 'http://localhost:3000/',
         pathRewrite: {
-          // set url rewrite, for example, 
+          // 设置url的重写, 实际过程如下： 
           // http://localhost:5001/api/getData -> http://localhost:3000/getData
           '^/api': ''
         }
@@ -86,21 +88,21 @@ module.exports = {
 };
 ```
 
-_When you add a mock data file, do not need to modify the webpack config file but **restart the application**_
+_增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需更新，**但是需要重新启动应用**_
 
-# OPTIONS
+# 参数
 
 ```javascript
 new mockplugin(options);
 ```
 
-* options.path mock data folder path
-* options.port the port of the mock server, default 3000
+* options.path mock 数据的存放路径
+* options.port 代理服务器端口，默认为 3000
 
-# Mock Data
+# Mock 数据
 
-`Mock Data` here is not a real JSON file, and more like a JS file.
-When we just want to return data without any processing, a json mock file will be proper. So you want to use the following format.
+`Mock 数据` 并非严格的 json 格式数据文件，更像是 js 代码。
+当我们只需要返回直接的数据结构，使用如下的json格式会显得非常直接，示例`data.json`如下：
 
 ```js
 /**
@@ -129,11 +131,11 @@ When we just want to return data without any processing, a json mock file will b
 }
 ```
 
-You can read the file content like this
+对应的文件内容可以这样理解
 
-- title： `Json data file`
-- url： `/json/data`
-- Description：
+* 文件标题： `Json data file`
+* 访问路径： `/json/data`
+* 描述：
 ```
 Here you can write a detailed description
 of the parameters of the information.
@@ -144,11 +146,11 @@ Parameter description and other instructions.
  email: the email
 etc.
 ```
-- data content： the rest part
+* 数据： 剩下的部分
 
-Then you can access the <http://[localhost]:[3000]/json/data> through the browser.
+接下来我们就可以在浏览器中访问<http://[localhost]:[3000]/json/data> 这个地址获取数据。
 
-In addition, we can use the JS file directly, which is very useful when we need to check the input parameters.
+除此之外，我们可以直接使用js文件，当我们需要校验入参时，这会很实用。
 
 ``` js
 /**
@@ -169,7 +171,7 @@ module.exports = {
 };
 ```
 
-Or export `function`.
+或者是输出一个 `function`
 
 ``` js
 /**
@@ -206,22 +208,21 @@ module.exports = function(req) {
 };
 ```
 
-_All above data comes from `mockjs` syntax，you can read docs and samples from website of mockjs to get more_
+_以上mock数据的语法均来自 `mockjs`，想获取更多语法可以参阅mockjs官网文档和示例_
 
-mock data desciption comes from [52cik/express-mockjs](https://github.com/52cik/express-mockjs)
+mock数据说明文档和功能来源于 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)
 
 ## Mock JSON
-* [Mock.js 0.1 doc](https://github.com/nuysoft/Mock/wiki)
-* [Mock samples](http://mockjs-lite.js.org/docs/examples.html)
+* [Mock.js 0.1 官方文档](https://github.com/nuysoft/Mock/wiki)
+* [Mock 示例](http://mockjs-lite.js.org/docs/examples.html)
 
 #ChangeLog
 version 3.0.0 -- 2019.04.07
-1. nothing updated! Just use `npm version <update_type>` and then i find my package.json has been updated to 3.0.0
+1. 什么都没有更新! 被npmjs的命令 `npm version <update_type>` 悄咪咪升级到3.0.0了
 version 2.0.0 -- 2019.04.06
-1. support hot reload mock files changes, like add new file or update content.
+1. 增加数据文件更新热加载，如增加／删除，修改文件内容等。
 
+# 支持
+此插件灵感来源于 [MarxJiao/mock-webpack-plugin](.https://github.com/MarxJiao/mock-webpack-plugin) 和 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)。
 
-# Support
-This repo is coming from [MarxJiao/mock-webpack-plugin](.https://github.com/MarxJiao/mock-webpack-plugin) and [52cik/express-mockjs](https://github.com/52cik/express-mockjs).
-
-Thanks this two author, [Marx(MarxJiao)](https://github.com/MarxJiao) and [楼教主(52cik)](https://github.com/52cik)
+感谢两位作者 [Marx(MarxJiao)](https://github.com/MarxJiao) 和 [楼教主(52cik)](https://github.com/52cik)。
