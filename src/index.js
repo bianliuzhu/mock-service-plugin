@@ -6,12 +6,12 @@
 const server = require('./server.js')
 
 /**
- * @class MockjsWebpackPlugin
+ * @class mockplugin
  *
  * @param {Object} param data that plugin needs
  */
 
-class MockjsWebpackPlugin {
+class mockplugin {
   constructor ({ path, port = 3000 }) {
     console.log(path, port)
     this.path = path
@@ -19,9 +19,9 @@ class MockjsWebpackPlugin {
   }
 
   apply (compiler) {
-    compiler.hooks.emit.tap('MockjsWebpackPlugin', () => {
+    compiler.hooks.emit.tap('mockplugin', () => {
       server({ path: this.path, port: this.port })
     })
   }
 }
-module.exports = MockjsWebpackPlugin
+module.exports = mockplugin

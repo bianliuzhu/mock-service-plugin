@@ -1,4 +1,4 @@
-# MockjsWebpackPlugin
+# mockplugin
 [中文readme](./readme-zh.md)
 
 > Quickly build mock service for your project as a webpack plugin based on [mockjs](https://github.com/nuysoft/Mock)
@@ -34,7 +34,7 @@ config proxy and mock-webpck-plugin in `webpack.config.js`
 
 ```javascript
 // import plugin
-const MockjsWebpackPlugin = require("mockjs-webpack-plugin");
+const mockplugin = require("mockjs-webpack-plugin");
 
 module.exports = {
   entry: "./index.js",
@@ -44,7 +44,7 @@ module.exports = {
   },
   // config plugin
   plugins: [
-    new MockjsWebpackPlugin({
+    new mockplugin({
       // mock data folder path
       path: path.join(__dirname, "./mock"),
       // mock server port, avoid collision with application port
@@ -91,7 +91,7 @@ _When you add a mock data file, do not need to modify the webpack config file bu
 # OPTIONS
 
 ```javascript
-new MockjsWebpackPlugin(options);
+new mockplugin(options);
 ```
 
 * options.path mock data folder path
