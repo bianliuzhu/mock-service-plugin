@@ -1,9 +1,8 @@
-# mockplugin
+# mockplugin （支持 vue3，webpack4.0）
 
+> 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock)
 
-> 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock) 
-
-# 这个插件解决的问题
+# 作用
 
 通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。
 
@@ -35,13 +34,13 @@ npm i mockplugin --save-dev
 
 ```javascript
 // 引入插件
-const MockPlugin = require('mockplugin')
+const MockPlugin = require("mockplugin");
 
 module.exports = {
   entry: "./index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "my-first-webpack.bundle.js"
+    filename: "my-first-webpack.bundle.js",
   },
   // 配置插件
   plugins: [
@@ -50,8 +49,8 @@ module.exports = {
       // mock数据的存放路径
       path: path.join(__dirname, "./mock"),
       // 配置mock服务的端口，避免与应用端口冲突
-      port: 3000
-    })
+      port: 3000,
+    }),
   ],
   // 配置代理，这里的代理为webpack自带功能
   devServer: {
@@ -59,13 +58,14 @@ module.exports = {
     port: 5001,
     proxy: {
       // 配置匹配服务的url规则，以及其代理的服务地址，即mock服务的地址
-      "/": "http://localhost:3000/"
-    }
-  }
+      "/": "http://localhost:3000/",
+    },
+  },
 };
 ```
 
-如果想要给mock服务指定URL前缀，你可以在webpack的proxy设置进行如下配置：
+如果想要给 mock 服务指定 URL 前缀，你可以在 webpack 的 proxy 设置进行如下配置：
+
 ```javascript
 ...
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
       '/api': {
         target: 'http://localhost:3000/',
         pathRewrite: {
-          // 设置url的重写, 实际过程如下： 
+          // 设置url的重写, 实际过程如下：
           // http://localhost:5001/api/getData -> http://localhost:3000/getData
           '^/api': ''
         }
@@ -96,13 +96,13 @@ _增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需�
 new MockPlugin(options);
 ```
 
-* options.path mock 数据的存放路径
-* options.port 代理服务器端口，默认为 3000
+- options.path mock 数据的存放路径
+- options.port 代理服务器端口，默认为 3000
 
 # Mock 数据
 
 `Mock 数据` 并非严格的 json 格式数据文件，更像是 js 代码。
-当我们只需要返回直接的数据结构，使用如下的json格式会显得非常直接，示例`data.json`如下：
+当我们只需要返回直接的数据结构，使用如下的 json 格式会显得非常直接，示例`data.json`如下：
 
 ```js
 /**
@@ -133,9 +133,10 @@ new MockPlugin(options);
 
 对应的文件内容可以这样理解
 
-* 文件标题： `Json data file`
-* 访问路径： `/json/data`
-* 描述：
+- 文件标题： `Json data file`
+- 访问路径： `/json/data`
+- 描述：
+
 ```
 Here you can write a detailed description
 of the parameters of the information.
@@ -146,13 +147,14 @@ Parameter description and other instructions.
  email: the email
 etc.
 ```
-* 数据： 剩下的部分
+
+- 数据： 剩下的部分
 
 接下来我们就可以在浏览器中访问<http://[localhost]:[3000]/json/data> 这个地址获取数据。
 
-除此之外，我们可以直接使用js文件，当我们需要校验入参时，这会很实用。
+除此之外，我们可以直接使用 js 文件，当我们需要校验入参时，这会很实用。
 
-``` js
+```js
 /**
  * JS data file
  *
@@ -162,18 +164,17 @@ etc.
  */
 
 module.exports = {
-    "code": function () { // simulation error code, 1/10 probability of error code 1.
-        return Math.random() < 0.1 ? 1 : 0;
-    },
-    "list|5-10": [
-        {"title": "@title", "link": "@url"}
-    ]
+  code: function () {
+    // simulation error code, 1/10 probability of error code 1.
+    return Math.random() < 0.1 ? 1 : 0;
+  },
+  "list|5-10": [{ title: "@title", link: "@url" }],
 };
 ```
 
 或者是输出一个 `function`
 
-``` js
+```js
 /**
  * JS function file
  *
@@ -185,13 +186,13 @@ module.exports = {
  * Here you can write a detailed description
  * of the parameters of the information.
  */
-module.exports = function(req) {
+module.exports = function (req) {
   var uid = req.query.uid;
 
   if (!uid) {
     return {
       code: -1,
-      msg: "no uid"
+      msg: "no uid",
     };
   }
 
@@ -202,27 +203,30 @@ module.exports = function(req) {
       name: "@name",
       "age|20-30": 1,
       email: "@email",
-      date: "@date"
-    }
+      date: "@date",
+    },
   };
 };
 ```
 
-_以上mock数据的语法均来自 `mockjs`，想获取更多语法可以参阅mockjs官网文档和示例_
+_以上 mock 数据的语法均来自 `mockjs`，想获取更多语法可以参阅 mockjs 官网文档和示例_
 
-mock数据说明文档和功能来源于 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)
+mock 数据说明文档和功能来源于 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)
 
 ## Mock JSON
-* [Mock.js 0.1 官方文档](https://github.com/nuysoft/Mock/wiki)
-* [Mock 示例](http://mockjs-lite.js.org/docs/examples.html)
+
+- [Mock.js 0.1 官方文档](https://github.com/nuysoft/Mock/wiki)
+- [Mock 示例](http://mockjs-lite.js.org/docs/examples.html)
 
 #ChangeLog
 version 3.0.0 -- 2019.04.07
-1. 什么都没有更新! 被npmjs的命令 `npm version <update_type>` 悄咪咪升级到3.0.0了
-version 2.0.0 -- 2019.04.06
+
+1. 什么都没有更新! 被 npmjs 的命令 `npm version <update_type>` 悄咪咪升级到 3.0.0 了
+   version 2.0.0 -- 2019.04.06
 1. 增加数据文件更新热加载，如增加／删除，修改文件内容等。
 
 # 支持
+
 此插件灵感来源于 [MarxJiao/mock-webpack-plugin](.https://github.com/MarxJiao/mock-webpack-plugin) 和 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)。
 
 感谢两位作者 [Marx(MarxJiao)](https://github.com/MarxJiao) 和 [楼教主(52cik)](https://github.com/52cik)。
