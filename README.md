@@ -46,7 +46,7 @@ module.exports = {
   // 配置插件
   plugins: [
     // 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
-    new mockplugin({
+    new MockPlugin({
       // mock数据的存放路径
       path: path.join(__dirname, "./mock"),
       // 配置mock服务的端口，避免与应用端口冲突
@@ -93,7 +93,7 @@ _增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需�
 # 参数
 
 ```javascript
-new mockplugin(options);
+new MockPlugin(options);
 ```
 
 * options.path mock 数据的存放路径
