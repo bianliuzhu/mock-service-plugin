@@ -35,7 +35,7 @@ npm i mockplugin --save-dev
 
 ```javascript
 // 引入插件
-const MockjsWebpackPlugin = require('mockplugin')
+const MockPlugin = require('mockplugin')
 
 module.exports = {
   entry: "./index.js",
