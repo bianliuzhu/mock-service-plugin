@@ -12,7 +12,7 @@
 ## 安装
 
 ```
-npm install mock-plugin --save-dev 
+npm i mockplugin --save-dev
 ```
 
 ## 配置

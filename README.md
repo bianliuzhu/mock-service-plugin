@@ -12,7 +12,7 @@ Through the way of webpack plugin, we can quickly build a mock service of projec
 ## Install
 
 ```
-npm install mock-plugin --save-dev 
+npm i mockplugin --save-dev
 ```
 
 ## Config
