@@ -1,5 +1,5 @@
 {
-  "name": "mockplugin",
+  "name": "mock-plugin",
   "version": "1.0.0",
   "description": "mock webpack plugin",
   "main": "index.js",

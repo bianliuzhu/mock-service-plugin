@@ -12,7 +12,7 @@
 ## 安装
 
 ```
-npm install --save-dev webpack mockjs-webpack-plugin
+npm install mock-plugin --save-dev 
 ```
 
 ## 配置
