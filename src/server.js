@@ -1,5 +1,6 @@
 const express = require("express");
 const watch = require("watch");
+const chalk = require("chalk");
 const { cleanCache } = require("./util");
 
 const ROUTE_PATH = "./routes.js";
@@ -24,6 +25,15 @@ module.exports = function ({ path, port = 3000 }) {
   var server = app.listen(mockPort, function () {
     const host = server.address().address;
     const port = server.address().port;
-    console.log("mock 服务 http://%s:%s", host, port);
+
+    console.log(
+      "\n",
+      "---------------------------------",
+      "\n",
+      chalk.green(`[mock 服务] http://localhost:${port}`),
+      "\n",
+      "---------------------------------",
+      "\n"
+    );
   });
 };

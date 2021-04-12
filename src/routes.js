@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Mock = require("mockjs");
+const chalk = require("chalk");
 const Random = Mock.Random;
 const template = fs.readFileSync(path.join(__dirname, "doc.html"), "utf8");
 
@@ -28,7 +29,7 @@ function mock(path) {
 
     const route = apis[url] || {};
 
-    mock.debug && console.log("Mock Interface: " + url);
+    mock.debug && console.log(chalk.magentaBright("- [Mock Interface] "), url);
     if (url === "/") {
       const host = req.protocol + "://" + req.headers.host + req.baseUrl;
       const list = Object.keys(apis)
