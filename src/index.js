@@ -1,6 +1,6 @@
 /**
  * @file plugin entry point
- * @author Soon
+ * @author gleason
  */
 
 const server = require("./server.js");
@@ -18,9 +18,8 @@ class mockplugin {
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tap("mockplugin", () => {
-      server({ path: this.path, port: this.port });
-    });
+    server({ path: this.path, port: this.port });
+    // compiler.hooks.emit.tap("mockplugin", () => {});
   }
 }
 module.exports = mockplugin;

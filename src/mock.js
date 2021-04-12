@@ -33,13 +33,13 @@ function parseAPIs(dir) {
     }
 
     if (routes[pathname]) {
-      console.warn(
-        "[Mock Warn]: [" +
-          filepath +
-          ": " +
-          pathname +
-          "] 已经存在，并已被新数据覆盖."
-      );
+      // console.warn(
+      //   "[Mock Warn]: [" +
+      //     filepath +
+      //     ": " +
+      //     pathname +
+      //     "] 已经存在，并已被新数据覆盖."
+      // );
     }
 
     routes[pathname] = {
