@@ -3,7 +3,7 @@
  * @Author: Gleason
  * @Date: 2021-04-11 14:26:23
  * @LastEditors: Gleason
- * @LastEditTime: 2022-03-19 12:14:14
+ * @LastEditTime: 2022-03-20 00:09:45
  */
 const fs = require("fs");
 
@@ -26,7 +26,9 @@ function parseAPIs(dir) {
 
 		if (m) {
 			url = m[2].trim();
-			describe = m[1].replace(/(^[\s*]+|[\s*]+$)/g, "");
+			describe =
+				m[1].replace(/(^[\s*]+|[\s*]+$)/g, "") ||
+				m[2].replace(/(^[\s*]+|[\s*]+$)/g, "");
 		}
 
 		if (url[0] !== "/") {

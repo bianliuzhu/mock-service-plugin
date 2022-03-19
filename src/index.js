@@ -1,3 +1,10 @@
+/*
+ * @Description: mock service plugin
+ * @Author: Gleason
+ * @Date: 2021-04-11 14:26:23
+ * @LastEditors: Gleason
+ * @LastEditTime: 2022-03-20 00:08:38
+ */
 /**
  * @file plugin entry point
  * @author gleason
@@ -6,20 +13,19 @@
 const server = require("./server.js");
 
 /**
- * @class mockplugin
+ * @class mockServicePlugin
  *
  * @param {Object} param data that plugin needs
  */
 
-class mockplugin {
-  constructor({ path, port = 3000 }) {
-    this.path = path;
-    this.port = port;
-  }
+class mockServicePlugin {
+	constructor({ path, port = 3000 }) {
+		this.path = path;
+		this.port = port;
+	}
 
-  apply(compiler) {
-    server({ path: this.path, port: this.port });
-    // compiler.hooks.emit.tap("mockplugin", () => {});
-  }
+	apply(compiler) {
+		server({ path: this.path, port: this.port });
+	}
 }
-module.exports = mockplugin;
+module.exports = mockServicePlugin;

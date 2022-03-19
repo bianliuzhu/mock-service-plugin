@@ -1,22 +1,26 @@
-# mockplugin （支持 vue3，webpack4.0）
+# mock-service-webpack
 
-> 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock)
+> 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock)，适用于任何前端框架如 Vue，React 等
 
 # 作用
 
-通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。
+通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。当无法提供真实服务端时，可以通过本插件构建模拟后台，通过 mockjs 生成模拟随机数据，满足页面交互使用
 
 # 使用
 
 ## 安装
 
 ```
-npm i mockplugin --save-dev
+npm i mock-service-webpack --save-dev
 ```
 
-## 配置
+## Vue 项目配置方式（Vue2，Vue3 皆可）
 
-在工程目录中增加一个 `mock 数据存放的目录`
+1. 在项目根目录下创建
+
+## 通用配置
+
+在工程目录中增加一个 `mocks` 文件夹
 
 ```
 .
@@ -24,7 +28,7 @@ npm i mockplugin --save-dev
     ├── dist
     ├── config
     ├── src
-    ├── mock    //mock数据目录
+    ├── mocks    //mock数据目录
     |   ├── data.js
     |   ├── data.json
         ...
@@ -37,30 +41,30 @@ npm i mockplugin --save-dev
 const MockPlugin = require("mockplugin");
 
 module.exports = {
-  entry: "./index.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "my-first-webpack.bundle.js",
-  },
-  // 配置插件
-  plugins: [
-    // 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
-    new MockPlugin({
-      // mock数据的存放路径
-      path: path.join(__dirname, "./mock"),
-      // 配置mock服务的端口，避免与应用端口冲突
-      port: 3000,
-    }),
-  ],
-  // 配置代理，这里的代理为webpack自带功能
-  devServer: {
-    // 应用端口，避免与mock服务端口冲突
-    port: 5001,
-    proxy: {
-      // 配置匹配服务的url规则，以及其代理的服务地址，即mock服务的地址
-      "/": "http://localhost:3000/",
-    },
-  },
+	entry: "./index.js",
+	output: {
+		path: path.resolve(__dirname, "dist"),
+		filename: "my-first-webpack.bundle.js",
+	},
+	// 配置插件
+	plugins: [
+		// 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
+		new MockPlugin({
+			// mock数据的存放路径
+			path: path.join(__dirname, "./mock"),
+			// 配置mock服务的端口，避免与应用端口冲突
+			port: 3000,
+		}),
+	],
+	// 配置代理，这里的代理为webpack自带功能
+	devServer: {
+		// 应用端口，避免与mock服务端口冲突
+		port: 5001,
+		proxy: {
+			// 配置匹配服务的url规则，以及其代理的服务地址，即mock服务的地址
+			"/": "http://localhost:3000/",
+		},
+	},
 };
 ```
 
@@ -164,11 +168,11 @@ etc.
  */
 
 module.exports = {
-  code: function () {
-    // simulation error code, 1/10 probability of error code 1.
-    return Math.random() < 0.1 ? 1 : 0;
-  },
-  "list|5-10": [{ title: "@title", link: "@url" }],
+	code: function () {
+		// simulation error code, 1/10 probability of error code 1.
+		return Math.random() < 0.1 ? 1 : 0;
+	},
+	"list|5-10": [{ title: "@title", link: "@url" }],
 };
 ```
 
@@ -187,25 +191,25 @@ module.exports = {
  * of the parameters of the information.
  */
 module.exports = function (req) {
-  var uid = req.query.uid;
+	var uid = req.query.uid;
 
-  if (!uid) {
-    return {
-      code: -1,
-      msg: "no uid",
-    };
-  }
+	if (!uid) {
+		return {
+			code: -1,
+			msg: "no uid",
+		};
+	}
 
-  return {
-    code: 0,
-    data: {
-      uid: +uid,
-      name: "@name",
-      "age|20-30": 1,
-      email: "@email",
-      date: "@date",
-    },
-  };
+	return {
+		code: 0,
+		data: {
+			uid: +uid,
+			name: "@name",
+			"age|20-30": 1,
+			email: "@email",
+			date: "@date",
+		},
+	};
 };
 ```
 
