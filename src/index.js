@@ -3,7 +3,7 @@
  * @Author: Gleason
  * @Date: 2021-04-11 14:26:23
  * @LastEditors: Gleason
- * @LastEditTime: 2022-03-20 00:08:38
+ * @LastEditTime: 2022-03-20 00:11:27
  */
 /**
  * @file plugin entry point
@@ -24,7 +24,7 @@ class mockServicePlugin {
 		this.port = port;
 	}
 
-	apply(compiler) {
+	apply() {
 		server({ path: this.path, port: this.port });
 	}
 }
