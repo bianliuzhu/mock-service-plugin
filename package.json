@@ -19,9 +19,9 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bianliuzhu/mock-service"
+		"url": "https://github.com/bianliuzhu/mock-service-plugin.git"
 	},
-	"homepage": "https://www.npmjs.com/package/mock-service",
+	"homepage": "https://blog.csdn.net/bianliuzhu/article/details/123593237",
 	"bugs": {
 		"url": "https://github.com/bianliuzhu/mock-service/issues",
 		"email": "bianliuzhu@gmail.com"
