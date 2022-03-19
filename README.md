@@ -8,13 +8,13 @@
 
 # 使用
 
+如果下面配置看不懂可以参考[Vue,React 框架配置 mock 服务手把手教学](https://blog.csdn.net/bianliuzhu/article/details/123593237)这篇文章
+
 ## 安装
 
 ```
 npm i mock-service-plugin --save-dev
 ```
-
-如果通用配置看不懂可以参考[Vue,React 框架配置 mock 服务手把手教学](https://blog.csdn.net/bianliuzhu/article/details/123593237)这篇文章
 
 ## 通用配置
 
