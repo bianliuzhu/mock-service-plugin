@@ -1,22 +1,21 @@
-# mock-service-webpack
+# mock-service-plugin
 
 > 快速搭建项目 mock 服务的 webpack 插件，基于 [mockjs](https://github.com/nuysoft/Mock)，适用于任何前端框架如 Vue，React 等
 
 # 作用
 
-通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。当无法提供真实服务端时，可以通过本插件构建模拟后台，通过 mockjs 生成模拟随机数据，满足页面交互使用
+通过 webpack 插件的方式，快速搭建项目的 mock 服务，用于前后端分离模式下的并行开发。当后端无法提供接口服务时，可以通过本插件模拟后台服务，满足页面交互使用。
 
 # 使用
 
 ## 安装
 
 ```
-npm i mock-service-webpack --save-dev
+npm i mock-service-plugin --save-dev
 ```
 
-## Vue 项目配置方式（Vue2，Vue3 皆可）
-
-1. 在项目根目录下创建
+如果 通用配置看不懂可以参考下面手把手教学文章
+** [Vue,React 框架配置 mock 服务手把手教学](https://blog.csdn.net/bianliuzhu/article/details/123593237) **
 
 ## 通用配置
 
@@ -38,20 +37,16 @@ npm i mock-service-webpack --save-dev
 
 ```javascript
 // 引入插件
-const MockPlugin = require("mockplugin");
+const MockServicePlugin = require("mock-service-plugin");
 
+// webpack 配置
 module.exports = {
-	entry: "./index.js",
-	output: {
-		path: path.resolve(__dirname, "dist"),
-		filename: "my-first-webpack.bundle.js",
-	},
 	// 配置插件
 	plugins: [
 		// 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
-		new MockPlugin({
+		new MockServicePlugin({
 			// mock数据的存放路径
-			path: path.join(__dirname, "./mock"),
+			path: path.join(__dirname, "./mocks"),
 			// 配置mock服务的端口，避免与应用端口冲突
 			port: 3000,
 		}),
@@ -97,7 +92,7 @@ _增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需�
 # 参数
 
 ```javascript
-new MockPlugin(options);
+new MockServicePlugin(options);
 ```
 
 - options.path mock 数据的存放路径
