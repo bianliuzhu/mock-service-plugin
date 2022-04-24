@@ -8,6 +8,12 @@
 
 # mock-service-plugin 介绍
 
+## 安装
+
+```shell
+npm i mock-service-plugin --save-dev
+```
+
 ## 参数
 
 ```javascript
@@ -16,6 +22,20 @@ new MockServicePlugin(options);
 
 - options.path mock 数据的存放路径
 - options.port 代理服务器端口，默认为 3000
+
+## Mock 文件夹位置
+
+```
+.
+├── app         //工程目录
+    ├── dist
+    ├── config
+    ├── src
+    ├── mocks    //mock数据目录
+    |   ├── data.js
+    |   ├── data.json
+        ...
+```
 
 ## Mock 数据
 
@@ -63,7 +83,7 @@ _增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需�
 
 # 构建 mock 服务
 
-分为两部分讲解：
+分为三部分讲解：
 
 - webpack 通用配置
 
@@ -146,20 +166,23 @@ module.exports = {
   ```shell
   npm i mock-service-plugin --save-dev
   ```
-- 配置 `mock-service-plugin`
+- 在 `vue.config.js` 配置 `mock-service-plugin`
 
   ```javascript
-  // vue.config.js
-
+  // 引入插件
   const MockServicePlugin = require("mock-service-plugin");
+  
   module.exports = {
-  	configureWebpack: {
-  		plugins: [
-  			// 初始化插件
+  
+    configureWebpack: {
+      // 在 plugins 初始化插件
+      plugins: [
+        // 初始化
   			new MockServicePlugin({
   				path: path.join(__dirname, "./mocks"), // mock数据存放在 mocks 文件夹中
   				port: 9090, // 服务端口号
   			}),
+        
   		],
   	},
   };
@@ -343,5 +366,3 @@ module.exports = {
 	},
 };
 ```
-
----
