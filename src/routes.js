@@ -26,8 +26,19 @@ function mock(path) {
     }
 
     const url = req.url.split("?")[0];
+    const patharr = url.split('/');
+    let route = '';
+    let currentUrl = '';
+    for(item in apis) {
+      const apiurlarr = item.split('/');
+      const Prefix = item.split(':')[0]
+      const IsThere= url.indexOf(Prefix) >= 0
+      if (patharr.length === apiurlarr.length && IsThere) {
+        currentUrl = item
+      }
+    }
 
-    const route = apis[url] || {};
+    route = apis[currentUrl === '' ? url : currentUrl] || {};
 
     mock.debug && console.log(chalk.magentaBright("- [Mock Interface] "), url);
     if (url === "/") {
