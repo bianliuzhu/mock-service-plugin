@@ -11,6 +11,14 @@
 
 # mock-service-plugin 介绍
 
+## 示例项目
+- [Vue](https://github.com/bianliuzhu/vite-vue-ts)
+- [React](https://github.com/bianliuzhu/react-app-ts)
+
+## 如果基于 Vue/React 搭建 mock 环境, 点击下方锚点跳转到对应安装教程
+- [Vue 构建 mock 服务](#vueinstll)
+- [React 构建 mock 服务](#reactinstall)
+
 ## 安装
 
 ```shell
@@ -162,7 +170,7 @@ module.exports = {
 };
 ```
 
-# Vue 构建 mock 服务
+# <a id="vueinstll">Vue 构建 mock 服务</a>
 
 - 安装 `mock-service-plugin`
   ```shell
@@ -173,9 +181,9 @@ module.exports = {
   ```javascript
   // 引入插件
   const MockServicePlugin = require("mock-service-plugin");
-  
+
   module.exports = {
-  
+
     configureWebpack: {
       // 在 plugins 初始化插件
       plugins: [
@@ -184,7 +192,6 @@ module.exports = {
   				path: path.join(__dirname, "./mocks"), // mock数据存放在 mocks 文件夹中
   				port: 9090, // 服务端口号
   			}),
-        
   		],
   	},
   };
@@ -252,13 +259,13 @@ module.exports = {
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/ba8da28138a64c1581df8a26b6ea83c1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
 - Vue 项目的 mock 服务就搭建完成了
 
-# React 构建 mock 服务
+# <a id="reactinstall">React 构建 mock 服务</a>
 
 CRA 官方并没有开放 Webpack 的配置，有两种解决方式，第一种弹出 webpack 配置，第二种社区适配方案，社区适配方案主流有两种 `craco` 与 `customize-cra` 因为这两种方式都有人用，分别介绍下，建议将 Vue 配置教程详细阅读一遍，主要看配置流程，原理其实都一样
 
 ## 安装 mock-service-plugin
 
-    npm i mock-service-plugin --save-dev
+`npm i mock-service-plugin --save-dev`
 
 ## craco 配置
 
