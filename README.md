@@ -18,6 +18,7 @@
 ## 如果基于 Vue/React 搭建 mock 环境, 点击下方锚点跳转到对应安装教程
 - [Vue 构建 mock 服务](#vueinstll)
 - [React 构建 mock 服务](#reactinstall)
+- [webpack 通用配置](#webpackinstall)
 
 ## 安装
 
@@ -89,18 +90,17 @@ mock 数据说明文档和功能来源于 [52cik/express-mockjs](https://github.
 
 ## 注意
 
-_增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需更新，**但是需要重新启动应用**_
+_增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需更新，**但是需要刷新界面**_
 
 # 构建 mock 服务
 
 分为三部分讲解：
 
 - webpack 通用配置
-
 - Vue 搭建 mock 服务
 - React 搭建 mock 服务
 
-# webpack 通用配置
+# <a id="webpackinstall">webpack 通用配置</a>
 
 在工程目录中增加一个 `mocks` 文件夹
 
