@@ -201,7 +201,7 @@ module.exports = {
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/e2e7e3cee6154bd980b01efe8a70ad1b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
 - 在`mocks`文件夹下创建一个`data.json`文件
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/b5ba9b50cf8d4623a3a94e11f24e1bff.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-- 添加如下数据
+- 添加如下数据（一个文件里仅仅放一个接口的mock数据，文件名随意）
 
   ```javascript
   /**
@@ -222,18 +222,23 @@ module.exports = {
 
   说明：
 
-  - 以获取用户信息接口为例( `www.example.com/getUser`)，我们通常会把`www.example.com`作为 `baseUrl` ,`getUser`作为接口名称，在 data.json 文件文件中的 `/login`就相当于`getUser`,
+  - 以获取用户信息接口为例( `www.example.com/user/info`)，我们通常会把`www.example.com`作为 `baseUrl` ,`user/info` 作为接口URL，在 data.json 文件文件中的 `/login`就相当于`user/info` (图片懒得换了你们懂就行),
 
   - 头部注释中的 `@url` 字段是必须的，当请求发送到 mock 服务器上时, mock 服务会遍历`mocks`文件夹下所有的`.json`文件, 将请求 url 与头部注释 @url 中的字段匹配, 匹配成功返回 `json` 中的数据
 
 - 添加好以上信息后重启项目 （注意控制台输出）
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/03f1e119a4804ca1a58250169000b42e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - 在浏览器中打开 `http://localhost:9090`
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/7296b2f71ab34fa8a25f0a2db6d5f408.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - 点击左侧列表中 `/login`
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/c8aeabf67cf14ee0b61792adc6968598.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - 如果看到上面的页面说明我们 mock 服务搭建成功了,接下来只要把请求发送到 mock 服务器上就可以了下面我们来实现下吧
+
 - 将请求发送到 `http://localhost:9090`， 在`vue.config.js`中配下代理 就可以了
+
   ```javascript
     // 配置代理
     devServer: {
@@ -253,10 +258,13 @@ module.exports = {
   ```
 - 设置 axios 的 `baseUrl` 为 `api`就可以了 这一步很简单，把我的配置贴在下面，根据实际情况自行调整哈
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/dc4e514dc31447da924f2c9f9e597931.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - 在项目中使用
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/e8c09e0f83134a95a3a2f2ea675ffa26.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - 在页面上测试下
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/ba8da28138a64c1581df8a26b6ea83c1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 - Vue 项目的 mock 服务就搭建完成了
 
 # <a id="reactinstall">React 构建 mock 服务</a>
