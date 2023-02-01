@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"description": "模拟后端接口服务",
 	"main": "src/index.js",
 	"scripts": {
