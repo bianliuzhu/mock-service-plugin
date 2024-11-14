@@ -19,13 +19,13 @@ const server = require("./server.js");
  */
 
 class mockServicePlugin {
-	constructor({ path, port = 3000 }) {
-		this.path = path;
-		this.port = port;
-	}
+  constructor({ path, port = 3000 }) {
+    this.path = path;
+    this.port = port;
+  }
 
-	apply() {
-		server({ path: this.path, port: this.port });
-	}
+  apply() {
+    server({ path: this.path, port: this.port });
+  }
 }
 module.exports = mockServicePlugin;

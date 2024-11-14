@@ -26,19 +26,40 @@ function mock(path) {
     }
 
     const url = req.url.split("?")[0];
-    const patharr = url.split('/');
-    let route = '';
-    let currentUrl = '';
-    for(item in apis) {
-      const apiurlarr = item.split('/');
-      const Prefix = item.split(':')[0]
-      const IsThere= url.indexOf(Prefix) >= 0
-      if (patharr.length === apiurlarr.length && IsThere) {
-        currentUrl = item
+    const urlSegments = url.split("/").filter(Boolean);
+
+    let matchedRoute = null;
+    let routeParams = {};
+
+    for (const apiPath in apis) {
+      const apiSegments = apiPath.split("/").filter(Boolean);
+
+      if (urlSegments.length !== apiSegments.length) continue;
+
+      let isMatch = true;
+      const params = {};
+
+      for (let i = 0; i < apiSegments.length; i++) {
+        const apiSegment = apiSegments[i];
+        const urlSegment = urlSegments[i];
+
+        if (apiSegment.startsWith(":")) {
+          params[apiSegment.slice(1)] = urlSegment;
+        } else if (apiSegment !== urlSegment) {
+          isMatch = false;
+          break;
+        }
+      }
+
+      if (isMatch) {
+        matchedRoute = apis[apiPath];
+        routeParams = params;
+        break;
       }
     }
 
-    route = apis[currentUrl === '' ? url : currentUrl] || {};
+    route = matchedRoute || {};
+    req.params = routeParams;
 
     mock.debug && console.log(chalk.magentaBright("- [Mock Interface] "), url);
     if (url === "/") {
