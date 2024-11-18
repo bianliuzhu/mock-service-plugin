@@ -58,60 +58,90 @@ function mock(path) {
       }
     }
 
-    route = matchedRoute || {};
+    const route = matchedRoute || {};
     req.params = routeParams;
 
     mock.debug && console.log(chalk.magentaBright("- [Mock Interface] "), url);
-    if (url === "/") {
-      const host = req.protocol + "://" + req.headers.host + req.baseUrl;
-      const list = Object.keys(apis)
-        .sort()
-        .map((pathname) => {
-          if (isJavacriptFile(pathname)) {
-            apis[pathname].data = require(pathname);
-          } else {
-            try {
-              apis[pathname].data = new Function(
-                "return (" + apis[pathname].content + ")"
-              )();
-            } catch (e) {
-              delete apis[pathname];
-              console.warn("[Mock Warn1]:", e);
-            }
-          }
-          const route = apis[pathname];
-          return {
-            title: route.describe,
-            url: host + route.url,
-            file: route.filepath,
-          };
-        });
 
-      return res.end(template.replace("@menuList", JSON.stringify(list)));
-    }
-
-    let data = route.data;
-
-    if (isJavacriptFile(route.filepath)) {
-      cleanCache(require.resolve(route.filepath));
-      data = require(route.filepath);
-    } else {
+    if (!isJavacriptFile(route.filepath)) {
       try {
-        data = new Function("return (" + route.content + ")")();
+        let mockData = new Function("return (" + route.content + ")")();
+
+        const isSSE = req.headers.accept === "text/event-stream";
+        if (isSSE) {
+          res.writeHead(200, {
+            "Content-Type": "text/event-stream",
+            "Cache-Control": "no-cache",
+            Connection: "keep-alive",
+          });
+
+          const sendSSE = (item) => {
+            let message = "";
+
+            if (item.id) {
+              message += `id: ${item.id}\n`;
+            }
+
+            if (item.event) {
+              message += `event: ${item.event}\n`;
+            }
+
+            if (item.data) {
+              const dataStr =
+                typeof item.data === "string"
+                  ? item.data
+                  : JSON.stringify(item.data);
+              message += `data: ${dataStr}\n`;
+            }
+
+            if (item.retry) {
+              message += `retry: ${item.retry}\n`;
+            }
+
+            message += "\n";
+            res.write(message);
+          };
+
+          if (mockData.stream === true) {
+            // 使用 Mock.js 生成数据
+            const data = Mock.mock(mockData);
+            const interval = data.interval || 1000;
+
+            if (Array.isArray(data.items)) {
+              data.items.forEach((item, index) => {
+                setTimeout(() => {
+                  sendSSE(item);
+                }, index * interval);
+              });
+            }
+          } else {
+            sendSSE({ data: Mock.mock(mockData) });
+          }
+
+          req.on("close", () => {
+            console.log("Client closed connection");
+          });
+          return;
+        } else {
+          return res.json(Mock.mock(mockData));
+        }
       } catch (e) {
-        delete apis[pathname];
-        console.warn("[Mock Warn2]:", e);
+        console.warn("[Mock Warn]:", e);
+        return next();
       }
     }
 
-    if (data) {
+    // 处理 JavaScript 文件
+    if (route.filepath) {
+      cleanCache(require.resolve(route.filepath));
+      let data = require(route.filepath);
       if (typeof data === "function") {
         data = data(req, Mock, Random);
       }
-      res.json(Mock.mock(data));
-    } else {
-      next();
+      return res.json(Mock.mock(data));
     }
+
+    next();
   };
 }
 

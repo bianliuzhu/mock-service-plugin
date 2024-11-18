@@ -1,6 +1,42 @@
-/*
-* @url /test/:id/:test/name
-*/
+/**
+ * @url /bg/list
+ */
 {
-  "test": "test"
+  "code": 200,
+  "msg": "ok",
+  "data|8": [
+    {
+      "url": "@image('200x300','@color')",
+      "list|2-6": [
+        {
+          "url": "@image('200x300','@color')",
+          "check": false
+        }
+      ],
+      "id": "@guid",
+      "tlmId": "@guid",
+      "stage|1": [
+        "prompts",
+        "bg"
+      ],
+      "category": [
+        "生活",
+        "娱乐场所",
+        "都市酒吧"
+      ],
+      "name": "@cname",
+      "original": "@cparagraph(2, 4)",
+      "prompts": "@cparagraph(2, 4)",
+      "progress": {
+        "status|1": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "current": "@integer(0, 100)",
+        "msg": "@cparagraph(1, 3)"
+      }
+    }
+  ]
 }
