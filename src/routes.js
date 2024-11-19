@@ -42,7 +42,21 @@ function mock(path) {
     let matchedRoute = null;
     let routeParams = {};
 
-    for (const apiPath in apis) {
+    // 将路由按具体路由和参数路由分类并排序
+    const sortedApiPaths = Object.keys(apis).sort((a, b) => {
+      const aSegments = a.split("/").filter(Boolean);
+      const bSegments = b.split("/").filter(Boolean);
+
+      // 计算包含参数的段数
+      const aParamCount = aSegments.filter((seg) => seg.startsWith(":")).length;
+      const bParamCount = bSegments.filter((seg) => seg.startsWith(":")).length;
+
+      // 参数更少的路由优先级更高
+      return aParamCount - bParamCount;
+    });
+
+    // 使用排序后的路由进行匹配
+    for (const apiPath of sortedApiPaths) {
       const apiSegments = apiPath.split("/").filter(Boolean);
 
       if (urlSegments.length !== apiSegments.length) continue;
@@ -114,7 +128,6 @@ function mock(path) {
           };
 
           if (mockData.stream === true) {
-            // 使用 Mock.js 生成数据
             const data = Mock.mock(mockData);
             const interval = data.interval || 1000;
 
@@ -142,7 +155,6 @@ function mock(path) {
       }
     }
 
-    // 处理 JavaScript 文件
     if (route.filepath) {
       cleanCache(require.resolve(route.filepath));
       let data = require(route.filepath);
