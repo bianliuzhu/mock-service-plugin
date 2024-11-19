@@ -11,6 +11,17 @@ const parseAPIs = require("./mock");
 
 function mock(path) {
   return function (req, res, next) {
+    if (req.url === "/") {
+      const apis = parseAPIs(path);
+      const menuList = Object.keys(apis).map((url) => ({
+        title: url,
+        url: url,
+        file: apis[url].filepath || "内联数据",
+      }));
+
+      return res.send(template.replace("@menuList", JSON.stringify(menuList)));
+    }
+
     const apis = parseAPIs(path);
 
     res.set("Access-Control-Allow-Origin", "*");
