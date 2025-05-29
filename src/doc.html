@@ -287,15 +287,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
     <script>
       (function () {
-        // 注册高亮语言
-        hljs.registerLanguage('json', hljs.json);
-        hljs.registerLanguage('xml', hljs.xml);
-        hljs.registerLanguage('css', hljs.css);
-        hljs.registerLanguage('javascript', hljs.javascript);
-        hljs.registerLanguage('markdown', hljs.markdown);
-        hljs.registerLanguage('yaml', hljs.yaml);
-        hljs.registerLanguage('plaintext', hljs.plaintext);
-
         var app = new Vue({
           el: '#app',
 
@@ -475,13 +466,47 @@
                 method: 'GET',
                 dataType: 'text',
                 success: function (data) {
+                  // 如果是 JSON 内容，进行格式化
+                  if (it.contentType && it.contentType.includes('json')) {
+                    try {
+                      // 尝试直接解析
+                      const jsonObj = JSON.parse(data);
+                      data = JSON.stringify(jsonObj, null, 2);
+                    } catch (e) {
+                      // 尝试去除注释后再解析
+                      try {
+                        const noComment = data.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:]|^)\/\/.*$/gm, '$1');
+                        const jsonObj = JSON.parse(noComment);
+                        data = JSON.stringify(jsonObj, null, 2);
+                      } catch (e2) {
+                        console.warn('JSON 格式化失败:', e2);
+                        // 保持原样
+                      }
+                    }
+                  }
                   that.highlightContent(data, it.contentType);
                   that.loading = false;
                 },
                 error: function (xhr) {
                   // 如果请求失败，尝试直接显示内容
                   try {
-                    that.highlightContent(xhr.responseText, it.contentType);
+                    let content = xhr.responseText;
+                    // 如果是 JSON 内容，进行格式化
+                    if (it.contentType && it.contentType.includes('json')) {
+                      try {
+                        const jsonObj = JSON.parse(content);
+                        content = JSON.stringify(jsonObj, null, 2);
+                      } catch (e) {
+                        try {
+                          const noComment = content.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:]|^)\/\/.*$/gm, '$1');
+                          const jsonObj = JSON.parse(noComment);
+                          content = JSON.stringify(jsonObj, null, 2);
+                        } catch (e2) {
+                          console.warn('JSON 格式化失败:', e2);
+                        }
+                      }
+                    }
+                    that.highlightContent(content, it.contentType);
                   } catch (e) {
                     const docsContent = that.$refs.docsContent;
                     docsContent.textContent = '无法解析内容: ' + e.message;
