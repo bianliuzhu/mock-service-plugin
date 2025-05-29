@@ -141,22 +141,22 @@ module.exports = {
 
 ### 支持的响应类型
 
-| 文件扩展名 | Content-Type           | 说明            |
-| ---------- | ---------------------- | --------------- |
-| .json      | application/json       | JSON 数据格式   |
-| .txt       | text/plain             | 纯文本格式      |
-| .html      | text/html              | HTML 文档       |
-| .xml       | application/xml        | XML 数据格式    |
-| .csv       | text/csv               | CSV 表格数据    |
-| .md        | text/markdown          | Markdown 文档   |
-| .pdf       | application/pdf        | PDF 文档        |
-| .png       | image/png              | PNG 图片        |
-| .jpg/.jpeg | image/jpeg             | JPEG 图片       |
-| .gif       | image/gif              | GIF 图片        |
-| .svg       | image/svg+xml          | SVG 矢量图      |
-| .css       | text/css               | CSS 样式表      |
-| .js        | application/javascript | JavaScript 代码 |
-| .yaml/.yml | application/x-yaml     | YAML 配置文件   |
+| mock 文件扩展名 | Content-Type           | 说明            |
+| --------------- | ---------------------- | --------------- |
+| .json           | application/json       | JSON 数据格式   |
+| .txt            | text/plain             | 纯文本格式      |
+| .html           | text/html              | HTML 文档       |
+| .xml            | application/xml        | XML 数据格式    |
+| .csv            | text/csv               | CSV 表格数据    |
+| .md             | text/markdown          | Markdown 文档   |
+| .pdf            | application/pdf        | PDF 文档        |
+| .png            | image/png              | PNG 图片        |
+| .jpg/.jpeg      | image/jpeg             | JPEG 图片       |
+| .gif            | image/gif              | GIF 图片        |
+| .svg            | image/svg+xml          | SVG 矢量图      |
+| .css            | text/css               | CSS 样式表      |
+| .js             | application/javascript | JavaScript 代码 |
+| .yaml/.yml      | application/x-yaml     | YAML 配置文件   |
 
 你可以通过文件扩展名或 `@content-type` 注解来指定响应类型。例如：
 
