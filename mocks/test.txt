@@ -1,0 +1,9 @@
+/**
+ * 引擎启动接口
+ * @url /engine/start
+ */
+
+callScene:initVar.txt1;
+label:label_ZJPRqxkUSK6d;
+callScene:ZJPRqxkUSK6d.txt;
+end;

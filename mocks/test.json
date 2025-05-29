@@ -1,7 +1,7 @@
 /**
- * 路由可适用 RESTful API
- * 响应流模式
- * @url /test/:schema/:type/:id/txt/v2
+ * 流式响应接口
+ * @url /abc
+ * @method GET
  */
 {
 	"stream": true,

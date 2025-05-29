@@ -7,21 +7,19 @@
     <meta name="renderer" content="webkit" />
     <title>API Document List - Express Mock Server</title>
     <link
-      href="http://lib.baomitu.com/bulma/0.5.1/css/bulma.min.css"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
       rel="stylesheet"
     />
     <link
-      href="http://lib.baomitu.com/highlight.js/9.12.0/styles/default.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="http://lib.baomitu.com/highlight.js/9.12.0/styles/rainbow.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css"
       rel="stylesheet"
     />
     <style>
       body,
       html {
         height: 100%;
+        background-color: #1a1a1a;
+        color: #f0f0f0;
       }
 
       .main {
@@ -34,33 +32,129 @@
 
       .sidebar {
         overflow: auto;
-        background-color: #eee;
+        background-color: #2c2c2c;
+        border-right: 1px solid #444;
       }
 
       .search-bar {
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid #444;
+        background-color: #333;
       }
 
       .docs {
         overflow: auto;
-        background-color: #474949;
+        background-color: #1e1e1e;
+        position: relative;
       }
 
-      .docs .notification {
+      .notification {
         margin-bottom: 0;
-        white-space: nowrap;
+        border-radius: 0;
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border-bottom: 1px solid #444;
       }
 
       .docs pre {
         margin: 0;
-        padding: 0;
+        padding: 15px;
         background-color: inherit;
+        max-height: calc(100vh - 200px);
+        overflow: auto;
       }
 
-      .docs .hljs-ln-numbers {
-        padding-right: 0.5em;
-        min-width: 26px;
+      .hljs {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+
+      .hljs-ln-numbers {
+        padding-right: 1em;
         text-align: right;
+        color: #666;
+        user-select: none;
+      }
+
+      .file-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .file-info-item {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .file-info strong {
+        color: #88c0d0;
+      }
+
+      .file-info a {
+        color: #81a1c1;
+        text-decoration: underline;
+      }
+
+      .file-info a:hover {
+        color: #5e81ac;
+      }
+
+      .content-view {
+        padding: 20px;
+      }
+
+      .image-preview {
+        max-width: 100%;
+        max-height: 500px;
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        border: 1px solid #444;
+      }
+
+      .download-btn {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 8px 15px;
+        background: #4c566a;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+
+      .download-btn:hover {
+        background: #5e81ac;
+      }
+
+      .content-type-tag {
+        display: inline-block;
+        padding: 3px 8px;
+        background: #5e81ac;
+        border-radius: 4px;
+        font-size: 0.8em;
+        margin-left: 10px;
+      }
+
+      .menu-list a {
+        color: #d8dee9;
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+        padding-left: 15px;
+      }
+
+      .menu-list a:hover {
+        background: #3b4252;
+        color: #88c0d0;
+        border-left: 3px solid #81a1c1;
+      }
+
+      .menu-list a.is-active {
+        background: #3b4252;
+        color: #88c0d0;
+        border-left: 3px solid #81a1c1;
+        font-weight: bold;
       }
 
       [v-cloak] {
@@ -82,11 +176,11 @@
     <section id="app" class="main" v-cloak>
       <div class="columns is-mobile is-gapless">
         <div class="column is-one-quarter sidebar">
-          <p class="notification is-radiusless search-bar">
+          <p class="notification search-bar">
             <input
-              class="input"
+              class="input is-dark"
               type="text"
-              placeholder="Type to search"
+              placeholder="输入关键字搜索..."
               v-model="searchQuery"
             />
           </p>
@@ -95,41 +189,113 @@
               <li
                 v-for="it of filteredDocs"
                 :key="it.file"
-                @click="showConetnt(it)"
+                @click="showContent(it)"
               >
-                <a :class="{'is-active': menuActiveItem.file === it.file}"
-                  >{{it.title}}</a
-                >
+                <a :class="{'is-active': menuActiveItem.file === it.file}">
+                  <span>{{it.title}}</span>
+                  <span class="content-type-tag"
+                    >{{getContentTypeTag(it.contentType)}}</span
+                  >
+                </a>
               </li>
             </ul>
           </aside>
         </div>
 
         <div class="column docs">
-          <div v-if="showInfos" class="notification is-primary is-radiusless">
-            <p><strong>FILE:</strong> {{menuActiveItem.file}}</p>
-            <p>
-              <strong>URL:</strong>
-              <a :href="menuActiveItem.url" target="_blank"
-                >{{menuActiveItem.url}}</a
-              >
-            </p>
+          <div v-if="showInfos" class="notification">
+            <div class="file-info">
+              <div class="file-info-item">
+                <p><strong>文件路径:</strong> {{menuActiveItem.file}}</p>
+              </div>
+              <div class="file-info-item">
+                <p>
+                  <strong>内容类型:</strong> {{menuActiveItem.contentType ||
+                  'application/json'}}
+                </p>
+              </div>
+              <div class="file-info-item">
+                <p>
+                  <strong>接口地址:</strong>
+                  <a :href="menuActiveItem.url" target="_blank"
+                    >{{menuActiveItem.url}}</a
+                  >
+                </p>
+              </div>
+            </div>
           </div>
-          <div v-else class="notification is-info">
-            <p>没有数据可以显示，请点击左侧菜单。</p>
+          <div v-else class="notification">
+            <p>请从左侧菜单选择要查看的接口文档</p>
           </div>
 
-          <pre><code ref="docsContent" class="hljs json"></code></pre>
+          <div class="content-view">
+            <!-- 文本内容展示 -->
+            <pre v-if="isTextContent"><code ref="docsContent"></code></pre>
+
+            <!-- 图片预览 -->
+            <div v-if="isImageContent">
+              <img
+                :src="menuActiveItem.url"
+                class="image-preview"
+                alt="图片预览"
+              />
+              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+                >下载图片</a
+              >
+            </div>
+
+            <!-- PDF预览 -->
+            <div v-if="isPdfContent">
+              <iframe
+                :src="menuActiveItem.url"
+                width="100%"
+                height="600px"
+                frameborder="0"
+              ></iframe>
+              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+                >下载PDF</a
+              >
+            </div>
+
+            <!-- 其他二进制文件 -->
+            <div v-if="isBinaryContent && !isImageContent && !isPdfContent">
+              <p>该文件类型为二进制格式，无法直接预览</p>
+              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+                >下载文件</a
+              >
+            </div>
+
+            <!-- 加载状态 -->
+            <div v-if="loading" class="has-text-centered">
+              <p>加载中...</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <script src="http://lib.baomitu.com/vue/2.4.2/vue.min.js"></script>
-    <script src="http://lib.baomitu.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://lib.baomitu.com/highlight.js/9.12.0/highlight.min.js"></script>
-    <script src="http://lib.baomitu.com/highlightjs-line-numbers.js/2.0.0/highlightjs-line-numbers.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/plaintext.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
     <script>
       (function () {
+        // 注册高亮语言
+        hljs.registerLanguage('json', hljs.json);
+        hljs.registerLanguage('xml', hljs.xml);
+        hljs.registerLanguage('css', hljs.css);
+        hljs.registerLanguage('javascript', hljs.javascript);
+        hljs.registerLanguage('markdown', hljs.markdown);
+        hljs.registerLanguage('yaml', hljs.yaml);
+        hljs.registerLanguage('plaintext', hljs.plaintext);
+
         var app = new Vue({
           el: '#app',
 
@@ -141,9 +307,16 @@
             menuActiveItem: {},
 
             // menu list
-            menuList: [
-              // { title: '', url: '', file: '' },
-            ],
+            menuList: [],
+
+            // content type flags
+            isTextContent: false,
+            isImageContent: false,
+            isPdfContent: false,
+            isBinaryContent: false,
+
+            // loading state
+            loading: false
           },
 
           computed: {
@@ -166,30 +339,170 @@
                 return (
                   searchRegex.test(it.title) ||
                   searchRegex.test(it.url) ||
-                  searchRegex.test(it.file)
+                  searchRegex.test(it.file) ||
+                  searchRegex.test(it.contentType || '')
                 );
               });
             },
           },
 
           methods: {
-            // get ajax content
-            showConetnt: function (it, idx) {
+            // Get content type tag
+            getContentTypeTag: function(contentType) {
+              if (!contentType) return 'JSON';
+
+              const typeMap = {
+                'application/json': 'JSON',
+                'text/plain': 'TEXT',
+                'text/html': 'HTML',
+                'application/xml': 'XML',
+                'text/csv': 'CSV',
+                'application/pdf': 'PDF',
+                'image/png': 'PNG',
+                'image/jpeg': 'JPG',
+                'image/gif': 'GIF',
+                'image/svg+xml': 'SVG',
+                'text/css': 'CSS',
+                'application/javascript': 'JS',
+                'text/markdown': 'MD',
+                'application/x-yaml': 'YAML',
+                'text/event-stream': 'SSE'
+              };
+
+              for (const [key, value] of Object.entries(typeMap)) {
+                if (contentType.includes(key)) {
+                  return value;
+                }
+              }
+
+              return contentType.split('/').pop().toUpperCase();
+            },
+
+            // 获取内容类型对应的语言
+            getHighlightLanguage: function(contentType) {
+              if (!contentType) return 'json';
+
+              const langMap = {
+                'application/json': 'json',
+                'text/plain': 'plaintext',
+                'text/html': 'html',
+                'application/xml': 'xml',
+                'text/csv': 'plaintext',
+                'text/css': 'css',
+                'application/javascript': 'javascript',
+                'text/markdown': 'markdown',
+                'application/x-yaml': 'yaml',
+                'text/event-stream': 'plaintext'
+              };
+
+              for (const [key, value] of Object.entries(langMap)) {
+                if (contentType.includes(key)) {
+                  return value;
+                }
+              }
+
+              return 'plaintext';
+            },
+
+            // 根据内容类型设置状态标志
+            setContentFlags: function(contentType) {
+              this.isTextContent = false;
+              this.isImageContent = false;
+              this.isPdfContent = false;
+              this.isBinaryContent = false;
+
+              if (!contentType) {
+                this.isTextContent = true;
+                return;
+              }
+
+              // 文本类型
+              if (contentType.startsWith('text/') ||
+                  contentType.includes('json') ||
+                  contentType.includes('xml') ||
+                  contentType.includes('yaml') ||
+                  contentType.includes('javascript') ||
+                  contentType.includes('css')) {
+                this.isTextContent = true;
+              }
+              // 图片类型
+              else if (contentType.startsWith('image/')) {
+                this.isImageContent = true;
+                this.isBinaryContent = true;
+              }
+              // PDF类型
+              else if (contentType.includes('pdf')) {
+                this.isPdfContent = true;
+                this.isBinaryContent = true;
+              }
+              // 其他二进制类型
+              else {
+                this.isBinaryContent = true;
+              }
+            },
+
+            // 高亮并显示内容
+            highlightContent: function(content, contentType) {
+              const lang = this.getHighlightLanguage(contentType);
+              const result = hljs.highlight(content, { language: lang }).value;
+
+              const docsContent = this.$refs.docsContent;
+              docsContent.innerHTML = result;
+              docsContent.className = `hljs language-${lang}`;
+
+              // 添加行号
+              hljs.lineNumbersBlock(docsContent);
+            },
+
+            // 显示内容
+            showContent: function (it) {
               var that = this;
               that.menuActiveItem = it;
+              that.loading = true;
 
-              $.get(it.url, function (data) {
-                var docsContent = that.$refs.docsContent;
-                var ret = hljs.highlight('json', JSON.stringify(data, null, '  '), true);
-                docsContent.innerHTML = ret.value;
-                hljs.lineNumbersBlock(docsContent);
-              }, 'json');
-            },
-          },
+              // 设置内容类型标志
+              that.setContentFlags(it.contentType);
+
+              // 对于二进制内容，不需要请求数据
+              if (that.isBinaryContent) {
+                that.loading = false;
+                return;
+              }
+
+              // 对于文本内容，获取内容并高亮显示
+              $.ajax({
+                url: it.url,
+                method: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                  that.highlightContent(data, it.contentType);
+                  that.loading = false;
+                },
+                error: function (xhr) {
+                  // 如果请求失败，尝试直接显示内容
+                  try {
+                    that.highlightContent(xhr.responseText, it.contentType);
+                  } catch (e) {
+                    const docsContent = that.$refs.docsContent;
+                    docsContent.textContent = '无法解析内容: ' + e.message;
+                    docsContent.className = 'hljs language-plaintext';
+                  }
+                  that.loading = false;
+                }
+              });
+            }
+          }
         });
 
         // ejs output
         app.menuList = @menuList;
+
+        // 默认显示第一个文档
+        if (app.menuList.length > 0) {
+          app.$nextTick(() => {
+            app.showContent(app.menuList[0]);
+          });
+        }
 
       })();
     </script>

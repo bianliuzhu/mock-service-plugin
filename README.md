@@ -56,7 +56,6 @@ module.exports = {
 /**
  * @url /api/users
  * @method GET
- * @content-type application/json
  */
 {
   "code": 200,
@@ -69,11 +68,17 @@ module.exports = {
 }
 ```
 
-### 注解说明
+### 头部注解说明
+
+```javascript
+/**
+ * @url /api/users
+ * @method GET
+ */
+```
 
 - `@url`: 接口路径（必填）
 - `@method`: 请求方法（可选，支持 GET/POST/PUT/DELETE 等）
-- `@content-type`: 响应类型（可选，默认 application/jsontext/plain、text/html、application/xml、text/csv、text/markdown）
 
 ### 请求方法匹配
 
@@ -157,27 +162,7 @@ module.exports = {
 | .css            | text/css               | CSS 样式表      |
 | .js             | application/javascript | JavaScript 代码 |
 | .yaml/.yml      | application/x-yaml     | YAML 配置文件   |
-
-你可以通过文件扩展名或 `@content-type` 注解来指定响应类型。例如：
-
-```javascript
-// 使用文件扩展名
-// user.json
-{
-  "name": "John Doe",
-  "email": "john@example.com"
-}
-
-// 使用注解
-/**
- * @url /api/user
- * @content-type application/json
- */
-{
-  "name": "John Doe",
-  "email": "john@example.com"
-}
-```
+| .sse            | text/event-stream      | SSE 事件流数据  |
 
 ### Mock 文件示例
 
@@ -318,13 +303,13 @@ function greeting(name) {
 
 ### 流式响应
 
+文件扩展名为 mock.sse
+
 ```javascript
 /**
  * @url /api/stream
- * @content-type text/event-stream
  */
 {
-  "stream": true,
   "interval": "@integer(100,500)",
   "items|10": [{
     "id": "@increment(1)",

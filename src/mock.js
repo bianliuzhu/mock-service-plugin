@@ -1,20 +1,13 @@
-/*
- * @Description:
- * @Author: Gleason
- * @Date: 2021-04-11 14:26:23
- * @LastEditors: Gleason
- * @LastEditTime: 2022-03-20 00:09:45
- */
 const fs = require("fs");
 const path = require("path");
 
 const { walk } = require("./util");
 
-// 修改正则表达式以支持 @method 注解
+// 优化正则表达式，支持灵活注解位置
 const RE =
-  /^\s*\/\*[*\s]+?([^\r\n]+)[\s\S]+?@url\s+([^\n]+)(?:[^@]*?@method\s+([^\n]+))?(?:[^@]*?@content-type\s+([^\n]+))?[^@]*?\*\//im;
+  /^\s*\/\*[*\s]*?([^*\r\n]+)[\s\S]*?@url\s+([^\s]+)(?:[\s\S]*?@method\s+([^\s]+))?(?:[\s\S]*?@content-type\s+([^\s]+))?[\s\S]*?\*\//im;
 
-// 默认的 content-type 映射
+// 扩展默认内容类型映射
 const DEFAULT_CONTENT_TYPES = {
   ".json": "application/json",
   ".txt": "text/plain",
@@ -32,68 +25,73 @@ const DEFAULT_CONTENT_TYPES = {
   ".md": "text/markdown",
   ".yaml": "application/x-yaml",
   ".yml": "application/x-yaml",
+  ".sse": "text/event-stream", // SSE 流式响应
 };
 
 function parseAPIs(dir) {
-  const routes = {}; // routes list
+  const routes = {};
 
   const files = walk(dir);
 
   (files || []).forEach((filepath) => {
-    const content = String(fs.readFileSync(filepath, "utf8")).trim() || "{}";
-    const ext = path.extname(filepath);
+    let content = fs.readFileSync(filepath, "utf8").trim() || "{}";
+    const ext = path.extname(filepath).toLowerCase();
 
     let url = filepath;
-    let describe = "no description";
+    let describe = "No description";
     let contentType = DEFAULT_CONTENT_TYPES[ext] || "application/json";
-    let method = null; // 新增 method 变量
+    let method = null;
 
-    const m = content.match(RE);
+    // 尝试匹配注解
+    const match = content.match(RE);
+    if (match) {
+      describe = match[1].trim();
+      url = match[2].trim();
 
-    if (m) {
-      url = m[2].trim();
-      describe =
-        m[1].replace(/(^[\s*]+|[\s*]+$)/g, "") ||
-        m[2].replace(/(^[\s*]+|[\s*]+$)/g, "");
-      if (m[3]) {
-        method = m[3].trim().toUpperCase(); // 解析 method
+      if (match[3]) {
+        method = match[3].trim().toUpperCase();
       }
-      if (m[4]) {
-        contentType = m[4].trim();
+
+      if (match[4]) {
+        contentType = match[4].trim();
+      }
+
+      // 提取注释后的实际内容
+      const contentEndIndex = content.indexOf("*/") + 2;
+      if (contentEndIndex > 2) {
+        content = content.substring(contentEndIndex).trim();
       }
     }
 
-    if (url[0] !== "/") {
+    // 规范化 URL
+    if (!url.startsWith("/")) {
       url = "/" + url;
     }
 
-    let pathname = url;
-    if (pathname.indexOf("?") > -1) {
-      pathname = pathname.split("?")[0];
-    }
+    // 移除 URL 中的查询参数
+    const pathname = url.split("?")[0];
 
-    // 使用 method 和 pathname 组合作为路由的 key
+    // 创建路由键（方法 + 路径）
     const routeKey = method ? `${method}:${pathname}` : pathname;
 
+    // 检查路由是否已存在
     if (routes[routeKey]) {
       console.warn(
-        "[Mock Warn]: [" +
-          filepath +
-          ": " +
-          routeKey +
-          "] 已经存在，并已被新数据覆盖."
+        `[Mock Warn]: [${filepath}: ${routeKey}] already exists and will be overwritten`
       );
     }
 
+    // 创建路由对象
     routes[routeKey] = {
-      url: url,
-      filepath: filepath,
-      describe: describe,
-      contentType: contentType,
-      method: method, // 存储 method
+      url: pathname,
+      filepath,
+      describe,
+      contentType,
+      method,
     };
 
-    if (/\.json$/.test(filepath)) {
+    // 非 JavaScript 文件直接存储内容
+    if (!/\.js$/.test(filepath)) {
       routes[routeKey].content = content;
     }
   });
