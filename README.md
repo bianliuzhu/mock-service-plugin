@@ -1,405 +1,419 @@
-# mock 服务的作用
+# mock-service-plugin
 
-前后端分离并行开发，模拟后端接口服务
+一个强大的 Mock 服务插件，支持多种框架和构建工具，提供灵活的接口模拟能力。
 
-# 优势
+## 特性
 
-- 兼容 webpack 4/5
-- 兼容 常见框架 Vue/React
-- 支持 restful api 规范
-- 使用简单 易与项目集成
+- 🚀 支持多种构建工具
+  - Webpack 4/5
+  - Vite
+  - Vue CLI
+  - Create React App (CRA)
+- 🎯 支持多种框架
+  - Vue
+  - React
+- 🔥 强大的功能支持
+  - RESTful API 支持
+  - 流式响应 (SSE/EventStream)
+  - 多种响应格式 (JSON/XML/CSV/Text 等)
+  - 动态路由参数
+  - 请求方法匹配 (GET/POST/PUT/DELETE 等)
+- 💡 简单易用
+  - 零配置启动
+  - 热更新支持
+  - 友好的调试界面
 
-# mock-service-plugin 介绍
+## 快速开始
 
-## 示例项目
+### 安装
 
-- [Vue](https://github.com/bianliuzhu/vite-vue-ts)
-- [React](https://github.com/bianliuzhu/react-app-ts)
+```bash
+npm install mock-service-plugin --save-dev
 
-## 如果基于 Vue/React 搭建 mock 环境, 点击下方锚点跳转到对应安装教程
-
-- [Vue 构建 mock 服务](#vueinstll)
-- [React 构建 mock 服务](#reactinstall)
-- [webpack 通用配置](#webpackinstall)
-- [Vite 配置](#Viteconfig)
-
-## 安装
-
-```shell
-npm i mock-service-plugin --save-dev
+yarn add mock-service-plugin --dev
 ```
 
-## 参数
+### 基础配置
 
 ```javascript
-new MockServicePlugin(options);
+const MockServicePlugin = require("mock-service-plugin");
+
+module.exports = {
+  plugins: [
+    new MockServicePlugin({
+      path: path.join(__dirname, "./mocks"), // mock 数据目录
+      port: 3000, // mock 服务端口
+    }),
+  ],
+};
 ```
 
-- options.path mock 数据的存放路径
-- options.port 代理服务器端口，默认为 3000
+## Mock 数据规范
 
-## Mock 文件夹位置
+### 基础格式
 
-```
-.
-├── app         //工程目录
-    ├── dist
-    ├── config
-    ├── src
-    ├── mocks    //mock数据目录
-    |   ├── data.js
-    |   ├── data.json
-        ...
-```
-
-## Mock 数据
-
-`Mock 数据` 并非严格的 json 格式数据文件，更像是 js 代码。
-当我们只需要返回直接的数据结构，使用如下的 json 格式会显得非常直接，示例`data.json`如下：
-
-```js
+```javascript
 /**
- * @url /login
- * @method POST
- * @title 登录接口
- * @content 说明
- * @param {string} userid
- * @param {string} password
+ * @url /api/users
+ * @method GET
+ * @content-type application/json
  */
 {
-	"code": 404,
-	"data|5-10": [
-		{
-			"name": "@cname",
-			"id": "@guid",
-			"email": "@email"
-		}
-	],
-	"message": "success"
+  "code": 200,
+  "data|5-10": [{
+    "id": "@id",
+    "name": "@cname",
+    "email": "@email"
+  }],
+  "message": "success"
 }
 ```
 
-对应的文件内容可以这样理解
+### 注解说明
 
-- @url： `访问路径` **（必填项）**
-- @title： `接口名称` （非必填）
-- @method：请求方法 （非必填）
-- @param： 请求参数 （非必填）
-- @content： 页面说明/接口说明/备注
+- `@url`: 接口路径（必填）
+- `@method`: 请求方法（可选，支持 GET/POST/PUT/DELETE 等）
+- `@content-type`: 响应类型（可选，默认 application/jsontext/plain、text/html、application/xml、text/csv、text/markdown）
 
-_以上 mock 数据的语法均来自 `mockjs`，想获取更多语法可以参阅 mockjs 官网文档和示例_
+### 请求方法匹配
 
-mock 数据说明文档和功能来源于 [52cik/express-mockjs](https://github.com/52cik/express-mockjs)
-
-## 注意
-
-_增加 mock 数据时，在 mock 中新建文件即可，webpack 配置无需更新，**但是需要刷新界面**_
-
-# 构建 mock 服务
-
-分为三部分讲解：
-
-- webpack 通用配置
-- Vue 搭建 mock 服务
-- React 搭建 mock 服务
-- vite 构建 mock 服务
-
-# <a id="webpackinstall">webpack 通用配置</a>
-
-在工程目录中增加一个 `mocks` 文件夹
-
-```
-.
-├── app         //工程目录
-    ├── dist
-    ├── config
-    ├── src
-    ├── mocks    //mock数据目录
-    |   ├── data.js
-    |   ├── data.json
-        ...
-```
-
-在 `webpack.config.js` 中，配置 proxy 和 mock-service-plugin
+1. 指定请求方法：
 
 ```javascript
-// 引入插件
+/**
+ * @url /api/users
+ * @method POST
+ */
+{
+  "code": 200,
+  "message": "创建成功"
+}
+```
+
+2. 支持所有请求方法（不指定 @method）：
+
+```javascript
+/**
+ * @url /api/users
+ */
+{
+  "code": 200,
+  "data": {
+    "id": "@id",
+    "name": "@cname"
+  }
+}
+```
+
+3. RESTful API 示例：
+
+```javascript
+// GET 请求
+/**
+ * @url /api/users/:id
+ * @method GET
+ */
+{
+  "id": "@id",
+  "name": "@cname"
+}
+
+// PUT 请求
+/**
+ * @url /api/users/:id
+ * @method PUT
+ */
+{
+  "code": 200,
+  "message": "更新成功"
+}
+
+// DELETE 请求
+/**
+ * @url /api/users/:id
+ * @method DELETE
+ */
+{
+  "code": 200,
+  "message": "删除成功"
+}
+```
+
+### 支持的响应类型
+
+| 文件扩展名 | Content-Type           | 说明            |
+| ---------- | ---------------------- | --------------- |
+| .json      | application/json       | JSON 数据格式   |
+| .txt       | text/plain             | 纯文本格式      |
+| .html      | text/html              | HTML 文档       |
+| .xml       | application/xml        | XML 数据格式    |
+| .csv       | text/csv               | CSV 表格数据    |
+| .md        | text/markdown          | Markdown 文档   |
+| .pdf       | application/pdf        | PDF 文档        |
+| .png       | image/png              | PNG 图片        |
+| .jpg/.jpeg | image/jpeg             | JPEG 图片       |
+| .gif       | image/gif              | GIF 图片        |
+| .svg       | image/svg+xml          | SVG 矢量图      |
+| .css       | text/css               | CSS 样式表      |
+| .js        | application/javascript | JavaScript 代码 |
+| .yaml/.yml | application/x-yaml     | YAML 配置文件   |
+
+你可以通过文件扩展名或 `@content-type` 注解来指定响应类型。例如：
+
+```javascript
+// 使用文件扩展名
+// user.json
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+
+// 使用注解
+/**
+ * @url /api/user
+ * @content-type application/json
+ */
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+```
+
+### Mock 文件示例
+
+#### JSON 格式 (mock.json)
+
+```javascript
+/**
+ * @url /api/users
+ * @method GET
+ */
+{
+  "code": 200,
+  "data": {
+    "name": "@cname",
+    "age": "@integer(18, 60)"
+  }
+}
+```
+
+#### 文本格式 (mock.txt)
+
+```javascript
+/**
+ * @url /api/text
+ * @method GET
+ */
+这是一段模拟的文本内容，支持多行文本。
+第二行内容。
+第三行内容。
+```
+
+#### CSS 格式 (mock.css)
+
+```javascript
+/**
+ * @url /api/styles
+ * @method GET
+ */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+```
+
+#### Markdown 格式 (mock.md)
+
+```javascript
+/**
+ * @url /api/markdown
+ * @method GET
+ */
+# 标题一
+## 标题二
+- 列表项 1
+- 列表项 2
+```
+
+#### YAML 格式 (mock.yaml)
+
+```javascript
+/**
+ * @url /api/config
+ * @method GET
+ */
+version: 1.0;
+settings: debug: true;
+timeout: 30;
+```
+
+#### CSV 格式 (mock.csv)
+
+```javascript
+/**
+ * @url /api/data
+ * @method GET
+ */
+id, name, age;
+1, 张三, 25;
+2, 李四, 30;
+3, 王五, 28;
+```
+
+#### XML 格式 (mock.xml)
+
+```javascript
+/**
+ * @url /api/xml
+ * @method GET
+ */
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <user>
+    <name>张三</name>
+    <age>25</age>
+  </user>
+</root>
+```
+
+#### JavaScript 格式 (mock.js)
+
+```javascript
+/**
+ * @url /api/script
+ * @method GET
+ */
+function greeting(name) {
+  return `Hello, ${name}!`;
+}
+```
+
+对于图片类型的响应，你可以直接返回图片文件的路径：
+
+```javascript
+/**
+ * @url /api/avatar
+ * @content-type image/png
+ */
+"/path/to/avatar.png";
+```
+
+## 高级特性
+
+### RESTful API 支持
+
+```javascript
+/**
+ * @url /api/users/:id
+ * @method GET
+ */
+{
+  "id": "@id",
+  "name": "@cname",
+  "email": "@email"
+}
+```
+
+### 流式响应
+
+```javascript
+/**
+ * @url /api/stream
+ * @content-type text/event-stream
+ */
+{
+  "stream": true,
+  "interval": "@integer(100,500)",
+  "items|10": [{
+    "id": "@increment(1)",
+    "data": {
+      "content": "@csentence(3,10)"
+    }
+  }]
+}
+```
+
+## 框架集成
+
+### Vue 项目
+
+```javascript
+// vue.config.js
 const MockServicePlugin = require("mock-service-plugin");
 
-// webpack 配置
 module.exports = {
-  // 配置插件
-  plugins: [
-    // 插件的功能是根据配置文件，起一个指定端口的server，将接口请求指向json文件
-    new MockServicePlugin({
-      // mock数据的存放路径
-      path: path.join(__dirname, "./mocks"),
-      // 配置mock服务的端口，避免与应用端口冲突
-      port: 3000,
-    }),
-  ],
-  // 配置代理，这里的代理为webpack自带功能
-  devServer: {
-    // 应用端口，避免与mock服务端口冲突
-    port: 5001,
-    proxy: {
-      // 配置匹配服务的url规则，以及其代理的服务地址，即mock服务的地址
-      "/": "http://localhost:3000/",
-    },
-  },
-};
-```
-
-如果想要给 mock 服务指定 URL 前缀，你可以在 webpack 的 proxy 设置进行如下配置：
-
-```javascript
-...
-module.exports = {
-  ...
-  // 配置代理，这里的代理为webpack自带功能
-  devServer: {
-    // 应用端口，避免与mock服务端口冲突
-    port: 5001,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000/',
-        pathRewrite: {
-          // 设置url的重写, 实际过程如下：
-          // http://localhost:5001/api/getData -> http://localhost:3000/getData
-          '^/api': ''
-        }
-      }
-    }
-  }
-};
-```
-
-# <a id="vueinstll">Vue 构建 mock 服务</a>
-
-- 安装 `mock-service-plugin`
-  ```shell
-  npm i mock-service-plugin --save-dev
-  ```
-- 在 `vue.config.js` 配置 `mock-service-plugin`
-
-  ```javascript
-  // 引入插件
-  const MockServicePlugin = require("mock-service-plugin");
-
-  module.exports = {
-    configureWebpack: {
-      // 在 plugins 初始化插件
-      plugins: [
-        // 初始化
-        new MockServicePlugin({
-          path: path.join(__dirname, "./mocks"), // mock数据存放在 mocks 文件夹中
-          port: 9090, // 服务端口号
-        }),
-      ],
-    },
-  };
-  ```
-
-- 项目根目录下创建 mock 数据文件夹 `mocks` 如下图
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/e2e7e3cee6154bd980b01efe8a70ad1b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-- 在`mocks`文件夹下创建一个`data.json`文件
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/b5ba9b50cf8d4623a3a94e11f24e1bff.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-- 添加如下数据（一个文件里仅仅放一个接口的 mock 数据，文件名随意）
-
-  ```javascript
-  /**
-   * @url /login
-   */
-  {
-  	"code": 404,
-  	"data|5-10": [
-  		{
-  			"name": "@cname",
-  			"id": "@guid",
-  			"email": "@email"
-  		}
-  	],
-  	"message": "success"
-  }
-  ```
-
-  说明：
-
-  - 以获取用户信息接口为例( `www.example.com/user/info`)，我们通常会把`www.example.com`作为 `baseUrl` ,`user/info` 作为接口 URL，在 data.json 文件文件中的 `/login`就相当于`user/info` (图片懒得换了你们懂就行),
-
-  - 头部注释中的 `@url` 字段是必须的，当请求发送到 mock 服务器上时, mock 服务会遍历`mocks`文件夹下所有的`.json`文件, 将请求 url 与头部注释 @url 中的字段匹配, 匹配成功返回 `json` 中的数据
-
-- 添加好以上信息后重启项目 （注意控制台输出）
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/03f1e119a4804ca1a58250169000b42e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- 在浏览器中打开 `http://localhost:9090`
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/7296b2f71ab34fa8a25f0a2db6d5f408.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- 点击左侧列表中 `/login`
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/c8aeabf67cf14ee0b61792adc6968598.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- 如果看到上面的页面说明我们 mock 服务搭建成功了,接下来只要把请求发送到 mock 服务器上就可以了下面我们来实现下吧
-
-- 将请求发送到 `http://localhost:9090`， 在`vue.config.js`中配下代理 就可以了
-
-  ```javascript
-    // 配置代理
-    devServer: {
-      // 应用端口，避免与mock服务端口冲突
-      port: 3000,
-      proxy: {
-        '/api': {
-          target: 'http://localhost:9090/',
-          pathRewrite: {
-            // 设置url的重写, 实际过程如下：
-            // http://localhost:5001/api/getData -> http://localhost:3000/getData
-            '^/api': ''
-          }
-        }
-      }
-    }
-  ```
-
-- 设置 axios 的 `baseUrl` 为 `api`就可以了 这一步很简单，把我的配置贴在下面，根据实际情况自行调整哈
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/dc4e514dc31447da924f2c9f9e597931.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- 在项目中使用
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/e8c09e0f83134a95a3a2f2ea675ffa26.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- 在页面上测试下
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/ba8da28138a64c1581df8a26b6ea83c1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAR2xlYXNvbi4=,size_20,color_FFFFFF,t_70,g_se,x_16)
-
-- Vue 项目的 mock 服务就搭建完成了
-
-# <a id="reactinstall">React 构建 mock 服务</a>
-
-CRA 官方并没有开放 Webpack 的配置，有两种解决方式，第一种弹出 webpack 配置，第二种社区适配方案，社区适配方案主流有两种 `craco` 与 `customize-cra` 因为这两种方式都有人用，分别介绍下，建议将 Vue 配置教程详细阅读一遍，主要看配置流程，原理其实都一样
-
-## 安装 mock-service-plugin
-
-`npm i mock-service-plugin --save-dev`
-
-## craco 配置
-
-```javascript
-// craco.config.js
-
-import path from "path";
-
-import { whenDev } from "@craco/craco";
-
-// mock 插件
-import MockServicePlugin from "mock-service-plugin";
-
-const {
-  REACT_APP_ENV, // 环境标识
-} = process.env;
-
-const pathResolve = (pathUrl) => path.join(__dirname, pathUrl);
-
-module.exports = {
-  webpack: {
+  configureWebpack: {
     plugins: [
-      ...whenDev(
-        () => [
-          // 配置mock服务
-          new MockServicePlugin({
-            path: path.join(__dirname, "./mocks"),
-            port: 9090,
-          }),
-        ],
-        []
-      ),
+      new MockServicePlugin({
+        path: path.join(__dirname, "./mocks"),
+        port: 9090,
+      }),
     ],
   },
   devServer: {
     proxy: {
-      "/mock": {
-        secure: false,
-        ws: false,
-        target: `http://localhost:9090`,
-        changeOrigin: true,
-        pathRewrite: {
-          "^/mock": "",
-        },
+      "/api": {
+        target: "http://localhost:9090",
+        pathRewrite: { "^/api": "" },
       },
     },
   },
 };
 ```
 
-## customize-cra 配置
+### React 项目 (CRA)
+
+#### 使用 craco
 
 ```javascript
-// config.overrides.js
-
-const path = require("path");
-
-const {
-  override, // 覆盖函数
-  addWebpackAlias, // 别名配置
-  addLessLoader, // less loader
-  fixBabelImports, // babel 导入 引入antd-mobile
-  addWebpackPlugin, // 增加插件
-} = require("customize-cra");
-
-// mock 插件
+// craco.config.js
 const MockServicePlugin = require("mock-service-plugin");
 
-const {
-  REACT_APP_ENV, // 环境标识
-} = process.env;
-
-/**
- * @description: 路径 处理
- * @param {String} pathUrl
- * @return {String} path
- */
-const pathResolve = (pathUrl) => path.join(__dirname, pathUrl);
-
-// override
 module.exports = {
-  webpack: override(
-    addWebpackPlugin(
-      // 配置mock服务
-      new MockServicePlugin({
-        path: path.join(__dirname, "./mocks"),
-        port: 9090,
-      })
-    ),
-    (config) => {
-      return config;
-    }
-  ),
-  devServer: (configFunction) => (proxy, allowedHost) => {
-    proxy = {
-      "/mock": {
-        secure: false,
-        ws: false,
-        target: `http://localhost:9090`,
-        changeOrigin: true,
-        pathRewrite: {
-          "^/mock": "",
-        },
-      },
-    };
-    return configFunction(proxy, allowedHost);
+  webpack: {
+    plugins: {
+      add: [
+        new MockServicePlugin({
+          path: path.join(__dirname, "./mocks"),
+          port: 9090,
+        }),
+      ],
+    },
   },
 };
 ```
 
-# <a id="Viteconfig">Vite 构建 mock 服务</a>
+#### 使用 customize-cra
 
-1. 在项目根目录创建 vite-mock-plugin.ts 文件（文件名随意起）将下面代码粘贴进去
+```javascript
+// config-overrides.js
+const { override, addWebpackPlugin } = require("customize-cra");
+const MockServicePlugin = require("mock-service-plugin");
 
-```typescript
+module.exports = override(
+  addWebpackPlugin(
+    new MockServicePlugin({
+      path: path.join(__dirname, "./mocks"),
+      port: 9090,
+    })
+  )
+);
+```
+
+### Vite 项目
+
+```ts
+// vite-mock-plugin.ts 文件
+
 import MockServicePlugin from "mock-service-plugin";
-import net from "net";
-import path from "path";
+import { createServer } from "net";
+import { join } from "path";
 
 function isPortTaken(port: number) {
   return new Promise((resolve) => {
-    const server = net.createServer();
+    const server = createServer();
 
     server.once("error", (err: { code: string }) => {
       if (err.code === "EADDRINUSE") {
@@ -418,7 +432,6 @@ function isPortTaken(port: number) {
   });
 }
 
-// eslint-disable-next-line import/no-default-export
 export default function ViteMockServicePlugin(e: string) {
   return {
     name: "ViteMockServicePlugin",
@@ -432,7 +445,7 @@ export default function ViteMockServicePlugin(e: string) {
           if (e === "mock") {
             const ints = new MockServicePlugin({
               // mock 数据的存放路径
-              path: path.join(__dirname, "./mocks"),
+              path: join(__dirname, "./mocks"),
               // 配置mock服务的端口，避免与应用端口冲突
               port: 3008,
             });
@@ -445,65 +458,32 @@ export default function ViteMockServicePlugin(e: string) {
 }
 ```
 
-2. 配置 `vite.config.ts` 文件
-
 ```typescript
-import react from "@vitejs/plugin-react";
-
+// vite.config.ts
+import { defineConfig } from "vite";
+// 这里引入的 vite-mock-plugin 就是上面的代码片段
 import ViteMockServicePlugin from "./vite-mock-plugin";
 
-export default defineConfig(({ mode }) => {
-  return {
-    plugins: [react(), ViteMockServicePlugin(mode)],
-  };
+export default defineConfig({
+  plugins: [ViteMockServicePlugin("development")],
 });
 ```
 
-# 更新支持
+## 示例项目
 
-1. 支持 RESTful API
+- [Vue 示例](https://github.com/bianliuzhu/vite-vue-ts)
+- [React 示例](https://github.com/bianliuzhu/react-app-ts)
 
-   `/llm/:schema/:type/:id/txt/v2`
+## 注意事项
 
-2. 支持流式传输
+1. 修改 mock 数据后需要刷新页面
+2. 确保 mock 服务端口与应用端口不冲突
+3. 建议使用相对路径配置 mock 数据目录
 
-   LLM、 SSE、 EventStream 响应
+## 贡献指南
 
-3. 以下是流模式及 RESTful api 使用示例
+欢迎提交 Issue 和 Pull Request
 
-```json
-/**
- * @url /llm/:schema/:type/:id/txt/v2
- * RESTful API endpoint for streaming LLM responses
- * 下面是 流模式 响应固定格式，
- * 必须包含 "stream": true,
- * 必须包含 "interval": "100"
- * 其他字段不是必须的，根据 业务需求自定义
- */
-{
-  "stream": true, // 是否为流模式
-  "interval": "@integer(100,500)", // 间隔响应时间
-  "items｜50": [
-    {
-      "id": "@increment(1)",
-      "data": {
-        "id": "@guid",
-        "object": "chat.completion.chunk",
-        "created": "@now('T')",
-        "model": "@pick(['moonshot-v1-8k', 'moonshot-v1-16k', 'moonshot-v1-32k'])",
-        "choices": [
-          {
-            "index": 0,
-            "delta": {
-              "role": "assistant",
-              "content": "@csentence(3,10)"
-            },
-            "finish_reason": null
-          }
-        ],
-        "system_fingerprint": "fpv0_@string('lower',8)"
-      }
-    }
-  ]
-}
-```
+## 许可证
+
+MIT

@@ -38,6 +38,7 @@ function mock(path) {
 
     const url = req.url.split("?")[0];
     const urlSegments = url.split("/").filter(Boolean);
+    const method = req.method.toUpperCase();
 
     let matchedRoute = null;
     let routeParams = {};
@@ -57,7 +58,17 @@ function mock(path) {
 
     // 使用排序后的路由进行匹配
     for (const apiPath of sortedApiPaths) {
-      const apiSegments = apiPath.split("/").filter(Boolean);
+      // 检查是否包含方法前缀
+      const [routeMethod, path] = apiPath.includes(":")
+        ? apiPath.split(":", 2)
+        : [null, apiPath];
+
+      // 如果路由指定了方法，但请求方法不匹配，则跳过
+      if (routeMethod && routeMethod !== method) {
+        continue;
+      }
+
+      const apiSegments = path.split("/").filter(Boolean);
 
       if (urlSegments.length !== apiSegments.length) continue;
 
@@ -147,7 +158,29 @@ function mock(path) {
           });
           return;
         } else {
-          return res.json(Mock.mock(mockData));
+          // 设置响应的 content-type
+          res.set("Content-Type", route.contentType || "application/json");
+
+          // 根据 content-type 返回不同格式的数据
+          if (route.contentType?.includes("application/json")) {
+            return res.json(Mock.mock(mockData));
+          } else if (route.contentType?.includes("text/plain")) {
+            // 对于纯文本，直接返回原始内容
+            if (typeof mockData === "string") {
+              return res.send(mockData);
+            }
+            // 如果是对象，尝试转换为字符串
+            return res.send(JSON.stringify(mockData, null, 2));
+          } else if (route.contentType?.includes("text/html")) {
+            return res.send(Mock.mock(mockData));
+          } else if (route.contentType?.includes("application/xml")) {
+            return res.type("xml").send(Mock.mock(mockData));
+          } else if (route.contentType?.includes("text/csv")) {
+            return res.type("csv").send(Mock.mock(mockData));
+          } else {
+            // 默认返回 JSON
+            return res.json(Mock.mock(mockData));
+          }
         }
       } catch (e) {
         console.warn("[Mock Warn]:", e);
