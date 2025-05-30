@@ -23,7 +23,30 @@
       }
 
       .main {
-        height: calc(100% - 157px);
+        height: calc(100% - 50px);
+      }
+
+      .hero.is-dark {
+        padding: 0;
+        height: 50px;
+      }
+
+      .hero-body {
+        padding: 0px 100px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .hero .title {
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      .hero .title_sub {
+        font-size: 1rem;
+        margin: 0;
       }
 
       .main > .columns {
@@ -61,11 +84,15 @@
         background-color: inherit;
         max-height: calc(100vh - 200px);
         overflow: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
       }
 
       .hljs {
         background: transparent !important;
         padding: 0 !important;
+        display: block;
+        overflow-x: auto;
       }
 
       .hljs-ln-numbers {
@@ -166,10 +193,8 @@
   <body>
     <section class="hero is-dark">
       <div class="hero-body">
-        <div class="container has-text-centered">
-          <p class="title">Express Mock 服务器</p>
-          <p class="subtitle">API 文档管理平台</p>
-        </div>
+        <p class="title">Express Mock 服务器</p>
+        <p class="title_sub">API 文档管理平台</p>
       </div>
     </section>
 
@@ -435,14 +460,33 @@
             // 高亮并显示内容
             highlightContent: function(content, contentType) {
               const lang = this.getHighlightLanguage(contentType);
-              const result = hljs.highlight(content, { language: lang }).value;
 
+              // 确保内容被正确格式化
+              if (lang === 'json') {
+                try {
+                  const jsonObj = JSON.parse(content);
+                  content = JSON.stringify(jsonObj, null, 2);
+                } catch (e) {
+                  console.warn('JSON 格式化失败:', e);
+                }
+              }
+
+              const result = hljs.highlight(content, { language: lang }).value;
               const docsContent = this.$refs.docsContent;
               docsContent.innerHTML = result;
               docsContent.className = `hljs language-${lang}`;
 
               // 添加行号
               hljs.lineNumbersBlock(docsContent);
+
+              // 确保代码块正确显示
+              this.$nextTick(() => {
+                const pre = docsContent.parentElement;
+                if (pre) {
+                  pre.style.whiteSpace = 'pre-wrap';
+                  pre.style.wordWrap = 'break-word';
+                }
+              });
             },
 
             // 显示内容

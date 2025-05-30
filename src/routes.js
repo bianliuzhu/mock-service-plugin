@@ -9,6 +9,101 @@ const { cleanCache, isJavacriptFile } = require("./util");
 
 const parseAPIs = require("./mock");
 
+function handleSSEResponse(route, req, res) {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  const sendEvent = (item) => {
+    let message = "";
+    if (item.id) message += `id: ${item.id}\n`;
+    if (item.event) message += `event: ${item.event}\n`;
+    if (item.data) {
+      const dataStr =
+        typeof item.data === "string" ? item.data : JSON.stringify(item.data);
+      message += `data: ${dataStr}\n`;
+    }
+    if (item.retry) message += `retry: ${item.retry}\n`;
+    res.write(message + "\n");
+  };
+
+  try {
+    const mockData = new Function("return (" + route.content + ")")();
+
+    if (mockData && mockData.stream === true) {
+      const data = Mock.mock(mockData);
+      const interval = data.interval || 1000;
+
+      if (Array.isArray(data.items)) {
+        let index = 0;
+        const sendNext = () => {
+          if (index < data.items.length) {
+            sendEvent(data.items[index]);
+            index++;
+            setTimeout(sendNext, interval);
+          } else {
+            res.end();
+          }
+        };
+        sendNext();
+      } else {
+        sendEvent({ data });
+        res.end();
+      }
+    } else {
+      sendEvent({ data: Mock.mock(mockData) });
+      res.end();
+    }
+  } catch (e) {
+    console.error("[SSE Error]:", e);
+    res.write(`data: ${JSON.stringify({ error: "Mock data error" })}\n\n`);
+    res.end();
+  }
+
+  req.on("close", () => {
+    console.log("Client closed SSE connection");
+  });
+}
+
+function handleStaticResponse(route, res) {
+  const contentType = route.contentType || "application/json";
+
+  // 直接返回原始内容的情况
+  if (
+    contentType.includes("text/plain") ||
+    contentType.includes("text/html") ||
+    contentType.includes("text/css") ||
+    contentType.includes("text/markdown") ||
+    contentType.includes("application/javascript")
+  ) {
+    return res.send(route.content);
+  }
+
+  try {
+    // 尝试解析为 JavaScript 对象
+    const mockData = new Function("return (" + route.content + ")")();
+    const mockedData = Mock.mock(mockData);
+
+    // 根据内容类型返回不同格式
+    if (contentType.includes("application/json")) {
+      return res.json(mockedData);
+    } else if (contentType.includes("application/xml")) {
+      return res.type("xml").send(mockedData);
+    } else if (contentType.includes("text/csv")) {
+      return res.type("csv").send(mockedData);
+    } else if (contentType.includes("application/x-yaml")) {
+      return res.type("yaml").send(mockedData);
+    } else {
+      // 默认返回 JSON
+      return res.json(mockedData);
+    }
+  } catch (e) {
+    // 解析失败时直接返回原始内容
+    return res.send(route.content);
+  }
+}
 function mock(path) {
   return function (req, res, next) {
     if (req.url === "/") {
@@ -28,6 +123,7 @@ function mock(path) {
     res.set("Access-Control-Allow-Methods", "GET,HEAD,PUT,POST,DELETE,PATCH");
 
     const allowedHeaders = req.headers["access-control-request-headers"];
+
     if (allowedHeaders) {
       res.set("Access-Control-Allow-Headers", allowedHeaders);
     }
@@ -39,6 +135,10 @@ function mock(path) {
     const url = req.url.split("?")[0];
     const urlSegments = url.split("/").filter(Boolean);
     const method = req.method.toUpperCase();
+
+    // 获取查询参数
+    const queryParams = new URLSearchParams(req.url.split("?")[1] || "");
+    const queryKeys = Array.from(queryParams.keys());
 
     let matchedRoute = null;
     let routeParams = {};
@@ -53,7 +153,21 @@ function mock(path) {
         : [null, apiPath];
 
       if (routeMethod && routeMethod !== method) continue;
+
+      // 检查路径是否匹配
       if (path === url) {
+        // 检查查询参数
+        const routeQueryParams = path.split("?")[1];
+        if (routeQueryParams) {
+          const routeQueryKeys = routeQueryParams
+            .split("&")
+            .map((param) => param.split("=")[0]);
+          // 检查是否所有路由定义的查询参数都在请求中存在
+          const hasAllQueryParams = routeQueryKeys.every((key) =>
+            queryKeys.includes(key)
+          );
+          if (!hasAllQueryParams) continue;
+        }
         matchedRoute = apis[apiPath];
         break;
       }
@@ -87,6 +201,18 @@ function mock(path) {
         }
 
         if (isMatch) {
+          // 检查查询参数
+          const routeQueryParams = path.split("?")[1];
+          if (routeQueryParams) {
+            const routeQueryKeys = routeQueryParams
+              .split("&")
+              .map((param) => param.split("=")[0]);
+            // 检查是否所有路由定义的查询参数都在请求中存在
+            const hasAllQueryParams = routeQueryKeys.every((key) =>
+              queryKeys.includes(key)
+            );
+            if (!hasAllQueryParams) continue;
+          }
           matchedRoute = apis[apiPath];
           routeParams = params;
           break;
@@ -95,6 +221,7 @@ function mock(path) {
     }
 
     const route = matchedRoute || {};
+
     req.params = routeParams;
 
     if (!route.filepath) {
@@ -143,102 +270,6 @@ function mock(path) {
 
     next();
   };
-
-  function handleSSEResponse(route, req, res) {
-    res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    });
-
-    const sendEvent = (item) => {
-      let message = "";
-      if (item.id) message += `id: ${item.id}\n`;
-      if (item.event) message += `event: ${item.event}\n`;
-      if (item.data) {
-        const dataStr =
-          typeof item.data === "string" ? item.data : JSON.stringify(item.data);
-        message += `data: ${dataStr}\n`;
-      }
-      if (item.retry) message += `retry: ${item.retry}\n`;
-      res.write(message + "\n");
-    };
-
-    try {
-      const mockData = new Function("return (" + route.content + ")")();
-
-      if (mockData && mockData.stream === true) {
-        const data = Mock.mock(mockData);
-        const interval = data.interval || 1000;
-
-        if (Array.isArray(data.items)) {
-          let index = 0;
-          const sendNext = () => {
-            if (index < data.items.length) {
-              sendEvent(data.items[index]);
-              index++;
-              setTimeout(sendNext, interval);
-            } else {
-              res.end();
-            }
-          };
-          sendNext();
-        } else {
-          sendEvent({ data });
-          res.end();
-        }
-      } else {
-        sendEvent({ data: Mock.mock(mockData) });
-        res.end();
-      }
-    } catch (e) {
-      console.error("[SSE Error]:", e);
-      res.write(`data: ${JSON.stringify({ error: "Mock data error" })}\n\n`);
-      res.end();
-    }
-
-    req.on("close", () => {
-      console.log("Client closed SSE connection");
-    });
-  }
-
-  function handleStaticResponse(route, res) {
-    const contentType = route.contentType || "application/json";
-
-    // 直接返回原始内容的情况
-    if (
-      contentType.includes("text/plain") ||
-      contentType.includes("text/html") ||
-      contentType.includes("text/css") ||
-      contentType.includes("text/markdown") ||
-      contentType.includes("application/javascript")
-    ) {
-      return res.send(route.content);
-    }
-
-    try {
-      // 尝试解析为 JavaScript 对象
-      const mockData = new Function("return (" + route.content + ")")();
-      const mockedData = Mock.mock(mockData);
-
-      // 根据内容类型返回不同格式
-      if (contentType.includes("application/json")) {
-        return res.json(mockedData);
-      } else if (contentType.includes("application/xml")) {
-        return res.type("xml").send(mockedData);
-      } else if (contentType.includes("text/csv")) {
-        return res.type("csv").send(mockedData);
-      } else if (contentType.includes("application/x-yaml")) {
-        return res.type("yaml").send(mockedData);
-      } else {
-        // 默认返回 JSON
-        return res.json(mockedData);
-      }
-    } catch (e) {
-      // 解析失败时直接返回原始内容
-      return res.send(route.content);
-    }
-  }
 }
 
 mock.debug = true;
