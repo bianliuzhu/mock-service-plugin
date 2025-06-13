@@ -12,11 +12,13 @@ export class TextResponseHandler extends BaseResponseHandler {
       // 如果模板是字符串，直接使用
       if (typeof route.responseTemplate === "string") {
         res.send(route.responseTemplate);
+        return;
       }
 
       // 如果是对象，使用 mockjs 处理
       const mockData = Mock.mock(route.responseTemplate);
       res.send(mockData);
+      return;
     } catch (error) {
       this.handleError(
         res,
