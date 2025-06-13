@@ -14,7 +14,8 @@
 		"mock",
 		"mockjs",
 		"webpack-plugin",
-		"mock service"
+		"mock service",
+		"json server"
 	],
 	"author": {
 		"name": "Gleason",
@@ -31,7 +32,10 @@
 		"email": "bianliuzhu@gmail.com"
 	},
 	"files": [
-		"src"
+		"src",
+		"package.json",
+		"index.html",
+		"mocks"
 	],
 	"license": "ISC",
 	"dependencies": {
