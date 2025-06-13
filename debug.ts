@@ -1,6 +1,7 @@
-import { startServer } from "./server.js";
+import { startServer } from "./src/server.js";
 import path from "path";
-import { getDirname } from "./util.js";
+import { getDirname } from "./src/util.js";
+import { fileURLToPath } from "url";
 
 // 启动开发服务器
 startServer({

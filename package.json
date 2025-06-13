@@ -1,15 +1,16 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.5.5",
+	"version": "1.6.0",
 	"description": "模拟后端接口服务",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "tsc",
+		"build": "tsc && cp index.html dist/ && cp -r mocks dist/",
 		"start": "node dist/index.js",
-		"dev": "tsc -w"
+		"dev": "tsc -w",
+		"debug": "node --loader ts-node/esm debug.ts"
 	},
 	"keywords": [
 		"mock",
@@ -35,8 +36,7 @@
 	"files": [
 		"dist",
 		"package.json",
-		"index.html",
-		"mocks"
+		"index.html"
 	],
 	"license": "ISC",
 	"dependencies": {
@@ -55,6 +55,6 @@
 		"@types/watch": "^1.0.6",
 		"@types/xml2js": "^0.4.14",
 		"ts-node": "^10.9.2",
-		"typescript": "^5.3.3"
+		"typescript": "^5.8.3"
 	}
 }

@@ -1,10 +1,10 @@
 import fs from "fs";
-import path from "path";
+import nodePath from "path";
 import { fileURLToPath } from "url";
 import { MockRoute } from "./types.js";
 
 export function getDirname(importMetaUrl: string): string {
-  return path.dirname(fileURLToPath(importMetaUrl));
+  return nodePath.dirname(fileURLToPath(importMetaUrl));
 }
 
 export function walk(dir: string): string[] {
@@ -30,23 +30,28 @@ export function isJavacriptFile(file: string): boolean {
  * 匹配请求路径到路由表中的路由
  * @param {Array<MockRoute>} routes 路由表数组
  * @param {string} method HTTP方法
- * @param {string} path 请求路径
+ * @param {string} urlpath 请求路径
  * @returns {MockRoute|null} 匹配到的路由对象和参数，不匹配则返回null
  */
 export function matchRoute(
   routes: MockRoute[],
   method: string,
-  path: string
+  urlpath: string
 ): MockRoute | null {
+  // 移除查询参数
+  const pathWithoutQuery = urlpath.split("?")[0];
+
+  console.log(pathWithoutQuery);
+
   // 先尝试精确匹配
   const exactMatch = routes.find(
-    (r) => r.method === method && r.restfulTemplateUrl === path
+    (r) => r.method === method && r.restfulTemplateUrl === urlpath
   );
 
   if (exactMatch) return exactMatch;
 
   // 分割请求路径
-  const pathParts = path.split("/").filter((part) => part !== "");
+  const pathParts = pathWithoutQuery.split("/").filter((part) => part !== "");
 
   // 检查每个路由的动态匹配
   for (const route of routes) {

@@ -8,13 +8,13 @@
       "name": "debug",
       "type": "node",
       "request": "launch",
-      "args": [
-        "${workspaceRoot}/src/debug.ts"
+      "skipFiles": [
+        "<node_internals>/**"
       ],
+      "program": "${workspaceRoot}/debug.ts",
       "runtimeArgs": [
-        "--nolazy",
-        "-r",
-        "ts-node/register"
+        "--loader",
+        "ts-node/esm"
       ],
       "sourceMaps": true,
       "cwd": "${workspaceRoot}",
@@ -22,9 +22,9 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
-        "NODE_ENV": "development",
+        "NODE_ENV": "development"
       },
       "runtimeExecutable": "/Users/bianliuzhu/.nvm/versions/node/v22.5.1/bin/node"
-    },
+    }
   ]
 }
