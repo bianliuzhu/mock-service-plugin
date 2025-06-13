@@ -4,10 +4,10 @@ import chalk from "chalk";
 import { Request, Response, NextFunction } from "express";
 import { parseMocksFile } from "./parse-mocks-file.js";
 import { ResponseHandlerFactory } from "./response/handler-factory.js";
-import { matchRoute } from "./util.js";
+import { matchRoute, getDirname } from "./util.js";
 
 const responseTemplate = fs.readFileSync(
-  path.join(__dirname, "../index.html"),
+  path.join(getDirname(import.meta.url), "../index.html"),
   "utf8"
 );
 

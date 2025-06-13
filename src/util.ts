@@ -1,10 +1,16 @@
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { MockRoute } from "./types.js";
 
 export function cleanCache(modulePath: string): void {
   if (require.cache[modulePath]) {
     delete require.cache[modulePath];
   }
+}
+
+export function getDirname(importMetaUrl: string): string {
+  return path.dirname(fileURLToPath(importMetaUrl));
 }
 
 export function walk(dir: string): string[] {
