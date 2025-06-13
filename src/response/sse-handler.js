@@ -23,7 +23,9 @@ class SseResponseHandler extends BaseResponseHandler {
     };
 
     try {
-      const mockData = new Function("return (" + route.content + ")")();
+      const mockData = new Function(
+        "return (" + route.responseTemplate + ")"
+      )();
 
       if (mockData) {
         const data = Mock.mock(mockData);

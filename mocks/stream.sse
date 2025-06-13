@@ -6,8 +6,11 @@
   "interval": "@integer(100, 500)",
   "items|10": [{
     "id": "@increment(1)",
-    "type": "@pick(['info', 'warning', 'error'])",
-    "message": "@csentence(10, 20)",
-    "timestamp": "@datetime"
+    "event": "@pick(['message', 'error', 'warning'])",
+    "data": {
+      "type": "@pick(['info', 'warning', 'error'])",
+      "message": "@csentence(10, 20)",
+      "timestamp": "@datetime"
+    }
   }]
 }

@@ -10,7 +10,7 @@ const { parseMocksFile } = require("./parse-mocks-file");
 const ResponseHandlerFactory = require("./response/handler-factory");
 const { matchRoute } = require("./util");
 
-function mock(path) {
+function routesHandle(path) {
   return async function (req, res, next) {
     const mockRoutes = parseMocksFile(path);
 
@@ -49,8 +49,7 @@ function mock(path) {
         // 处理响应
         await handler.handle(req, res, matchedRoute);
 
-        mock.debug &&
-          console.log(chalk.magentaBright("- [Mock Interface] "), req.url);
+        console.log(chalk.magentaBright("- [Mock Interface] "), req.url);
       } catch (error) {
         console.error(
           chalk.red(`[Mock Error] Failed to mock response for ${req.url}:`),
@@ -64,8 +63,4 @@ function mock(path) {
   };
 }
 
-mock.debug = true;
-
-module.exports = {
-  mock,
-};
+module.exports = routesHandle;
