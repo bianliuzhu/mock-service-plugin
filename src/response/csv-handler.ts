@@ -1,8 +1,8 @@
 import Mock from "mockjs";
 import { stringify } from "csv-stringify/sync";
 import { Request, Response } from "express";
-import { BaseResponseHandler } from "./base-handler";
-import { MockRoute } from "../types";
+import { BaseResponseHandler } from "./base-handler.js";
+import { MockRoute } from "../types.js";
 
 export class CsvResponseHandler extends BaseResponseHandler {
   async handle(req: Request, res: Response, route: MockRoute): Promise<void> {

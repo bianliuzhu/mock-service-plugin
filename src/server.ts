@@ -1,8 +1,8 @@
 import express, { Express } from "express";
 import watch from "watch";
 import chalk from "chalk";
-import { cleanCache } from "./util";
-import { createRoutes } from "./routes";
+import { cleanCache } from "./util.js";
+import { createRoutes } from "./routes.js";
 
 const ROUTE_PATH = "./routes";
 let routesHandle = createRoutes;

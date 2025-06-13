@@ -1,8 +1,8 @@
 import Mock from "mockjs";
 import xml2js from "xml2js";
 import { Request, Response } from "express";
-import { BaseResponseHandler } from "./base-handler";
-import { MockRoute } from "../types";
+import { BaseResponseHandler } from "./base-handler.js";
+import { MockRoute } from "../types.js";
 
 export class XmlResponseHandler extends BaseResponseHandler {
   private builder: xml2js.Builder;

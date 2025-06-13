@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Request, Response, NextFunction } from "express";
-import { parseMocksFile } from "./parse-mocks-file";
-import { ResponseHandlerFactory } from "./response/handler-factory";
-import { matchRoute } from "./util";
+import { parseMocksFile } from "./parse-mocks-file.js";
+import { ResponseHandlerFactory } from "./response/handler-factory.js";
+import { matchRoute } from "./util.js";
 
 const responseTemplate = fs.readFileSync(
   path.join(__dirname, "../index.html"),

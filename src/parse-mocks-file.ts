@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { walk } from "./util";
-import { CONTENT_TYPES } from "./constant";
-import { MockRoute } from "./types";
+import { walk } from "./util.js";
+import { CONTENT_TYPES } from "./constant.js";
+import { MockRoute } from "./types.js";
 
 // 优化正则表达式，支持灵活注解位置
 const RE =

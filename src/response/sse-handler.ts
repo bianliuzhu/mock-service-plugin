@@ -1,7 +1,7 @@
 import Mock from "mockjs";
 import { Request, Response } from "express";
-import { BaseResponseHandler } from "./base-handler";
-import { MockRoute } from "../types";
+import { BaseResponseHandler } from "./base-handler.js";
+import { MockRoute } from "../types.js";
 
 interface SSEItem {
   id?: string | number;

@@ -1,6 +1,6 @@
 import fs from "fs";
 import { Request, Response } from "express";
-import { MockRoute } from "../types";
+import { MockRoute } from "../types.js";
 
 interface HandlerOptions {
   [key: string]: any;

@@ -1,4 +1,4 @@
-import { startServer } from "./server";
+import { startServer } from "./server.js";
 import path from "path";
 
 // 启动开发服务器

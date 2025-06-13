@@ -2,8 +2,8 @@ import Mock from "mockjs";
 import path from "path";
 import fs from "fs/promises";
 import { Request, Response } from "express";
-import { BaseResponseHandler } from "./base-handler";
-import { MockRoute } from "../types";
+import { BaseResponseHandler } from "./base-handler.js";
+import { MockRoute } from "../types.js";
 
 export class ImageResponseHandler extends BaseResponseHandler {
   async handle(req: Request, res: Response, route: MockRoute): Promise<void> {

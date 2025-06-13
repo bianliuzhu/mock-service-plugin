@@ -1,11 +1,11 @@
-import { JsonResponseHandler } from "./json-handler";
-import { SseResponseHandler } from "./sse-handler";
-import { TextResponseHandler } from "./text-handler";
-import { XmlResponseHandler } from "./xml-handler";
-import { CsvResponseHandler } from "./csv-handler";
-import { ImageResponseHandler } from "./image-handler";
-import { CONTENT_TYPES } from "../constant";
-import { BaseResponseHandler } from "./base-handler";
+import { JsonResponseHandler } from "./json-handler.js";
+import { SseResponseHandler } from "./sse-handler.js";
+import { TextResponseHandler } from "./text-handler.js";
+import { XmlResponseHandler } from "./xml-handler.js";
+import { CsvResponseHandler } from "./csv-handler.js";
+import { ImageResponseHandler } from "./image-handler.js";
+import { CONTENT_TYPES } from "../constant.js";
+import { BaseResponseHandler } from "./base-handler.js";
 
 const CONTENT_TYPE_HANDLERS: Record<string, new () => BaseResponseHandler> = {
   "application/json": JsonResponseHandler,

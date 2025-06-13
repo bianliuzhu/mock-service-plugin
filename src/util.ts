@@ -1,5 +1,5 @@
 import fs from "fs";
-import { MockRoute } from "./types";
+import { MockRoute } from "./types.js";
 
 export function cleanCache(modulePath: string): void {
   if (require.cache[modulePath]) {

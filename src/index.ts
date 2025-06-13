@@ -10,7 +10,7 @@
  * @author gleason
  */
 
-import { startServer } from "./server";
+import { startServer } from "./server.js";
 
 interface PluginOptions {
   path: string;
