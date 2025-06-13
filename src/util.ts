@@ -41,8 +41,6 @@ export function matchRoute(
   // 移除查询参数
   const pathWithoutQuery = urlpath.split("?")[0];
 
-  console.log(pathWithoutQuery);
-
   // 先尝试精确匹配
   const exactMatch = routes.find(
     (r) => r.method === method && r.restfulTemplateUrl === urlpath
