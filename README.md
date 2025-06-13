@@ -78,7 +78,7 @@ module.exports = {
 ```
 
 - `@url`: 接口路径（必填）
-- `@method`: 请求方法（可选，支持 GET/POST/PUT/DELETE 等）
+- `@method`: 请求方法（可选，支持 GET/POST/PUT/DELETE 等，大小写通用）
 
 ### 请求方法匹配
 
@@ -113,6 +113,16 @@ module.exports = {
 3. RESTful API 示例：
 
 ```javascript
+// POST 请求
+/**
+ * @url /api/users
+ * @method POST
+ */
+{
+  "code": 200,
+  "message": "创建成功"
+}
+
 // GET 请求
 /**
  * @url /api/users/:id

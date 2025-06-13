@@ -1,0 +1,12 @@
+/**
+* 删除背景
+ * @url /bg/remove/:id
+ * @method DELETE
+ */
+{
+	"code|1": [
+		200,
+		300
+	],
+	"msg": "删除成功"
+}

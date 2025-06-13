@@ -1,0 +1,7 @@
+/**
+ * @url /api/avatar/:id
+ * @method GET
+ */
+{
+  "avatar": "/assets/images/avatars/@pick(['avatar1.png', 'avatar2.png', 'avatar3.png'])"
+}

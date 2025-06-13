@@ -155,6 +155,62 @@
         background: #5e81ac;
       }
 
+      /* 添加弹窗样式 */
+      .modal {
+        display: none;
+      }
+      .modal.is-active {
+        display: flex;
+      }
+      .modal-background {
+        background-color: rgba(0, 0, 0, 0.86);
+      }
+      .modal-content {
+        background-color: #2a2a2a;
+      }
+      .modal-card {
+        background-color: #2a2a2a;
+      }
+      .modal-card-head {
+        background-color: #333;
+        border-bottom: 1px solid #444;
+      }
+      .modal-card-body {
+        background-color: #2a2a2a;
+      }
+      .modal-card-foot {
+        background-color: #333;
+        border-top: 1px solid #444;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      .modal-card-title {
+        color: #f0f0f0;
+      }
+      .textarea {
+        background-color: #333;
+        color: #f0f0f0;
+        border-color: #444;
+      }
+      .textarea:focus {
+        border-color: #5e81ac;
+        box-shadow: 0 0 0 0.125em rgba(94, 129, 172, 0.25);
+      }
+      .button.is-primary {
+        background-color: #5e81ac;
+      }
+      .button.is-primary:hover {
+        background-color: #81a1c1;
+      }
+      .button.is-light {
+        background-color: #4c566a;
+        color: #f0f0f0;
+      }
+      .button.is-light:hover {
+        background-color: #5e81ac;
+      }
+
       .content-type-tag {
         display: inline-block;
         padding: 3px 8px;
@@ -164,6 +220,17 @@
         margin-left: 10px;
       }
 
+      .menu-list {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .menu-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 5px;
+      }
       .menu-list a {
         color: #d8dee9;
         transition: all 0.2s;
@@ -171,13 +238,13 @@
         padding-left: 15px;
       }
 
-      .menu-list a:hover {
+      .menu-list li:hover {
         background: #3b4252;
         color: #88c0d0;
         border-left: 3px solid #81a1c1;
       }
 
-      .menu-list a.is-active {
+      .menu-list li.is-active {
         background: #3b4252;
         color: #88c0d0;
         border-left: 3px solid #81a1c1;
@@ -213,37 +280,90 @@
             <ul class="menu-list">
               <li
                 v-for="it of filteredDocs"
-                :key="it.file"
-                @click="showContent(it)"
+                :key="it.routeKey"
+                :class="{'is-active': menuActiveItem.routeKey === it.routeKey}"
               >
-                <a :class="{'is-active': menuActiveItem.file === it.file}">
-                  <span>{{it.title}}</span>
-                  <span class="content-type-tag"
-                    >{{getContentTypeTag(it.contentType)}}</span
-                  >
+                <a @click="showContent(it)">
+                  <span>{{it.restfulTemplateUrl}}</span>
                 </a>
+
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <span class="content-type-tag">{{it.method}}</span>
+                  <button
+                    class="button is-small is-light"
+                    @click="openEditModal(it)"
+                  >
+                    编辑
+                  </button>
+                </div>
               </li>
             </ul>
           </aside>
         </div>
 
+        <!-- 添加编辑弹窗 -->
+        <div class="modal" :class="{'is-active': showEditModal}">
+          <div class="modal-background" @click="closeEditModal"></div>
+          <div class="modal-content">
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">编辑内容</p>
+                <button
+                  class="delete"
+                  aria-label="close"
+                  @click="closeEditModal"
+                ></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="textarea"
+                      v-model="editingItemContent.restfulTemplateUrl"
+                      rows="10"
+                    ></>
+                  </div>
+                </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button class="button is-primary" @click="saveEdit">
+                  确认
+                </button>
+                <button class="button is-light" @click="closeEditModal">
+                  取消
+                </button>
+              </footer>
+            </div>
+          </div>
+        </div>
+
         <div class="column docs">
-          <div v-if="showInfos" class="notification">
+          <div v-if="menuActiveItem.routeKey" class="notification">
             <div class="file-info">
               <div class="file-info-item">
-                <p><strong>文件路径:</strong> {{menuActiveItem.file}}</p>
+                <p><strong>文件名:</strong> {{menuActiveItem.fileName}}</p>
+              </div>
+              <div v-if="menuActiveItem.describe" class="file-info-item">
+                <p><strong>描述:</strong> {{menuActiveItem.describe}}</p>
               </div>
               <div class="file-info-item">
                 <p>
-                  <strong>内容类型:</strong> {{menuActiveItem.contentType ||
+                  <strong>类型:</strong> {{menuActiveItem.contentType ||
                   'application/json'}}
                 </p>
               </div>
               <div class="file-info-item">
                 <p>
                   <strong>接口地址:</strong>
-                  <a :href="menuActiveItem.url" target="_blank"
-                    >{{menuActiveItem.url}}</a
+                  <a :href="menuActiveItem.path" target="_blank"
+                    >{{menuActiveItem.path}}</a
                   >
                 </p>
               </div>
@@ -260,11 +380,11 @@
             <!-- 图片预览 -->
             <div v-if="isImageContent">
               <img
-                :src="menuActiveItem.url"
+                :src="menuActiveItem.restfulTemplateUrl"
                 class="image-preview"
                 alt="图片预览"
               />
-              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+              <a :href="menuActiveItem.restfulTemplateUrl" target="_blank" class="download-btn"
                 >下载图片</a
               >
             </div>
@@ -272,12 +392,12 @@
             <!-- PDF预览 -->
             <div v-if="isPdfContent">
               <iframe
-                :src="menuActiveItem.url"
+                :src="menuActiveItem.restfulTemplateUrl"
                 width="100%"
                 height="600px"
                 frameborder="0"
               ></iframe>
-              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+              <a :href="menuActiveItem.restfulTemplateUrl" target="_blank" class="download-btn"
                 >下载PDF</a
               >
             </div>
@@ -285,7 +405,7 @@
             <!-- 其他二进制文件 -->
             <div v-if="isBinaryContent && !isImageContent && !isPdfContent">
               <p>该文件类型为二进制格式，无法直接预览</p>
-              <a :href="menuActiveItem.url" target="_blank" class="download-btn"
+              <a :href="menuActiveItem.restfulTemplateUrl" target="_blank" class="download-btn"
                 >下载文件</a
               >
             </div>
@@ -311,7 +431,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/plaintext.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
     <script>
+
+
+
+        // filepath,
+        // fileName,
+        // fileExt,
+        // routeKey,
+        // method,
+        // path,
+        // query,
+        // restfulTemplateUrl,
+        // describe,
+        // contentType,
+        // content,
       (function () {
+        const temp = {
+              restfulTemplateUrl: '',
+              path: '',
+              fileName: '',
+              contentType: '',
+              describe: '',
+              method: ''
+            }
+        /**
+         * @typedef {Object} MenuItem
+         * @property {string} filepath
+         * @property {string} routeKey
+         * @property {string} fileName
+         * @property {string} fileExt
+         * @property {string} method
+         * @property {string} path
+         * @property {string} query
+         * @property {string} restfulTemplateUrl
+         * @property {string} describe
+         * @property {string} contentType
+         * @property {string} content
+         */
+
+        /**
+         * @typedef {Object} VueInstance
+         * @property {string} searchQuery
+         * @property {Object} menuActiveItem
+         * @property {MenuItem[]} menuList
+         * @property {boolean} isTextContent
+         * @property {boolean} isImageContent
+         * @property {boolean} isPdfContent
+         * @property {boolean} isBinaryContent
+         * @property {boolean} loading
+         * @property {boolean} showEditModal
+         * @property {MenuItem|null} editingItemContent
+         */
+
+        /** @type {VueInstance} */
         var app = new Vue({
           el: '#app',
 
@@ -320,9 +492,8 @@
             searchQuery: '',
 
             // select item
-            menuActiveItem: {},
+            menuActiveItem: temp,
 
-            // menu list
             menuList: [],
 
             // content type flags
@@ -332,17 +503,21 @@
             isBinaryContent: false,
 
             // loading state
-            loading: false
+            loading: false,
+
+            // 编辑弹窗相关
+            showEditModal: false,
+
+            editingItemContent: temp
           },
 
           computed: {
-            // show api file/url info
-            showInfos: function () {
-              return typeof this.menuActiveItem.file === 'string';
-            },
 
-            // search doc by regexp
+            /**
+             * @this {VueInstance}
+             */
             filteredDocs: function () {
+
               var self = this;
 
               if (self.searchQuery === '') {
@@ -353,9 +528,10 @@
 
               return self.menuList.filter(function (it) {
                 return (
-                  searchRegex.test(it.title) ||
-                  searchRegex.test(it.url) ||
-                  searchRegex.test(it.file) ||
+                  searchRegex.test(it.describe) ||
+                  searchRegex.test(it.restfulTemplateUrl) ||
+                  searchRegex.test(it.path) ||
+                  searchRegex.test(it.method) ||
                   searchRegex.test(it.contentType || '')
                 );
               });
@@ -363,7 +539,9 @@
           },
 
           methods: {
-            // Get content type tag
+            /**
+             * @this {VueInstance}
+             */
             getContentTypeTag: function(contentType) {
               if (!contentType) return 'JSON';
 
@@ -394,7 +572,9 @@
               return contentType.split('/').pop().toUpperCase();
             },
 
-            // 获取内容类型对应的语言
+            /**
+             * @this {VueInstance}
+             */
             getHighlightLanguage: function(contentType) {
               if (!contentType) return 'json';
 
@@ -420,7 +600,9 @@
               return 'plaintext';
             },
 
-            // 根据内容类型设置状态标志
+            /**
+             * @this {VueInstance}
+             */
             setContentFlags: function(contentType) {
               this.isTextContent = false;
               this.isImageContent = false;
@@ -457,7 +639,9 @@
               }
             },
 
-            // 高亮并显示内容
+            /**
+             * @this {VueInstance}
+             */
             highlightContent: function(content, contentType) {
               const lang = this.getHighlightLanguage(contentType);
 
@@ -489,7 +673,10 @@
               });
             },
 
-            // 显示内容
+
+            /**
+             * @this {VueInstance}
+             */
             showContent: function (it) {
               var that = this;
               that.menuActiveItem = it;
@@ -504,10 +691,11 @@
                 return;
               }
 
+
               // 对于文本内容，获取内容并高亮显示
               $.ajax({
-                url: it.url,
-                method: 'GET',
+                url: it.restfulTemplateUrl,
+                method: it.method ?? 'GET',
                 dataType: 'text',
                 success: function (data) {
                   // 如果是 JSON 内容，进行格式化
@@ -559,6 +747,35 @@
                   that.loading = false;
                 }
               });
+            },
+
+            /**
+             * @this {VueInstance}
+             */
+            openEditModal: function(it) {
+              this.editingItemContent = it;
+              this.showEditModal = true;
+            },
+
+            /**
+             * @this {VueInstance}
+             */
+            closeEditModal: function() {
+              this.showEditModal = false;
+              this.editingItemContent = temp;
+            },
+
+            /**
+             * @this {VueInstance}
+             */
+            saveEdit: function() {
+              try {
+                this.showContent(this.editingItemContent);
+                this.closeEditModal();
+              } catch (e) {
+                console.log(e)
+                alert('JSON 格式错误，请检查输入内容');
+              }
             }
           }
         });
@@ -567,7 +784,7 @@
         app.menuList = @menuList;
 
         // 默认显示第一个文档
-        if (app.menuList.length > 0) {
+        if (app.menuList && app.menuList.length > 0) {
           app.$nextTick(() => {
             app.showContent(app.menuList[0]);
           });

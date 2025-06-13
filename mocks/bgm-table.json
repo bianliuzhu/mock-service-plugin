@@ -1,0 +1,985 @@
+/**
+ * @url /bgm/abc/table?data=abc
+ */
+{
+	"code": 200,
+	"msg": "ok",
+	"data": {
+		"title": [
+			{
+				"column": "XLUSVMYHCY",
+				"name": "安稳的日常"
+			},
+			{
+				"column": "TGHTFPQTGB",
+				"name": "(触发)事件/谜题"
+			},
+			{
+				"column": "KZYAMVHYZR",
+				"name": "悬疑叙事"
+			},
+			{
+				"column": "LSSXMCVQFR",
+				"name": "(寻找)证据/解谜/询问"
+			},
+			{
+				"column": "TODRZOMCXK",
+				"name": "误导推理"
+			},
+			{
+				"column": "BENFVYVIBB",
+				"name": "沉思"
+			},
+			{
+				"column": "EAPMMBOPXF",
+				"name": "关键转折点"
+			},
+			{
+				"column": "VHWLMRWFGT",
+				"name": "危机"
+			},
+			{
+				"column": "EUFXNHGMRX",
+				"name": "反转"
+			},
+			{
+				"column": "IHKBNUDOEK",
+				"name": "觉醒"
+			},
+			{
+				"column": "MVNITISQUO",
+				"name": "最终推理(决一死战）"
+			},
+			{
+				"column": "NPWTBVMKVW",
+				"name": "最终推理（真相大白）"
+			},
+			{
+				"column": "XIFHVHFXZR",
+				"name": "结局（推理背后的真相）"
+			}
+		],
+		"stock": [
+			{
+				"name": "原声类 (Acoustic)",
+				"columns": [
+					{
+						"column": "XLUSVMYHCY",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe36",
+								"locationId": "672ae15add8a4e23dc29ff84",
+								"name": "唯美_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fea7",
+								"locationId": "672ae15add8a4e23dc29fff9",
+								"name": "唯美_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_竖琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe82",
+								"locationId": "672ae15add8a4e23dc29ffd2",
+								"name": "唯美_长笛_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_长笛_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe5d",
+								"locationId": "672ae15add8a4e23dc29ffab",
+								"name": "忧郁_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fecc",
+								"locationId": "672ae15add8a4e23dc2a0020",
+								"name": "忧郁_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "TGHTFPQTGB",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe39",
+								"locationId": "672ae15add8a4e23dc29ff87",
+								"name": "神秘_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe60",
+								"locationId": "672ae15add8a4e23dc29ffae",
+								"name": "神秘_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feaa",
+								"locationId": "672ae15add8a4e23dc29fffc",
+								"name": "神秘_钢琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fecf",
+								"locationId": "672ae15add8a4e23dc2a0023",
+								"name": "神秘_钢琴_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe85",
+								"locationId": "672ae15add8a4e23dc29ffd5",
+								"name": "神秘_长笛_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "KZYAMVHYZR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe88",
+								"locationId": "672ae15add8a4e23dc29ffd8",
+								"name": "神秘_钢琴_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_5.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fed2",
+								"locationId": "672ae15add8a4e23dc2a0026",
+								"name": "神秘_钢琴_12.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_12.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fead",
+								"locationId": "672ae15add8a4e23dc29ffff",
+								"name": "神秘_长笛_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe3c",
+								"locationId": "672ae15add8a4e23dc29ff8a",
+								"name": "忧郁_钢琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe63",
+								"locationId": "672ae15add8a4e23dc29ffb1",
+								"name": "忧郁_钢琴_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_4.mp3"
+							}
+						]
+					},
+					{
+						"column": "LSSXMCVQFR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe3f",
+								"locationId": "672ae15add8a4e23dc29ff8d",
+								"name": "神秘_钢琴_8.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_8.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe66",
+								"locationId": "672ae15add8a4e23dc29ffb4",
+								"name": "神秘_钢琴_9.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_9.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb0",
+								"locationId": "672ae15add8a4e23dc2a0002",
+								"name": "神秘_钢琴_10.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_10.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fed5",
+								"locationId": "672ae15add8a4e23dc2a0029",
+								"name": "神秘_钢琴_11.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_11.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe8b",
+								"locationId": "672ae15add8a4e23dc29ffdb",
+								"name": "神秘_长笛_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "TODRZOMCXK",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe42",
+								"locationId": "672ae15add8a4e23dc29ff90",
+								"name": "神秘_钢琴_6.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_6.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe8e",
+								"locationId": "672ae15add8a4e23dc29ffde",
+								"name": "神秘_钢琴_13.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_13.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb3",
+								"locationId": "672ae15add8a4e23dc2a0005",
+								"name": "神秘_钢琴_14.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_14.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe69",
+								"locationId": "672ae15add8a4e23dc29ffb7",
+								"name": "神秘_马林巴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_马林巴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb6",
+								"locationId": "672ae15add8a4e23dc2a002c",
+								"name": "忧郁_钢琴_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_5.mp3"
+							}
+						]
+					},
+					{
+						"column": "BENFVYVIBB",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fed5",
+								"locationId": "672ae15add8a4e23dc2a002f",
+								"name": "神秘_钢琴_11.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_11.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe45",
+								"locationId": "672ae15add8a4e23dc29ff93",
+								"name": "神秘_钢琴_15.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_15.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe6c",
+								"locationId": "672ae15add8a4e23dc29ffba",
+								"name": "神秘_钢琴_16.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_16.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe91",
+								"locationId": "672ae15add8a4e23dc29ffe1",
+								"name": "神秘_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_竖琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb6",
+								"locationId": "672ae15add8a4e23dc2a0008",
+								"name": "忧郁_钢琴_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_5.mp3"
+							}
+						]
+					},
+					{
+						"column": "EAPMMBOPXF",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe6f",
+								"locationId": "672ae15add8a4e23dc29ffbd",
+								"name": "明亮_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe48",
+								"locationId": "672ae15add8a4e23dc29ff96",
+								"name": "神秘_钢琴_7.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_7.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb9",
+								"locationId": "672ae15add8a4e23dc2a000b",
+								"name": "神秘_钢琴_17.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_17.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feda",
+								"locationId": "672ae15add8a4e23dc2a0032",
+								"name": "神秘_钢琴_18.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_18.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe94",
+								"locationId": "672ae15add8a4e23dc29ffe4",
+								"name": "神秘_长笛_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_4.mp3"
+							}
+						]
+					},
+					{
+						"column": "VHWLMRWFGT",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe4b",
+								"locationId": "672ae15add8a4e23dc29ff99",
+								"name": "紧张_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/紧张_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe45",
+								"locationId": "672ae15add8a4e23dc29ffe7",
+								"name": "神秘_钢琴_15.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_15.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe72",
+								"locationId": "672ae15add8a4e23dc29ffc0",
+								"name": "神秘_钢琴_20.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_20.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feb6",
+								"locationId": "672ae15add8a4e23dc2a000e",
+								"name": "忧郁_钢琴_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_5.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fedd",
+								"locationId": "672ae15add8a4e23dc2a0035",
+								"name": "忧郁_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_竖琴_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "EUFXNHGMRX",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29febd",
+								"locationId": "672ae15add8a4e23dc2a0011",
+								"name": "紧张_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/紧张_钢琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe42",
+								"locationId": "672ae15add8a4e23dc29ffc3",
+								"name": "神秘_钢琴_6.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_6.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe4e",
+								"locationId": "672ae15add8a4e23dc29ff9c",
+								"name": "神秘_钢琴_19.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_19.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fee0",
+								"locationId": "672ae15add8a4e23dc2a0038",
+								"name": "忧郁_钢琴_6.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/忧郁_钢琴_6.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe98",
+								"locationId": "672ae15add8a4e23dc29ffea",
+								"name": "庄严_弦乐_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/庄严_弦乐_3.mp3"
+							}
+						]
+					},
+					{
+						"column": "IHKBNUDOEK",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe51",
+								"locationId": "672ae15add8a4e23dc29ff9f",
+								"name": "激昂_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe76",
+								"locationId": "672ae15add8a4e23dc29ffc6",
+								"name": "激昂_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_钢琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fec0",
+								"locationId": "672ae15add8a4e23dc2a0014",
+								"name": "激昂_钢琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_钢琴_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe9b",
+								"locationId": "672ae15add8a4e23dc29ffed",
+								"name": "明亮_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fee3",
+								"locationId": "672ae15add8a4e23dc2a003b",
+								"name": "明亮_钢琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_3.mp3"
+							}
+						]
+					},
+					{
+						"column": "MVNITISQUO",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe54",
+								"locationId": "672ae15add8a4e23dc29ffa2",
+								"name": "激昂_钢琴_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_钢琴_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe79",
+								"locationId": "672ae15add8a4e23dc29ffc9",
+								"name": "激昂_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_竖琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe9e",
+								"locationId": "672ae15add8a4e23dc29fff0",
+								"name": "紧张_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/紧张_竖琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fec3",
+								"locationId": "672ae15add8a4e23dc2a0017",
+								"name": "紧张_竖琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/紧张_竖琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fee6",
+								"locationId": "672ae15add8a4e23dc2a003e",
+								"name": "神秘_竖琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_竖琴_3.mp3"
+							}
+						]
+					},
+					{
+						"column": "NPWTBVMKVW",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fe7c",
+								"locationId": "672ae15add8a4e23dc29ffcc",
+								"name": "明亮_钢琴_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fea1",
+								"locationId": "672ae15add8a4e23dc29fff3",
+								"name": "明亮_钢琴_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_5.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fec6",
+								"locationId": "672ae15add8a4e23dc2a001a",
+								"name": "明亮_钢琴_6.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_钢琴_6.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe57",
+								"locationId": "672ae15add8a4e23dc29ffa5",
+								"name": "唯美_钢琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_钢琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fee9",
+								"locationId": "672ae15add8a4e23dc2a0041",
+								"name": "唯美_竖琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_竖琴_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "XIFHVHFXZR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fec9",
+								"locationId": "672ae15add8a4e23dc2a001d",
+								"name": "悲伤_钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/悲伤_钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fea4",
+								"locationId": "672ae15add8a4e23dc29fff6",
+								"name": "激昂_弦乐_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_弦乐_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29feec",
+								"locationId": "672ae15add8a4e23dc2a0044",
+								"name": "明亮_竖琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_竖琴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe7f",
+								"locationId": "672ae15add8a4e23dc29ffcf",
+								"name": "唯美_钢琴_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_钢琴_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe5a",
+								"locationId": "672ae15add8a4e23dc29ffa8",
+								"name": "唯美_竖琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_竖琴_3.mp3"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "电声类 (Electronic)",
+				"columns": [
+					{
+						"column": "XLUSVMYHCY",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29feef",
+								"locationId": "672ae15add8a4e23dc2a0047",
+								"name": "欢快_马林巴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_马林巴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff10",
+								"locationId": "672ae15add8a4e23dc2a006e",
+								"name": "欢快_马林巴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_马林巴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff19",
+								"locationId": "672ae15add8a4e23dc2a00e3",
+								"name": "欢快_长笛_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_长笛_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff31",
+								"locationId": "672ae15add8a4e23dc2a0095",
+								"name": "舒适_架子鼓_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_架子鼓_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff50",
+								"locationId": "672ae15add8a4e23dc2a00bc",
+								"name": "温馨_马林巴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/温馨_马林巴_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "TGHTFPQTGB",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff13",
+								"locationId": "672ae15add8a4e23dc2a0071",
+								"name": "激昂_弦乐_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_弦乐_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff34",
+								"locationId": "672ae15add8a4e23dc2a0098",
+								"name": "明亮_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe8b",
+								"locationId": "672ae15add8a4e23dc2a004a",
+								"name": "神秘_长笛_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff53",
+								"locationId": "672ae15add8a4e23dc2a00bf",
+								"name": "舒适_电钢琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_电钢琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef6",
+								"locationId": "672ae15add8a4e23dc2a00e6",
+								"name": "舒适_电鼓_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_电鼓_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "KZYAMVHYZR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fef3",
+								"locationId": "672ae15add8a4e23dc2a004d",
+								"name": "神秘_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff37",
+								"locationId": "672ae15add8a4e23dc2a009b",
+								"name": "神秘_电吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe48",
+								"locationId": "672ae15add8a4e23dc2a00e9",
+								"name": "神秘_钢琴_7.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_7.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff56",
+								"locationId": "672ae15add8a4e23dc2a00c2",
+								"name": "神秘_合成器_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff16",
+								"locationId": "672ae15add8a4e23dc2a0074",
+								"name": "神秘_架子鼓_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_架子鼓_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "LSSXMCVQFR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29feef",
+								"locationId": "672ae15add8a4e23dc2a009e",
+								"name": "欢快_马林巴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_马林巴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff10",
+								"locationId": "672ae15add8a4e23dc2a00ec",
+								"name": "欢快_马林巴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_马林巴_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff19",
+								"locationId": "672ae15add8a4e23dc2a0077",
+								"name": "欢快_长笛_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_长笛_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef6",
+								"locationId": "672ae15add8a4e23dc2a0050",
+								"name": "舒适_电鼓_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_电鼓_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff50",
+								"locationId": "672ae15add8a4e23dc2a00c5",
+								"name": "温馨_马林巴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/温馨_马林巴_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "TODRZOMCXK",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29fef3",
+								"locationId": "672ae15add8a4e23dc2a00a1",
+								"name": "神秘_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe48",
+								"locationId": "672ae15add8a4e23dc2a007a",
+								"name": "神秘_钢琴_7.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_7.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff5a",
+								"locationId": "672ae15add8a4e23dc2a00c8",
+								"name": "神秘_合成器_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff6f",
+								"locationId": "672ae15add8a4e23dc2a00ef",
+								"name": "神秘_长笛_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_5.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef9",
+								"locationId": "672ae15add8a4e23dc2a0053",
+								"name": "舒适_吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_吉他_1.mp3"
+							}
+						]
+					},
+					{
+						"column": "BENFVYVIBB",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff34",
+								"locationId": "672ae15add8a4e23dc2a00cb",
+								"name": "明亮_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff72",
+								"locationId": "672ae15add8a4e23dc2a00f2",
+								"name": "明亮_电吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_电吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef3",
+								"locationId": "672ae15add8a4e23dc2a007d",
+								"name": "神秘_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff16",
+								"locationId": "672ae15add8a4e23dc2a00a4",
+								"name": "神秘_架子鼓_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_架子鼓_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fefc",
+								"locationId": "672ae15add8a4e23dc2a0056",
+								"name": "神秘_竖琴_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_竖琴_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "EAPMMBOPXF",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff13",
+								"locationId": "672ae15add8a4e23dc2a00a7",
+								"name": "激昂_弦乐_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_弦乐_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff1e",
+								"locationId": "672ae15add8a4e23dc2a0080",
+								"name": "明亮_电吉他_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_电吉他_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef3",
+								"locationId": "672ae15add8a4e23dc2a0059",
+								"name": "神秘_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff75",
+								"locationId": "672ae15add8a4e23dc2a00f5",
+								"name": "神秘_合成器_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff3e",
+								"locationId": "672ae15add8a4e23dc2a00ce",
+								"name": "神秘_合成器_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_4.mp3"
+							}
+						]
+					},
+					{
+						"column": "VHWLMRWFGT",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff5a",
+								"locationId": "672ae15add8a4e23dc2a00d1",
+								"name": "神秘_合成器_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff3e",
+								"locationId": "672ae15add8a4e23dc2a00aa",
+								"name": "神秘_合成器_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_合成器_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff6f",
+								"locationId": "672ae15add8a4e23dc2a00f8",
+								"name": "神秘_长笛_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_长笛_5.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff00",
+								"locationId": "672ae15add8a4e23dc2a005c",
+								"name": "庄严_弦乐_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/庄严_弦乐_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff21",
+								"locationId": "672ae15add8a4e23dc2a0083",
+								"name": "庄严_弦乐_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/庄严_弦乐_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "EUFXNHGMRX",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff41",
+								"locationId": "672ae15add8a4e23dc2a00ad",
+								"name": "激昂_弦乐_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_弦乐_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff60",
+								"locationId": "672ae15add8a4e23dc2a00d4",
+								"name": "激昂_弦乐_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_弦乐_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff1e",
+								"locationId": "672ae15add8a4e23dc2a00fb",
+								"name": "明亮_电吉他_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_电吉他_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef3",
+								"locationId": "672ae15add8a4e23dc2a005f",
+								"name": "神秘_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fe48",
+								"locationId": "672ae15add8a4e23dc2a0086",
+								"name": "神秘_钢琴_7.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_钢琴_7.mp3"
+							}
+						]
+					},
+					{
+						"column": "IHKBNUDOEK",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff04",
+								"locationId": "672ae15add8a4e23dc2a0062",
+								"name": "热血_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/热血_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff25",
+								"locationId": "672ae15add8a4e23dc2a0089",
+								"name": "热血_电吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/热血_电吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff44",
+								"locationId": "672ae15add8a4e23dc2a00b0",
+								"name": "热血_电吉他_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/热血_电吉他_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff63",
+								"locationId": "672ae15add8a4e23dc2a00d7",
+								"name": "热血_电吉他_4.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/热血_电吉他_4.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff7a",
+								"locationId": "672ae15add8a4e23dc2a00fe",
+								"name": "热血_电吉他_5.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/热血_电吉他_5.mp3"
+							}
+						]
+					},
+					{
+						"column": "MVNITISQUO",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff07",
+								"locationId": "672ae15add8a4e23dc2a0065",
+								"name": "激昂_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff28",
+								"locationId": "672ae15add8a4e23dc2a008c",
+								"name": "激昂_合成器_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_合成器_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff47",
+								"locationId": "672ae15add8a4e23dc2a00b3",
+								"name": "神秘_电吉他_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/神秘_电吉他_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff00",
+								"locationId": "672ae15add8a4e23dc2a00da",
+								"name": "庄严_弦乐_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/庄严_弦乐_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff21",
+								"locationId": "672ae15add8a4e23dc2a0101",
+								"name": "庄严_弦乐_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/庄严_弦乐_2.mp3"
+							}
+						]
+					},
+					{
+						"column": "NPWTBVMKVW",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff7e",
+								"locationId": "672ae15add8a4e23dc2a0104",
+								"name": "激昂_电吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/激昂_电吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff4a",
+								"locationId": "672ae15add8a4e23dc2a00b6",
+								"name": "明亮_竖琴_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/明亮_竖琴_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29fef9",
+								"locationId": "672ae15add8a4e23dc2a00dd",
+								"name": "舒适_吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff2b",
+								"locationId": "672ae15add8a4e23dc2a008f",
+								"name": "舒适_吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/舒适_吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff0a",
+								"locationId": "672ae15add8a4e23dc2a0068",
+								"name": "唯美_钢琴_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/唯美_钢琴_3.mp3"
+							}
+						]
+					},
+					{
+						"column": "XIFHVHFXZR",
+						"data": [
+							{
+								"id": "672ae15add8a4e23dc29ff0d",
+								"locationId": "672ae15add8a4e23dc2a006b",
+								"name": "欢快_电吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_电吉他_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff2e",
+								"locationId": "672ae15add8a4e23dc2a0092",
+								"name": "欢快_电吉他_2.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_电吉他_2.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff81",
+								"locationId": "672ae15add8a4e23dc2a0107",
+								"name": "欢快_电吉他_3.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_电吉他_3.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff68",
+								"locationId": "672ae15add8a4e23dc2a00e0",
+								"name": "欢快_合成器_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_合成器_1.mp3"
+							},
+							{
+								"id": "672ae15add8a4e23dc29ff4d",
+								"locationId": "672ae15add8a4e23dc2a00b9",
+								"name": "欢快_吉他_1.mp3",
+								"url": "https://test-aigc.ugaws.cc/aigc/bgm/欢快_吉他_1.mp3"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

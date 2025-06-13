@@ -1,0 +1,10 @@
+/**
+ * 场景内容
+ * @url /engine/start?gameId=YXAGPGA7UBC3
+ * @method get
+ */
+
+chapterId:ZJB6WQODV1LM;
+;
+label:label_MJFCJMKACG;
+changeScene:MJFCJMKACG.txt;

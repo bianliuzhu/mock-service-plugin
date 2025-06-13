@@ -1,0 +1,16 @@
+/**
+ * @url /api/orders
+ * @method GET
+ */
+{
+  "list|20": [{
+    "orderId": "@id",
+    "customerName": "@cname",
+    "productName": "@ctitle(5, 10)",
+    "quantity": "@integer(1, 10)",
+    "price": "@float(10, 1000, 2, 2)",
+    "total": "@float(10, 10000, 2, 2)",
+    "status": "@pick(['待付款', '已付款', '已发货', '已完成', '已取消'])",
+    "createTime": "@datetime"
+  }]
+}
