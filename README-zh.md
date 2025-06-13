@@ -2,32 +2,32 @@
 
 [English](README.md) | [中文](README-zh.md)
 
-A powerful Mock service plugin that supports multiple frameworks and build tools, providing flexible interface simulation capabilities.
+一个强大的 Mock 服务插件，支持多种框架和构建工具，提供灵活的接口模拟能力。
 
-## Features
+## 特性
 
-- 🚀 Support for multiple build tools
+- 🚀 支持多种构建工具
   - Webpack 4/5
   - Vite
   - Vue CLI
   - Create React App (CRA)
-- 🎯 Support for multiple frameworks
+- 🎯 支持多种框架
   - Vue
   - React
-- 🔥 Powerful feature support
-  - RESTful API support
-  - Streaming responses (SSE/EventStream)
-  - Multiple response formats (JSON/XML/CSV/Text etc.)
-  - Dynamic route parameters
-  - Request method matching (GET/POST/PUT/DELETE etc.)
-- 💡 Easy to use
-  - Zero configuration startup
-  - Hot reload support
-  - Friendly debugging interface
+- 🔥 强大的功能支持
+  - RESTful API 支持
+  - 流式响应 (SSE/EventStream)
+  - 多种响应格式 (JSON/XML/CSV/Text 等)
+  - 动态路由参数
+  - 请求方法匹配 (GET/POST/PUT/DELETE 等)
+- 💡 简单易用
+  - 零配置启动
+  - 热更新支持
+  - 友好的调试界面
 
-## Quick Start
+## 快速开始
 
-### Installation
+### 安装
 
 ```bash
 npm install mock-service-plugin --save-dev
@@ -35,7 +35,7 @@ npm install mock-service-plugin --save-dev
 yarn add mock-service-plugin --dev
 ```
 
-### Basic Configuration
+### 基础配置
 
 ```javascript
 const MockServicePlugin = require("mock-service-plugin");
@@ -43,16 +43,16 @@ const MockServicePlugin = require("mock-service-plugin");
 module.exports = {
   plugins: [
     new MockServicePlugin({
-      path: path.join(__dirname, "./mocks"), // mock data directory
-      port: 3000, // mock service port
+      path: path.join(__dirname, "./mocks"), // mock 数据目录
+      port: 3000, // mock 服务端口
     }),
   ],
 };
 ```
 
-## Mock Data Specification
+## Mock 数据规范
 
-### Basic Format
+### 基础格式
 
 ```javascript
 /**
@@ -70,7 +70,7 @@ module.exports = {
 }
 ```
 
-### Header Annotation Description
+### 头部注解说明
 
 ```javascript
 /**
@@ -79,12 +79,12 @@ module.exports = {
  */
 ```
 
-- `@url`: Interface path (required)
-- `@method`: Request method (optional, supports GET/POST/PUT/DELETE etc., case-insensitive)
+- `@url`: 接口路径（必填）
+- `@method`: 请求方法（可选，支持 GET/POST/PUT/DELETE 等，大小写通用）
 
-### Request Method Matching
+### 请求方法匹配
 
-1. Specify request method:
+1. 指定请求方法：
 
 ```javascript
 /**
@@ -93,11 +93,11 @@ module.exports = {
  */
 {
   "code": 200,
-  "message": "Created successfully"
+  "message": "创建成功"
 }
 ```
 
-2. Support all request methods (without @method):
+2. 支持所有请求方法（不指定 @method）：
 
 ```javascript
 /**
@@ -112,20 +112,20 @@ module.exports = {
 }
 ```
 
-3. RESTful API example:
+3. RESTful API 示例：
 
 ```javascript
-// POST request
+// POST 请求
 /**
  * @url /api/users
  * @method POST
  */
 {
   "code": 200,
-  "message": "Created successfully"
+  "message": "创建成功"
 }
 
-// GET request
+// GET 请求
 /**
  * @url /api/users/:id
  * @method GET
@@ -135,50 +135,50 @@ module.exports = {
   "name": "@cname"
 }
 
-// PUT request
+// PUT 请求
 /**
  * @url /api/users/:id
  * @method PUT
  */
 {
   "code": 200,
-  "message": "Updated successfully"
+  "message": "更新成功"
 }
 
-// DELETE request
+// DELETE 请求
 /**
  * @url /api/users/:id
  * @method DELETE
  */
 {
   "code": 200,
-  "message": "Deleted successfully"
+  "message": "删除成功"
 }
 ```
 
-### Supported Response Types
+### 支持的响应类型
 
-| Mock file extension | Content-Type           | Description       |
-| ------------------- | ---------------------- | ----------------- |
-| .json               | application/json       | JSON data format  |
-| .txt                | text/plain             | Plain text format |
-| .html               | text/html              | HTML document     |
-| .xml                | application/xml        | XML data format   |
-| .csv                | text/csv               | CSV table data    |
-| .md                 | text/markdown          | Markdown document |
-| .pdf                | application/pdf        | PDF document      |
-| .png                | image/png              | PNG image         |
-| .jpg/.jpeg          | image/jpeg             | JPEG image        |
-| .gif                | image/gif              | GIF image         |
-| .svg                | image/svg+xml          | SVG vector image  |
-| .css                | text/css               | CSS stylesheet    |
-| .js                 | application/javascript | JavaScript code   |
-| .yaml/.yml          | application/x-yaml     | YAML config file  |
-| .sse                | text/event-stream      | SSE event stream  |
+| mock 文件扩展名 | Content-Type           | 说明            |
+| --------------- | ---------------------- | --------------- |
+| .json           | application/json       | JSON 数据格式   |
+| .txt            | text/plain             | 纯文本格式      |
+| .html           | text/html              | HTML 文档       |
+| .xml            | application/xml        | XML 数据格式    |
+| .csv            | text/csv               | CSV 表格数据    |
+| .md             | text/markdown          | Markdown 文档   |
+| .pdf            | application/pdf        | PDF 文档        |
+| .png            | image/png              | PNG 图片        |
+| .jpg/.jpeg      | image/jpeg             | JPEG 图片       |
+| .gif            | image/gif              | GIF 图片        |
+| .svg            | image/svg+xml          | SVG 矢量图      |
+| .css            | text/css               | CSS 样式表      |
+| .js             | application/javascript | JavaScript 代码 |
+| .yaml/.yml      | application/x-yaml     | YAML 配置文件   |
+| .sse            | text/event-stream      | SSE 事件流数据  |
 
-### Mock File Examples
+### Mock 文件示例
 
-#### JSON Format (mock.json)
+#### JSON 格式 (mock.json)
 
 ```javascript
 /**
@@ -194,19 +194,19 @@ module.exports = {
 }
 ```
 
-#### Text Format (mock.txt)
+#### 文本格式 (mock.txt)
 
 ```javascript
 /**
  * @url /api/text
  * @method GET
  */
-This is a mock text content, supporting multiple lines.
-Second line content.
-Third line content.
+这是一段模拟的文本内容，支持多行文本。
+第二行内容。
+第三行内容。
 ```
 
-#### CSS Format (mock.css)
+#### CSS 格式 (mock.css)
 
 ```javascript
 /**
@@ -221,20 +221,20 @@ Third line content.
 }
 ```
 
-#### Markdown Format (mock.md)
+#### Markdown 格式 (mock.md)
 
 ```javascript
 /**
  * @url /api/markdown
  * @method GET
  */
-# Heading 1
-## Heading 2
-- List item 1
-- List item 2
+# 标题一
+## 标题二
+- 列表项 1
+- 列表项 2
 ```
 
-#### YAML Format (mock.yaml)
+#### YAML 格式 (mock.yaml)
 
 ```javascript
 /**
@@ -246,7 +246,7 @@ settings: debug: true;
 timeout: 30;
 ```
 
-#### CSV Format (mock.csv)
+#### CSV 格式 (mock.csv)
 
 ```javascript
 /**
@@ -254,12 +254,12 @@ timeout: 30;
  * @method GET
  */
 id, name, age;
-1, John, 25;
-2, Jane, 30;
-3, Bob, 28;
+1, 张三, 25;
+2, 李四, 30;
+3, 王五, 28;
 ```
 
-#### XML Format (mock.xml)
+#### XML 格式 (mock.xml)
 
 ```javascript
 /**
@@ -269,13 +269,13 @@ id, name, age;
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
   <user>
-    <name>John</name>
+    <name>张三</name>
     <age>25</age>
   </user>
 </root>
 ```
 
-#### JavaScript Format (mock.js)
+#### JavaScript 格式 (mock.js)
 
 ```javascript
 /**
@@ -287,7 +287,7 @@ function greeting(name) {
 }
 ```
 
-For image type responses, you can directly return the image file path:
+对于图片类型的响应，你可以直接返回图片文件的路径：
 
 ```javascript
 /**
@@ -297,9 +297,9 @@ For image type responses, you can directly return the image file path:
 "/path/to/avatar.png";
 ```
 
-## Advanced Features
+## 高级特性
 
-### RESTful API Support
+### RESTful API 支持
 
 ```javascript
 /**
@@ -313,9 +313,9 @@ For image type responses, you can directly return the image file path:
 }
 ```
 
-### Streaming Response
+### 流式响应
 
-File extension: mock.sse
+文件扩展名为 mock.sse
 
 ```javascript
 /**
@@ -332,9 +332,9 @@ File extension: mock.sse
 }
 ```
 
-## Framework Integration
+## 框架集成
 
-### Vue Project
+### Vue 项目
 
 ```javascript
 // vue.config.js
@@ -360,9 +360,9 @@ module.exports = {
 };
 ```
 
-### React Project (CRA)
+### React 项目 (CRA)
 
-#### Using craco
+#### 使用 craco
 
 ```javascript
 // craco.config.js
@@ -382,7 +382,7 @@ module.exports = {
 };
 ```
 
-#### Using customize-cra
+#### 使用 customize-cra
 
 ```javascript
 // config-overrides.js
@@ -399,10 +399,10 @@ module.exports = override(
 );
 ```
 
-### Vite Project
+### Vite 项目
 
 ```ts
-// vite-mock-plugin.ts file
+// vite-mock-plugin.ts 文件
 
 import MockServicePlugin from "mock-service-plugin";
 import { createServer } from "net";
@@ -441,9 +441,9 @@ export default function ViteMockServicePlugin(e: string) {
         } else {
           if (e === "mock") {
             const ints = new MockServicePlugin({
-              // Path for mock data
+              // mock 数据的存放路径
               path: join(__dirname, "./mocks"),
-              // Configure mock service port to avoid conflicts with application port
+              // 配置mock服务的端口，避免与应用端口冲突
               port: 3008,
             });
             ints.apply();
@@ -458,7 +458,7 @@ export default function ViteMockServicePlugin(e: string) {
 ```typescript
 // vite.config.ts
 import { defineConfig } from "vite";
-// The vite-mock-plugin imported here is the code snippet above
+// 这里引入的 vite-mock-plugin 就是上面的代码片段
 import ViteMockServicePlugin from "./vite-mock-plugin";
 
 export default defineConfig({
@@ -466,21 +466,21 @@ export default defineConfig({
 });
 ```
 
-## Example Projects
+## 示例项目
 
-- [Vue Example](https://github.com/bianliuzhu/vite-vue-ts)
-- [React Example](https://github.com/bianliuzhu/react-app-ts)
+- [Vue 示例](https://github.com/bianliuzhu/vite-vue-ts)
+- [React 示例](https://github.com/bianliuzhu/react-app-ts)
 
-## Notes
+## 注意事项
 
-1. Page refresh required after modifying mock data
-2. Ensure mock service port doesn't conflict with application port
-3. Recommended to use relative paths for mock data directory configuration
+1. 修改 mock 数据后需要刷新页面
+2. 确保 mock 服务端口与应用端口不冲突
+3. 建议使用相对路径配置 mock 数据目录
 
-## Contributing
+## 贡献指南
 
-Issues and Pull Requests are welcome
+欢迎提交 Issue 和 Pull Request
 
-## License
+## 许可证
 
 MIT
