@@ -1,11 +1,7 @@
 import express, { Express } from "express";
 import watch from "watch";
 import chalk from "chalk";
-import { cleanCache } from "./util.js";
 import { createRoutes } from "./routes.js";
-
-const ROUTE_PATH = "./routes";
-let routesHandle = createRoutes;
 
 interface ServerOptions {
   path: string;
@@ -16,15 +12,15 @@ export function startServer({ path, port = 3000 }: ServerOptions): void {
   const mockPort = port;
   const app: Express = express();
 
-  app.use("/", routesHandle(path));
+  app.use("/", createRoutes(path));
 
   watch.watchTree(path, () => {
-    cleanCache(require.resolve(ROUTE_PATH));
     try {
-      routesHandle = createRoutes;
+      // 重新创建路由处理器
+      app.use("/", createRoutes(path));
       console.info("模块更新成功");
     } catch (error) {
-      // console.error('这个错误无需关注 %s', error)
+      console.error("模块更新失败:", error);
     }
   });
 
