@@ -43,18 +43,7 @@ export default defineConfig([
       }),
     ],
     /** 排除打包的模块 */
-    external: [
-      "fs",
-      "path",
-      "url",
-      "express",
-      "chalk",
-      "mockjs",
-      "csv-stringify",
-      "glob",
-      "watch",
-      "xml2js",
-    ],
+    external: ["csv-stringify", "glob", "watch", "xml2js"],
   },
   {
     input: "./src/index.ts",
