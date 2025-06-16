@@ -1,15 +1,24 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.6.8",
+	"version": "1.6.9",
 	"description": "模拟后端接口服务",
 	"main": "./lib/index.js",
-	"module": "./lib/index.js",
+	"module": "./lib/esm/index.js",
 	"types": "./lib/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./lib/esm/index.js",
+			"require": "./lib/index.js",
+			"types": "./lib/index.d.ts"
+		}
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node debug.cjs",
 		"dev": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript -w",
-		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
+		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+		"prepublishOnly": "npm run build",
+		"release": "git add . && git commit -m \"chore: prepare for release\" && npm version patch && npm publish"
 	},
 	"keywords": [
 		"mock",
@@ -33,9 +42,7 @@
 		"email": "bianliuzhu@gmail.com"
 	},
 	"files": [
-		"dist",
-		"package.json",
-		"index.html"
+		"lib"
 	],
 	"license": "ISC",
 	"dependencies": {
