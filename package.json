@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.6.11",
+	"version": "1.6.12",
 	"type": "module",
 	"description": "模拟后端接口服务",
 	"main": "./lib/index.js",
@@ -20,7 +20,7 @@
 		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
 		"prepublishOnly": "npm run build",
 		"preversion": "npm run build",
-		"version": "git add -A src && git commit -m \"chore: bump version\"",
+		"version": "git add . && git commit -m \"chore: bump version\"",
 		"postversion": "git push && git push --tags",
 		"release:patch": "npm version patch && npm publish",
 		"release:minor": "npm version minor && npm publish",
