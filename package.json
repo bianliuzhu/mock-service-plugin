@@ -19,7 +19,7 @@
 		"dev": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript -w",
 		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
 		"prepublishOnly": "npm run build",
-		"preversion": "npm run build && git add . && git commit -m \"chore: build before version bump\"",
+		"preversion": "npm run build",
 		"version": "git add -A src && git commit -m \"chore: bump version\"",
 		"postversion": "git push && git push --tags",
 		"release:patch": "npm version patch && npm publish",
