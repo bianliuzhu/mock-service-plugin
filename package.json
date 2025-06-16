@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.6.9",
+	"version": "1.6.10",
 	"description": "模拟后端接口服务",
 	"main": "./lib/index.js",
 	"module": "./lib/esm/index.js",
