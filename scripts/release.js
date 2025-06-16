@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { execSync } = require("child_process");
-const chalk = require("chalk");
+import { execSync } from "child_process";
+import chalk from "chalk";
 
 // 执行命令并返回结果
 function execCommand(command) {
