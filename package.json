@@ -1,16 +1,15 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.6.3",
+	"version": "1.6.8",
 	"description": "模拟后端接口服务",
-	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "./lib/index.js",
+	"module": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "tsc && cp index.html dist/ && cp -r mocks dist/",
-		"start": "node dist/index.js",
-		"dev": "tsc -w",
-		"debug": "node --loader ts-node/esm debug.ts"
+		"start": "node debug.cjs",
+		"dev": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript -w",
+		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
 	},
 	"keywords": [
 		"mock",
@@ -49,12 +48,22 @@
 		"xml2js": "^0.6.2"
 	},
 	"devDependencies": {
+		"@rollup/plugin-commonjs": "^28.0.5",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.1",
+		"@rollup/plugin-typescript": "^12.1.2",
 		"@types/express": "^4.17.23",
 		"@types/mockjs": "^1.0.10",
 		"@types/node": "^20.19.0",
 		"@types/watch": "^1.0.6",
 		"@types/xml2js": "^0.4.14",
+		"rimraf": "^6.0.1",
+		"rollup": "^4.43.0",
+		"rollup-plugin-copy": "^3.5.0",
+		"rollup-plugin-dts": "^6.2.1",
 		"ts-node": "^10.9.2",
+		"tslib": "^2.8.1",
+		"tsx": "^4.20.3",
 		"typescript": "^5.8.3"
 	}
 }

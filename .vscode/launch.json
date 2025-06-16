@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "debug",
+      "name": "Debug TypeScript",
       "type": "node",
       "request": "launch",
       "skipFiles": [
@@ -13,8 +13,8 @@
       ],
       "program": "${workspaceRoot}/debug.ts",
       "runtimeArgs": [
-        "--loader",
-        "ts-node/esm"
+        "--import",
+        "tsx"
       ],
       "sourceMaps": true,
       "cwd": "${workspaceRoot}",
@@ -22,8 +22,16 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "TS_NODE_PROJECT": "${workspaceRoot}/tsconfig.json"
       },
+      "outFiles": [
+        "${workspaceFolder}/lib/**/*.js"
+      ],
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ],
       "runtimeExecutable": "/Users/bianliuzhu/.nvm/versions/node/v22.5.1/bin/node"
     }
   ]
