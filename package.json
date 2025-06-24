@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.7.8",
+	"version": "1.7.9",
 	"type": "module",
 	"description": "Simulated backend interface service",
 	"main": "./lib/index.js",
@@ -17,8 +17,7 @@
 		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
 		"test": "jest",
 		"lint": "eslint . --ext .ts",
-		"format": "prettier --write \"src/**/*.ts\"",
-		"prepare": "husky install"
+		"format": "prettier --write \"src/**/*.ts\""
 	},
 	"keywords": [
 		"mock",
