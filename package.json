@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.7.7",
+	"version": "1.7.8",
 	"type": "module",
 	"description": "Simulated backend interface service",
 	"main": "./lib/index.js",
@@ -14,16 +14,11 @@
 		}
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node debug.cjs",
-		"dev": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript -w",
 		"build": "rimraf lib && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-		"version": "git add . && git commit -m \"chore: bump version\"",
-		"postversion": "git push && git push --tags",
-		"release:patch": "npm version patch && npm publish",
-		"release:minor": "npm version minor && npm publish",
-		"release:major": "npm version major && npm publish",
-		"release": "node scripts/release.js"
+		"test": "jest",
+		"lint": "eslint . --ext .ts",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"prepare": "husky install"
 	},
 	"keywords": [
 		"mock",
