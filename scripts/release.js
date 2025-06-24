@@ -97,24 +97,28 @@ async function release() {
     // 1. 检查 npm 登录状态
     checkNpmLogin();
 
-    // 2. 检查 Git 状态
-    checkGitStatus();
-
-    // 3. 检查远程仓库
+    // 2. 检查远程仓库
     checkRemote();
 
-    // 4. 检查分支
+    // 3. 检查分支
     checkBranch();
 
-    // 5. 构建项目
+    // 4. 同步远程代码
+    console.log(chalk.blue("同步远程代码..."));
+    execSync("git pull origin main", { stdio: "inherit" });
+
+    // 5. 检查 Git 状态
+    checkGitStatus();
+
+    // 6. 构建项目
     build();
 
-    // 6. 更新版本号并发布
+    // 7. 更新版本号并发布
     console.log(chalk.blue("开始发布..."));
     execSync("npm version patch", { stdio: "inherit" });
     execSync("npm publish", { stdio: "inherit" });
 
-    // 7. 推送代码和标签
+    // 8. 推送代码和标签
     console.log(chalk.blue("推送代码和标签..."));
     execSync("git push && git push --tags", { stdio: "inherit" });
 
