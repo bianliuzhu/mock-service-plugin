@@ -116,6 +116,8 @@ async function release() {
       execSync('git commit -m "chore: prepare for release"', {
         stdio: "inherit",
       });
+      console.log(chalk.blue("推送当前更改..."));
+      execSync("git push", { stdio: "inherit" });
     }
 
     // 6. 构建项目
