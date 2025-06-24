@@ -107,25 +107,23 @@ async function release() {
     console.log(chalk.blue("同步远程代码..."));
     execSync("git pull origin main", { stdio: "inherit" });
 
-    // 5. 检查并清理 Git 工作区
-    console.log(chalk.blue("检查 Git 工作区..."));
-    const status = execCommand("git status --porcelain");
-    if (status) {
-      console.log(chalk.yellow("清理 Git 工作区..."));
-      execSync("git add .", { stdio: "inherit" });
-      execSync('git commit -m "chore: prepare for release"', {
-        stdio: "inherit",
-      });
-      console.log(chalk.blue("推送当前更改..."));
-      execSync("git push", { stdio: "inherit" });
-    }
-
-    // 6. 构建项目
+    // 5. 构建项目
     build();
 
-    // 7. 更新版本号并创建提交
+    // 6. 更新版本号
     console.log(chalk.blue("更新版本号..."));
-    execSync("npm version patch -m 'chore: release %s'", { stdio: "inherit" });
+    execSync("npm --no-git-tag-version version patch", { stdio: "inherit" });
+
+    // 7. 提交更改
+    console.log(chalk.blue("提交版本更新..."));
+    execSync("git add package.json package-lock.json", { stdio: "inherit" });
+    const newVersion = execCommand("npm pkg get version").replace(/"/g, "");
+    execSync(`git commit -m "chore: release v${newVersion}"`, {
+      stdio: "inherit",
+    });
+    execSync(`git tag -a v${newVersion} -m "v${newVersion}"`, {
+      stdio: "inherit",
+    });
 
     // 8. 发布到 npm
     console.log(chalk.blue("发布到 npm..."));
