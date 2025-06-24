@@ -107,20 +107,27 @@ async function release() {
     console.log(chalk.blue("同步远程代码..."));
     execSync("git pull origin main", { stdio: "inherit" });
 
-    // 5. 检查 Git 状态
-    checkGitStatus();
-
-    // 6. 构建项目
+    // 5. 构建项目
     build();
 
-    // 7. 更新版本号并发布
-    console.log(chalk.blue("开始发布..."));
-    execSync("npm version patch", { stdio: "inherit" });
-    execSync("npm publish", { stdio: "inherit" });
+    // 6. 更新版本号
+    console.log(chalk.blue("更新版本号..."));
+    execSync("npm --no-git-tag-version version patch", { stdio: "inherit" });
 
-    // 8. 推送代码和标签
-    console.log(chalk.blue("推送代码和标签..."));
-    execSync("git push && git push --tags", { stdio: "inherit" });
+    // 7. 提交更改
+    console.log(chalk.blue("提交版本更新..."));
+    execSync("git add package.json package-lock.json", { stdio: "inherit" });
+    execSync('git commit -m "chore: bump version"', { stdio: "inherit" });
+    execSync("git push", { stdio: "inherit" });
+
+    // 8. 创建标签并推送
+    const version = execCommand("npm pkg get version").replace(/"/g, "");
+    execSync(`git tag v${version}`, { stdio: "inherit" });
+    execSync("git push --tags", { stdio: "inherit" });
+
+    // 9. 发布到 npm
+    console.log(chalk.blue("发布到 npm..."));
+    execSync("npm publish", { stdio: "inherit" });
 
     console.log(chalk.green("发布成功！"));
   } catch (error) {
