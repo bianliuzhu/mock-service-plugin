@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { startServer } from "./src/server";
+import { startServer } from "./src";
 import path from "path";
 import { fileURLToPath } from "url";
 

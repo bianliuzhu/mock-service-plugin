@@ -404,7 +404,7 @@ module.exports = override(
 ```ts
 // vite-mock-plugin.ts 文件
 
-import MockServicePlugin from "mock-service-plugin";
+import { startServer } from "mock-service-plugin";
 import { createServer } from "net";
 import { join } from "path";
 
@@ -440,7 +440,7 @@ export default function ViteMockServicePlugin(e: string) {
           console.log(`Port ${port} is already in use`);
         } else {
           if (e === "mock") {
-            const ints = new MockServicePlugin({
+            const ints = startServer({
               // mock 数据的存放路径
               mockDir: join(__dirname, "./mocks"),
               // 配置mock服务的端口，避免与应用端口冲突

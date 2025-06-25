@@ -1,4 +1,4 @@
-import { startServer } from "./lib/server.js";
+import { startServer } from "./lib/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 

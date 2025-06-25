@@ -404,7 +404,7 @@ module.exports = override(
 ```ts
 // vite-mock-plugin.ts file
 
-import MockServicePlugin from "mock-service-plugin";
+import { startServer } from "mock-service-plugin";
 import { createServer } from "net";
 import { join } from "path";
 
@@ -440,7 +440,7 @@ export default function ViteMockServicePlugin(e: string) {
           console.log(`Port ${port} is already in use`);
         } else {
           if (e === "mock") {
-            const ints = new MockServicePlugin({
+            const ints = startServer({
               // Path for mock data
               mockDir: join(__dirname, "./mocks"),
               // Configure mock service port to avoid conflicts with application port
