@@ -15,7 +15,7 @@
 	"scripts": {
 		"start": "node debug.mjs",
 		"dev": "tsup --watch",
-		"build": "rimraf lib && tsup",
+		"build": "rimraf lib && tsup --sourcemap",
 		"build:prod": "npm run build -- --minify",
 		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
 		"lint": "eslint . --ext .ts",
