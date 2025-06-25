@@ -2,7 +2,7 @@ import { defineConfig } from "tsup";
 import fs from "fs/promises";
 
 export default defineConfig({
-  entry: ["src/index.ts"], // 主入口文件
+  entry: ["src/**/*.ts"], // 主入口文件
   format: ["esm"], // 只输出 ESM 格式
   dts: true, // 生成类型声明
   sourcemap: true, // 生成 sourcemap
@@ -31,11 +31,11 @@ export default defineConfig({
   ],
 
   // 构建后复制静态文件
-  async onSuccess() {
-    await Promise.all([
-      fs.copyFile("index.html", "lib/index.html"),
-      // fs.cp('mocks', 'lib/mocks', { recursive: true })
-    ]);
-    console.log("✅ 静态文件复制完成");
-  },
+  // async onSuccess() {
+  //   await Promise.all([
+  //     fs.copyFile("index.html", "lib/index.html"),
+  //     fs.cp('mocks', 'lib/mocks', { recursive: true })
+  //   ]);
+  //   console.log("✅ 静态文件复制完成");
+  // },
 });

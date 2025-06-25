@@ -10,6 +10,7 @@ const responseTemplate = fs.readFileSync(
   path.join(getDirname(import.meta.url), "../index.html"),
   "utf8"
 );
+// console.log(responseTemplate);
 
 export function createRoutes(mockPath: string) {
   return async function (req: Request, res: Response, next: NextFunction) {

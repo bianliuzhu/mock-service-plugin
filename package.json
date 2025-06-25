@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.8.1",
+	"version": "1.8.2",
 	"type": "module",
 	"description": "Simulated backend interface service",
 	"main": "./lib/index.js",
@@ -13,7 +13,7 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"start": "node lib/index.js",
+		"start": "node debug.mjs",
 		"dev": "tsup --watch",
 		"build": "rimraf lib && tsup",
 		"build:prod": "npm run build -- --minify",

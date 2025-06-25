@@ -1,6 +1,10 @@
-const server = require("./lib/src/server");
+import { startServer } from "./lib/server.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
-server.startServer({
-  path: "./mocks",
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+startServer({
+  mockDir: path.join(__dirname, "mocks"),
   port: 3720,
 });
