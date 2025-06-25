@@ -83,7 +83,7 @@ function checkBranch() {
 function build() {
   console.log(chalk.blue("开始构建项目..."));
   try {
-    execSync("npm run build", { stdio: "inherit" });
+    execSync("npm run build:prod", { stdio: "inherit" });
   } catch (error) {
     console.error(chalk.red("构建失败"));
     process.exit(1);
