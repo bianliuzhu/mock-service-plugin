@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "nodenext",
-    "moduleResolution": "NodeNext",
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,

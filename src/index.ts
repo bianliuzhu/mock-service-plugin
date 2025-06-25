@@ -11,6 +11,7 @@
  */
 
 import { startServer } from "./server.js";
+export { startServer };
 
 interface PluginOptions {
   path: string;
