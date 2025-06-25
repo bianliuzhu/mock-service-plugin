@@ -4,20 +4,20 @@ import chalk from "chalk";
 import { createRoutes } from "./routes.js";
 
 interface ServerOptions {
-  path: string;
+  mockDir: string;
   port?: number;
 }
 
-export function startServer({ path, port = 3000 }: ServerOptions): void {
+export function startServer({ mockDir, port = 3000 }: ServerOptions): void {
   const mockPort = port;
   const app: Express = express();
 
-  app.use("/", createRoutes(path));
+  app.use("/", createRoutes(mockDir));
 
-  watch.watchTree(path, () => {
+  watch.watchTree(mockDir, () => {
     try {
       // 重新创建路由处理器
-      app.use("/", createRoutes(path));
+      app.use("/", createRoutes(mockDir));
       console.info("模块更新成功");
     } catch (error) {
       console.error("模块更新失败:", error);

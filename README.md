@@ -43,7 +43,7 @@ const MockServicePlugin = require("mock-service-plugin");
 module.exports = {
   plugins: [
     new MockServicePlugin({
-      path: path.join(__dirname, "./mocks"), // mock data directory
+      mockDir: path.join(__dirname, "./mocks"), // mock data directory
       port: 3000, // mock service port
     }),
   ],
@@ -253,10 +253,10 @@ timeout: 30;
  * @url /api/data
  * @method GET
  */
-id, name, age;
-1, John, 25;
-2, Jane, 30;
-3, Bob, 28;
+(id, name, age);
+(1, John, 25);
+(2, Jane, 30);
+(3, Bob, 28);
 ```
 
 #### XML Format (mock.xml)
@@ -344,7 +344,7 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new MockServicePlugin({
-        path: path.join(__dirname, "./mocks"),
+        mockDir: path.join(__dirname, "./mocks"),
         port: 9090,
       }),
     ],
@@ -373,7 +373,7 @@ module.exports = {
     plugins: {
       add: [
         new MockServicePlugin({
-          path: path.join(__dirname, "./mocks"),
+          mockDir: path.join(__dirname, "./mocks"),
           port: 9090,
         }),
       ],
@@ -392,7 +392,7 @@ const MockServicePlugin = require("mock-service-plugin");
 module.exports = override(
   addWebpackPlugin(
     new MockServicePlugin({
-      path: path.join(__dirname, "./mocks"),
+      mockDir: path.join(__dirname, "./mocks"),
       port: 9090,
     })
   )
@@ -442,7 +442,7 @@ export default function ViteMockServicePlugin(e: string) {
           if (e === "mock") {
             const ints = new MockServicePlugin({
               // Path for mock data
-              path: join(__dirname, "./mocks"),
+              mockDir: join(__dirname, "./mocks"),
               // Configure mock service port to avoid conflicts with application port
               port: 3008,
             });

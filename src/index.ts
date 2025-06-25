@@ -32,7 +32,7 @@ class MockServicePlugin {
   }
 
   apply(): void {
-    startServer({ path: this.path, port: this.port });
+    startServer({ mockDir: this.path, port: this.port });
   }
 }
 

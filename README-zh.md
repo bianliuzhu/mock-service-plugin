@@ -43,7 +43,7 @@ const MockServicePlugin = require("mock-service-plugin");
 module.exports = {
   plugins: [
     new MockServicePlugin({
-      path: path.join(__dirname, "./mocks"), // mock 数据目录
+      mockDir: path.join(__dirname, "./mocks"), // mock 数据目录
       port: 3000, // mock 服务端口
     }),
   ],
@@ -253,10 +253,10 @@ timeout: 30;
  * @url /api/data
  * @method GET
  */
-id, name, age;
-1, 张三, 25;
-2, 李四, 30;
-3, 王五, 28;
+(id, name, age);
+(1, 张三, 25);
+(2, 李四, 30);
+(3, 王五, 28);
 ```
 
 #### XML 格式 (mock.xml)
@@ -344,7 +344,7 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new MockServicePlugin({
-        path: path.join(__dirname, "./mocks"),
+        mockDir: path.join(__dirname, "./mocks"),
         port: 9090,
       }),
     ],
@@ -373,7 +373,7 @@ module.exports = {
     plugins: {
       add: [
         new MockServicePlugin({
-          path: path.join(__dirname, "./mocks"),
+          mockDir: path.join(__dirname, "./mocks"),
           port: 9090,
         }),
       ],
@@ -392,7 +392,7 @@ const MockServicePlugin = require("mock-service-plugin");
 module.exports = override(
   addWebpackPlugin(
     new MockServicePlugin({
-      path: path.join(__dirname, "./mocks"),
+      mockDir: path.join(__dirname, "./mocks"),
       port: 9090,
     })
   )
@@ -442,7 +442,7 @@ export default function ViteMockServicePlugin(e: string) {
           if (e === "mock") {
             const ints = new MockServicePlugin({
               // mock 数据的存放路径
-              path: join(__dirname, "./mocks"),
+              mockDir: join(__dirname, "./mocks"),
               // 配置mock服务的端口，避免与应用端口冲突
               port: 3008,
             });
