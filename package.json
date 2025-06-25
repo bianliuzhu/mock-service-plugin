@@ -1,6 +1,6 @@
 {
 	"name": "mock-service-plugin",
-	"version": "1.8.3",
+	"version": "1.8.4",
 	"type": "module",
 	"description": "Simulated backend interface service",
 	"main": "./lib/index.js",
@@ -44,7 +44,8 @@
 		"email": "bianliuzhu@gmail.com"
 	},
 	"files": [
-		"lib"
+		"lib",
+		"index.html"
 	],
 	"license": "ISC",
 	"dependencies": {
