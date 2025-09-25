@@ -403,55 +403,54 @@ module.exports = override(
 
 ```ts
 // vite-mock-plugin.ts file
-
-import { startServer } from "mock-service-plugin";
-import { createServer } from "net";
-import { join } from "path";
+import { startServer } from 'mock-service-plugin'
+import { createServer } from 'net'
+import { join } from 'path'
 
 function isPortTaken(port: number) {
   return new Promise((resolve) => {
-    const server = createServer();
+    const server = createServer()
 
-    server.once("error", (err: { code: string }) => {
-      if (err.code === "EADDRINUSE") {
-        resolve(true);
+    server.once('error', (err: { code: string }) => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(true)
       } else {
-        resolve(false);
+        resolve(false)
       }
-    });
+    })
 
-    server.once("listening", () => {
-      server.close();
-      resolve(false);
-    });
+    server.once('listening', () => {
+      server.close()
+      resolve(false)
+    })
 
-    server.listen(port);
-  });
+    server.listen(port)
+  })
 }
 
 export default function ViteMockServicePlugin(e: string) {
   return {
-    name: "ViteMockServicePlugin",
+    name: 'ViteMockServicePlugin',
     buildStart() {
-      (async () => {
-        const port = 3008;
-        const portTaken = await isPortTaken(port);
+      ;(async () => {
+        const port = 3008
+        const portTaken = await isPortTaken(port)
         if (portTaken) {
-          console.log(`Port ${port} is already in use`);
+          console.log(`Port ${port} is already in use`)
         } else {
-          if (e === "mock") {
-            const ints = startServer({
+          if (e === 'mock') {
+            // 启动本地 mock 服务（startServer 无需返回值）
+            startServer({
               // Path for mock data
-              mockDir: join(__dirname, "./mocks"),
+              mockDir: join(__dirname, './src/mock'),
               // Configure mock service port to avoid conflicts with application port
               port: 3008,
-            });
-            ints.apply();
+            })
           }
         }
-      })();
+      })()
     },
-  };
+  }
 }
 ```
 
@@ -461,10 +460,30 @@ import { defineConfig } from "vite";
 // The vite-mock-plugin imported here is the code snippet above
 import ViteMockServicePlugin from "./vite-mock-plugin";
 
-export default defineConfig({
-  plugins: [ViteMockServicePlugin("development")],
+export default defineConfig({ mode })=>{
+  return {
+    plugins: [ViteMockServicePlugin(mode)],
+  }
 });
 ```
+
+```bash
+# .env.mock
+VITE_SEVER_URL=http://localhost:3008/
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "dev": "vite --mode dev",
+    // add mock script
+    "mock": "vite --mode mock",
+  },
+}
+```
+
+
 
 ## Example Projects
 
