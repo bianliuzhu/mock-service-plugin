@@ -38,3 +38,6 @@ class MockServicePlugin {
 }
 
 export default MockServicePlugin;
+
+// 为了兼容 CommonJS 导入
+export { MockServicePlugin };
