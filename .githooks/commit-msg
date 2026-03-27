@@ -66,13 +66,13 @@ run_commitlint() {
 
   # 只选择一种可用执行方式，避免同一错误重复输出多次
   if command -v pnpm >/dev/null 2>&1 && [ -f "pnpm-lock.yaml" ]; then
-    cmd=(pnpm exec commitlint --edit "$msg_file")
+    cmd=(pnpm exec commitlint -- --edit "$msg_file")
   elif command -v yarn >/dev/null 2>&1 && [ -f "yarn.lock" ]; then
-    cmd=(yarn commitlint --edit "$msg_file")
+    cmd=(yarn commitlint -- --edit "$msg_file")
   elif command -v npm >/dev/null 2>&1 && [ -f "package-lock.json" ]; then
-    cmd=(npm exec commitlint --edit "$msg_file")
+    cmd=(npm exec commitlint -- --edit "$msg_file")
   elif command -v npx >/dev/null 2>&1; then
-    cmd=(npx --no-install commitlint --edit "$msg_file")
+    cmd=(npx --no-install commitlint -- --edit "$msg_file")
   elif [ -x "node_modules/.bin/commitlint" ]; then
     cmd=(node_modules/.bin/commitlint --edit "$msg_file")
   else
