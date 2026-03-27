@@ -1,0 +1,186 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify workflow version
+        run: |
+          echo "Checking workflow file..."
+          head -20 .github/workflows/publish.yml
+          echo "Git commit: $(git rev-parse HEAD)"
+          echo "Git branch: $(git branch --show-current)"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate version number
+        id: version
+        run: |
+          echo "========== STARTING VERSION GENERATION =========="
+          echo "Current package.json version before update:"
+          cat package.json | grep '"version"'
+
+          # 使用 Node.js 生成日期版本号，避免 shell 兼容性问题
+          node << 'SCRIPT'
+          const fs = require('fs');
+          const { execSync } = require('child_process');
+
+          // 获取当前日期 (YY.MDD 格式：年.月日.序号)
+          // 月份不补0，日期补0到两位，组成中间段
+          // 示例：1月6日 → 106, 12月25日 → 1225
+          const now = new Date();
+          const year = now.getFullYear().toString().slice(-2);
+          const month = (now.getMonth() + 1).toString(); // 不填充前导零
+          const day = now.getDate().toString().padStart(2, '0'); // 日期填充两位数
+          const middleSegment = month + day; // 例如：106, 1225
+          const datePrefix = `${year}.${middleSegment}`;
+
+          console.log(`Date prefix: ${datePrefix} (year: ${year}, month: ${month}, day: ${day})`);
+
+          // 获取包名
+          const pkg = require('./package.json');
+          const packageName = pkg.name;
+
+          // 获取已发布的所有版本
+          let existingVersions = [];
+          try {
+            const versionsJson = execSync(`npm view ${packageName} versions --json`, { encoding: 'utf-8' });
+            existingVersions = JSON.parse(versionsJson);
+          } catch (e) {
+            console.log('Package not found or no versions published yet');
+            existingVersions = [];
+          }
+
+          console.log('Existing versions:', existingVersions);
+
+          // 查找今天发布的版本（格式：YY.MDD.number）
+          const todayVersions = existingVersions.filter(v => {
+            // 匹配格式：YY.MDD.number（三段式）
+            const match = v.match(/^(\d+)\.(\d+)\.(\d+)$/);
+            if (!match) return false;
+            
+            const [, vYear, vMiddle, vPatch] = match;
+            
+            return vYear === year && vMiddle === middleSegment;
+          });
+
+          console.log('Today\'s versions:', todayVersions);
+
+          let newVersion;
+          if (todayVersions.length === 0) {
+            // 今天第一次发布，序号从 0 开始
+            newVersion = `${datePrefix}.0`;
+          } else {
+            // 找出今天最大的序号
+            let maxNumber = -1;
+            
+            todayVersions.forEach(v => {
+              const match = v.match(/^(\d+)\.(\d+)\.(\d+)$/);
+              if (match) {
+                const number = parseInt(match[3]);
+                maxNumber = Math.max(maxNumber, number);
+              }
+            });
+            
+            newVersion = `${datePrefix}.${maxNumber + 1}`;
+          }
+
+          console.log(`New version: ${newVersion}`);
+
+          // 更新 package.json
+          pkg.version = newVersion;
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, '\t') + '\n');
+
+          // 输出到 GitHub Actions
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `version=${newVersion}\n`);
+          SCRIPT
+
+          echo "========== VERSION GENERATION COMPLETE =========="
+          echo "Updated package.json version:"
+          cat package.json | grep '"version"'
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Verify version after build
+        run: |
+          echo "========== VERIFYING VERSION AFTER BUILD =========="
+          echo "Root package.json version:"
+          cat package.json | grep '"version"'
+
+          # 确保版本号正确（再次强制更新）
+          NEW_VERSION="${{ steps.version.outputs.version }}"
+          echo "Expected version: $NEW_VERSION"
+
+          # 再次更新以确保万无一失
+          node -e "const fs = require('fs'); const pkg = require('./package.json'); pkg.version = '$NEW_VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, '\t') + '\n');"
+
+          echo "After re-update:"
+          cat package.json | grep '"version"'
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@bianliuzhu'
+
+      - name: Update package name for GitHub Packages
+        run: |
+          # 备份原始 package.json
+          cp package.json package.json.backup
+
+          # 为 GitHub Packages 添加作用域到包名
+          node -e "const fs = require('fs'); const pkg = require('./package.json'); pkg.name = '@bianliuzhu/mock-service-plugin'; pkg.publishConfig = { registry: 'https://npm.pkg.github.com' }; fs.writeFileSync('package.json', JSON.stringify(pkg, null, '\t') + '\n');"
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore original package.json
+        run: |
+          # 恢复原始 package.json
+          mv package.json.backup package.json
+
+      - name: Create Git Tag
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add package.json
+          git commit -m "chore: release version ${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}" || echo "Tag already exists"

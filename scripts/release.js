@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from "child_process";
+import { createInterface } from "readline";
 import chalk from "chalk";
 
 // 执行命令并返回结果
@@ -127,7 +128,9 @@ async function release() {
 
     // 8. 发布到 npm
     console.log(chalk.blue("发布到 npm..."));
-    execSync("npm publish", { stdio: "inherit" });
+    const otp = await getOtp();
+    const publishCmd = otp ? `npm publish --otp=${otp}` : "npm publish";
+    execSync(publishCmd, { stdio: "inherit" });
 
     // 9. 推送更改和标签
     console.log(chalk.blue("推送更改和标签..."));
@@ -138,6 +141,23 @@ async function release() {
     console.error(chalk.red("发布失败：", error.message));
     process.exit(1);
   }
+}
+
+// 获取 OTP（支持命令行参数 --otp=xxx 或交互式输入）
+function getOtp() {
+  const otpArg = process.argv.find((a) => a.startsWith("--otp="));
+  if (otpArg) return Promise.resolve(otpArg.split("=")[1]);
+
+  return new Promise((resolve) => {
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    rl.question(
+      chalk.yellow("npm 2FA 已启用，请输入 OTP 验证码（留空跳过）: "),
+      (answer) => {
+        rl.close();
+        resolve(answer.trim() || "");
+      }
+    );
+  });
 }
 
 // 执行发布
