@@ -1,6 +1,6 @@
 {
   "name": "mock-service-plugin",
-  "version": "1.8.8",
+  "version": "1.8.12",
   "type": "module",
   "description": "Simulated backend interface service",
   "main": "./lib/index.js",
@@ -60,6 +60,9 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/types": "^20.5.0",
     "@types/express": "^4.17.23",
     "@types/mockjs": "^1.0.10",
     "@types/node": "^20.19.0",
@@ -76,5 +79,11 @@
   },
   "engines": {
     "node": ">=16.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
