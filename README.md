@@ -144,7 +144,7 @@ export default function ViteMockServicePlugin(mode: string) {
         if (mode === "mock") {
           startServer({
             mockDir: join(__dirname, "./mocks"), // path to mock folder
-            port,                                // mock service port
+            port, // mock service port
           });
         }
       })();
@@ -237,10 +237,10 @@ file = top comment (route config) + response body
 
 ### Annotation Reference
 
-| Annotation | Required | Description | Example |
-|------------|----------|-------------|---------|
-| `@url` | ✅ Yes | API path, supports dynamic parameters | `@url /api/users/:id` |
-| `@method` | Optional | HTTP method, defaults to `GET` | `@method POST` |
+| Annotation      | Required | Description                                                                                                                                    | Example                   |
+| --------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `@url`          | ✅ Yes   | API path, supports dynamic parameters                                                                                                          | `@url /api/users/:id`     |
+| `@method`       | Optional | HTTP method, defaults to `GET`                                                                                                                 | `@method POST`            |
 | `@content-type` | Optional | Override the default Content-Type. Preferably use the **file extension** as reference — see [Supported File Formats](#supported-file-formats). | `@content-type image/png` |
 
 ### Dynamic Route Parameters
@@ -281,31 +281,42 @@ The plugin **recursively scans** the entire `mocks` directory and automatically 
 
 > MockJS is a data mocking library that generates random data using template syntax. The plugin bundles MockJS, so it can be used directly in `.json` mock files.
 
+### VS Code Completion Extension
+
+For a better template editing experience, use [Mock.js Completion](https://marketplace.visualstudio.com/items?itemName=bianliuzhu.mockjs-completion), a companion VS Code extension that provides MockJS placeholder and parameter completion.
+
+- **Install**: Requires VS Code 1.85.0 or later. Search for `bianliuzhu.mockjs-completion` in the Extensions view and install it, or run `code --install-extension bianliuzhu.mockjs-completion`.
+- **Use**: Open your project root in VS Code and edit a `.json` file under `mocks/` (including subdirectories). Type `@` inside a string value to see suggestions such as `@cname`, `@email`, and `@integer`; use Tab to move between parameters after accepting a suggestion.
+- **Language mode**: For files with top-of-file route annotations, select **JSON with Comments (JSONC)** while keeping the `.json` extension. The response body must still be valid JSON, without comments or trailing commas.
+
+> This optional extension only assists with template editing. It does not install or start `mock-service-plugin`; custom mock directories outside the workspace-root `mocks/` folder and `.sse` files are not supported by the extension.
+
 ### Random Value Placeholders
+
 > See [Full Syntax Categories](#full-syntax-categories)
 
-| Syntax | Description | Example Output |
-|--------|-------------|----------------|
-| `@id` | Random ID number | `"420000199206230937"` |
-| `@guid` | Random GUID | `"662C63B4-FD43-66F4-3328"` |
-| `@cname` | Random Chinese name | `"Wang Fang"` |
-| `@name` | Random English name | `"Charles Lopez"` |
-| `@email` | Random email address | `"x.fwtue@pbgty.com"` |
-| `@url` | Random URL | `"http://ljwih.io/lxqf"` |
-| `@ip` | Random IP address | `"52.249.14.3"` |
-| `@integer(min, max)` | Random integer in range | `@integer(1, 100)` → `42` |
-| `@float(min, max, dMin, dMax)` | Random float | `@float(1, 100, 2, 2)` → `36.14` |
-| `@boolean` | Random boolean | `true` or `false` |
-| `@date` | Random date | `"2021-07-30"` |
-| `@datetime` | Random datetime | `"2021-07-30 10:42:01"` |
-| `@now` | Current time | `"2026-03-27 14:22:00"` |
-| `@csentence(min, max)` | Random Chinese sentence | `"学中用称化置速。"` |
-| `@ctitle(min, max)` | Random Chinese title | `"Sample Product Name"` |
-| `@cparagraph` | Random Chinese paragraph | A paragraph of random Chinese text |
-| `@image('WxH')` | Random placeholder image URL | `@image('200x100')` |
-| `@pick(['a','b','c'])` | Pick one item randomly from array | `"b"` |
-| `@increment(1)` | Auto-incrementing number (starts at 1) | `1`, `2`, `3`... |
-| `@string('lower', 8)` | Random string | `"abcdefgh"` |
+| Syntax                         | Description                            | Example Output                     |
+| ------------------------------ | -------------------------------------- | ---------------------------------- |
+| `@id`                          | Random ID number                       | `"420000199206230937"`             |
+| `@guid`                        | Random GUID                            | `"662C63B4-FD43-66F4-3328"`        |
+| `@cname`                       | Random Chinese name                    | `"Wang Fang"`                      |
+| `@name`                        | Random English name                    | `"Charles Lopez"`                  |
+| `@email`                       | Random email address                   | `"x.fwtue@pbgty.com"`              |
+| `@url`                         | Random URL                             | `"http://ljwih.io/lxqf"`           |
+| `@ip`                          | Random IP address                      | `"52.249.14.3"`                    |
+| `@integer(min, max)`           | Random integer in range                | `@integer(1, 100)` → `42`          |
+| `@float(min, max, dMin, dMax)` | Random float                           | `@float(1, 100, 2, 2)` → `36.14`   |
+| `@boolean`                     | Random boolean                         | `true` or `false`                  |
+| `@date`                        | Random date                            | `"2021-07-30"`                     |
+| `@datetime`                    | Random datetime                        | `"2021-07-30 10:42:01"`            |
+| `@now`                         | Current time                           | `"2026-03-27 14:22:00"`            |
+| `@csentence(min, max)`         | Random Chinese sentence                | `"学中用称化置速。"`               |
+| `@ctitle(min, max)`            | Random Chinese title                   | `"Sample Product Name"`            |
+| `@cparagraph`                  | Random Chinese paragraph               | A paragraph of random Chinese text |
+| `@image('WxH')`                | Random placeholder image URL           | `@image('200x100')`                |
+| `@pick(['a','b','c'])`         | Pick one item randomly from array      | `"b"`                              |
+| `@increment(1)`                | Auto-incrementing number (starts at 1) | `1`, `2`, `3`...                   |
+| `@string('lower', 8)`          | Random string                          | `"abcdefgh"`                       |
 
 ### Generating Arrays (Bulk Data)
 
@@ -329,17 +340,17 @@ Generates a list of 5 items. Use `|min-max` for a random count:
 
 Prefix method names with `@` when using them, e.g. `@name`, `@integer(1, 100)`.
 
-| Category | Available Methods |
-|----------|------------------|
-| Basic | `boolean`, `natural`, `integer`, `float`, `character`, `string`, `range`, `date`, `time`, `datetime`, `now` |
-| Image | `image`, `dataImage` |
-| Color | `color` |
-| Text | `paragraph`, `sentence`, `word`, `title`, `cparagraph`, `csentence`, `cword`, `ctitle` |
-| Name | `first`, `last`, `name`, `cfirst`, `clast`, `cname` |
-| Web | `url`, `domain`, `email`, `ip`, `tld` |
-| Address | `area`, `region` |
-| Helper | `capitalize`, `upper`, `lower`, `pick`, `shuffle` |
-| Misc | `guid`, `id` |
+| Category | Available Methods                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------------- |
+| Basic    | `boolean`, `natural`, `integer`, `float`, `character`, `string`, `range`, `date`, `time`, `datetime`, `now` |
+| Image    | `image`, `dataImage`                                                                                        |
+| Color    | `color`                                                                                                     |
+| Text     | `paragraph`, `sentence`, `word`, `title`, `cparagraph`, `csentence`, `cword`, `ctitle`                      |
+| Name     | `first`, `last`, `name`, `cfirst`, `clast`, `cname`                                                         |
+| Web      | `url`, `domain`, `email`, `ip`, `tld`                                                                       |
+| Address  | `area`, `region`                                                                                            |
+| Helper   | `capitalize`, `upper`, `lower`, `pick`, `shuffle`                                                           |
+| Misc     | `guid`, `id`                                                                                                |
 
 > Methods prefixed with `c` (e.g. `cname`, `csentence`) generate Chinese content; methods without the prefix generate English content.
 
@@ -354,14 +365,16 @@ Prefix method names with `@` when using them, e.g. `@name`, `@integer(1, 100)`.
   "code": 200,
   "data": {
     "total": 100,
-    "list|10": [{
-      "id": "@id",
-      "name": "@cname",
-      "age": "@integer(18, 60)",
-      "email": "@email",
-      "status": "@pick(['active', 'inactive', 'banned'])",
-      "createdAt": "@datetime"
-    }]
+    "list|10": [
+      {
+        "id": "@id",
+        "name": "@cname",
+        "age": "@integer(18, 60)",
+        "email": "@email",
+        "status": "@pick(['active', 'inactive', 'banned'])",
+        "createdAt": "@datetime"
+      }
+    ]
   },
   "message": "success"
 }
@@ -373,23 +386,23 @@ Prefix method names with `@` when using them, e.g. `@name`, `@integer(1, 100)`.
 
 The plugin automatically identifies the response type based on the **file extension**:
 
-| Extension | Content-Type | Description |
-|-----------|--------------|-------------|
-| `.json` | `application/json` | JSON data, supports MockJS template syntax |
-| `.sse` | `text/event-stream` | SSE streaming response, supports MockJS |
-| `.txt` | `text/plain` | Plain text |
-| `.html` | `text/html` | HTML document |
-| `.xml` | `application/xml` | XML data |
-| `.csv` | `text/csv` | CSV spreadsheet data |
-| `.md` | `text/markdown` | Markdown document |
-| `.css` | `text/css` | CSS stylesheet |
-| `.js` | `application/javascript` | JavaScript code |
-| `.yaml` / `.yml` | `application/x-yaml` | YAML configuration |
-| `.png` | `image/png` | PNG image |
-| `.jpg` / `.jpeg` | `image/jpeg` | JPEG image |
-| `.gif` | `image/gif` | GIF image |
-| `.svg` | `image/svg+xml` | SVG vector image |
-| `.pdf` | `application/pdf` | PDF document |
+| Extension        | Content-Type             | Description                                |
+| ---------------- | ------------------------ | ------------------------------------------ |
+| `.json`          | `application/json`       | JSON data, supports MockJS template syntax |
+| `.sse`           | `text/event-stream`      | SSE streaming response, supports MockJS    |
+| `.txt`           | `text/plain`             | Plain text                                 |
+| `.html`          | `text/html`              | HTML document                              |
+| `.xml`           | `application/xml`        | XML data                                   |
+| `.csv`           | `text/csv`               | CSV spreadsheet data                       |
+| `.md`            | `text/markdown`          | Markdown document                          |
+| `.css`           | `text/css`               | CSS stylesheet                             |
+| `.js`            | `application/javascript` | JavaScript code                            |
+| `.yaml` / `.yml` | `application/x-yaml`     | YAML configuration                         |
+| `.png`           | `image/png`              | PNG image                                  |
+| `.jpg` / `.jpeg` | `image/jpeg`             | JPEG image                                 |
+| `.gif`           | `image/gif`              | GIF image                                  |
+| `.svg`           | `image/svg+xml`          | SVG vector image                           |
+| `.pdf`           | `application/pdf`        | PDF document                               |
 
 > **Note**: MockJS template syntax (e.g. `@cname`) currently only works in **`.json`** and **`.sse`** files. Other formats return the raw file content.
 
@@ -410,13 +423,15 @@ Filename: `user.json`
   "code": 200,
   "data": {
     "total": 100,
-    "list|10": [{
-      "id": "@id",
-      "name": "@cname",
-      "age": "@integer(18, 60)",
-      "email": "@email",
-      "createdAt": "@datetime"
-    }]
+    "list|10": [
+      {
+        "id": "@id",
+        "name": "@cname",
+        "age": "@integer(18, 60)",
+        "email": "@email",
+        "createdAt": "@datetime"
+      }
+    ]
   },
   "message": "success"
 }
@@ -551,25 +566,27 @@ Filename: `chat.sse`
  */
 {
   "interval": 100,
-  "items|15": [{
-    "id": "@increment(1)",
-    "data": {
-      "content": "@csentence(2, 5)"
+  "items|15": [
+    {
+      "id": "@increment(1)",
+      "data": {
+        "content": "@csentence(2, 5)"
+      }
     }
-  }]
+  ]
 }
 ```
 
 **Field Reference:**
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `interval` | number | Delay between messages in milliseconds. Supports MockJS expressions, e.g. `"@integer(100, 500)"` |
-| `items` | array | List of messages to push. Supports `|count` syntax for bulk generation |
-| `items[].id` | string/number | SSE message `id` field (optional) |
-| `items[].event` | string | SSE message `event` field (optional) |
-| `items[].data` | any | SSE message `data` field, serialized as a JSON string |
-| `items[].retry` | number | Reconnection time in ms (optional) |
+| Field           | Type          | Description                                                                                      |
+| --------------- | ------------- | ------------------------------------------------------------------------------------------------ | --------------------------------- |
+| `interval`      | number        | Delay between messages in milliseconds. Supports MockJS expressions, e.g. `"@integer(100, 500)"` |
+| `items`         | array         | List of messages to push. Supports `                                                             | count` syntax for bulk generation |
+| `items[].id`    | string/number | SSE message `id` field (optional)                                                                |
+| `items[].event` | string        | SSE message `event` field (optional)                                                             |
+| `items[].data`  | any           | SSE message `data` field, serialized as a JSON string                                            |
+| `items[].retry` | number        | Reconnection time in ms (optional)                                                               |
 
 Frontend example (JavaScript):
 
@@ -604,7 +621,7 @@ module.exports = {
   plugins: [
     new MockServicePlugin({
       path: path.join(__dirname, "./mocks"), // path to mock folder (note: parameter is named 'path')
-      port: 3008,                            // mock service port
+      port: 3008, // mock service port
     }),
   ],
 };
@@ -673,8 +690,8 @@ module.exports = override(
     new MockServicePlugin({
       path: path.join(__dirname, "./mocks"),
       port: 3008,
-    })
-  )
+    }),
+  ),
 );
 ```
 
@@ -707,6 +724,7 @@ startServer({ mockDir: "./mocks", port: 3009 }); // use a different port
 **Q: Requests aren't matching my mock, returning 404?**
 
 Check the following:
+
 1. Does the `@url` path in the mock file exactly match the frontend request path (watch for case and trailing slashes)?
 2. Does `@method` match the request method (default is `GET`)?
 3. Is the proxy configured correctly — is the frontend request actually being forwarded to the Mock service?
