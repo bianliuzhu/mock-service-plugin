@@ -21,9 +21,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "24"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Setup npm for trusted publishing
+        run: |
+          npm install --global npm@11 --registry=https://registry.npmjs.org
+          node --version
+          npm --version
 
       - name: Verify workflow version
         run: |
@@ -140,18 +146,15 @@ jobs:
           echo "After re-update:"
           cat package.json | grep '"version"'
 
-      - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+      - name: Publish to npm with OIDC
+        run: npm publish --provenance --access public --registry=https://registry.npmjs.org
 
       - name: Setup Node.js for GitHub Packages
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@bianliuzhu'
+          node-version: "24"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@bianliuzhu"
 
       - name: Update package name for GitHub Packages
         run: |
