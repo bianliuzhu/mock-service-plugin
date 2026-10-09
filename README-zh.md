@@ -144,7 +144,7 @@ export default function ViteMockServicePlugin(mode: string) {
         if (mode === "mock") {
           startServer({
             mockDir: join(__dirname, "./mocks"), // mock 文件夹路径
-            port,                                // mock 服务端口
+            port, // mock 服务端口
           });
         }
       })();
@@ -237,11 +237,11 @@ npm run mock
 
 ### 顶部注解说明
 
-| 注解 | 是否必填 | 说明 | 示例 |
-|------|----------|------|------|
-| `@url` | ✅ 必填 | 接口路径，支持动态参数 | `@url /api/users/:id` |
-| `@method` | 可选 | HTTP 请求方法，默认 `GET` | `@method POST` |
-| `@content-type` | 可选 | 覆盖默认的 Content-Type 建议使用**文件扩展名**参考[支持的文件格式](#支持的文件格式)。 | `@content-type image/png` |
+| 注解            | 是否必填 | 说明                                                                                  | 示例                      |
+| --------------- | -------- | ------------------------------------------------------------------------------------- | ------------------------- |
+| `@url`          | ✅ 必填  | 接口路径，支持动态参数                                                                | `@url /api/users/:id`     |
+| `@method`       | 可选     | HTTP 请求方法，默认 `GET`                                                             | `@method POST`            |
+| `@content-type` | 可选     | 覆盖默认的 Content-Type 建议使用**文件扩展名**参考[支持的文件格式](#支持的文件格式)。 | `@content-type image/png` |
 
 ### 动态路由参数
 
@@ -281,31 +281,42 @@ mocks/
 
 > MockJS 是一个数据模拟库，可以用模板语法生成随机数据。插件内置了 MockJS，JSON 格式的 mock 文件中可以直接使用。
 
+### VS Code 智能提示扩展
+
+推荐搭配 [Mock.js Completion](https://marketplace.visualstudio.com/items?itemName=bianliuzhu.mockjs-completion) VS Code 扩展使用，为 MockJS 占位符和参数提供智能补全，提升 mock 模板的编写体验。
+
+- **安装**：需要 VS Code 1.85.0 或更高版本。在扩展面板搜索 `bianliuzhu.mockjs-completion` 并安装，或执行 `code --install-extension bianliuzhu.mockjs-completion`。
+- **使用**：在 VS Code 中打开业务项目根目录，编辑 `mocks/` 下的 `.json` 文件（支持子目录）。在字符串值中输入 `@`，即可获得 `@cname`、`@email`、`@integer` 等候选；确认后使用 Tab 切换并填写参数。
+- **语言模式**：带有顶部路由注解的文件请选择 **JSON with Comments（JSONC）**，文件扩展名仍保留 `.json`。响应正文仍须为合法 JSON，不能包含注释或尾随逗号。
+
+> 此扩展为可选的编辑辅助工具，不会安装或启动 `mock-service-plugin`；工作区根目录 `mocks/` 以外的自定义 mock 目录及 `.sse` 文件暂不支持补全。
+
 ### 随机值占位符
+
 > 可查看[完整语法分类](完整语法分类)
 
-| 语法 | 说明 | 示例输出 |
-|------|------|---------|
-| `@id` | 随机身份证号 | `"420000199206230937"` |
-| `@guid` | 随机 GUID | `"662C63B4-FD43-66F4-3328"` |
-| `@cname` | 随机中文姓名 | `"王芳"` |
-| `@name` | 随机英文姓名 | `"Charles Lopez"` |
-| `@email` | 随机邮箱 | `"x.fwtue@pbgty.com"` |
-| `@url` | 随机 URL | `"http://ljwih.io/lxqf"` |
-| `@ip` | 随机 IP 地址 | `"52.249.14.3"` |
-| `@integer(min, max)` | 指定范围的随机整数 | `@integer(1, 100)` → `42` |
-| `@float(min, max, dMin, dMax)` | 随机浮点数 | `@float(1, 100, 2, 2)` → `36.14` |
-| `@boolean` | 随机布尔值 | `true` 或 `false` |
-| `@date` | 随机日期 | `"2021-07-30"` |
-| `@datetime` | 随机日期时间 | `"2021-07-30 10:42:01"` |
-| `@now` | 当前时间 | `"2026-03-27 14:22:00"` |
-| `@csentence(min, max)` | 随机中文句子 | `"学中用称化置速。"` |
-| `@ctitle(min, max)` | 随机中文标题 | `"商品名称示例"` |
-| `@cparagraph` | 随机中文段落 | 一段随机中文 |
-| `@image('宽x高')` | 随机占位图片 URL | `@image('200x100')` |
-| `@pick(['a','b','c'])` | 从数组中随机取一个 | `"b"` |
-| `@increment(1)` | 自增数字（从1开始） | `1`, `2`, `3`... |
-| `@string('lower', 8)` | 随机字符串 | `"abcdefgh"` |
+| 语法                           | 说明                | 示例输出                         |
+| ------------------------------ | ------------------- | -------------------------------- |
+| `@id`                          | 随机身份证号        | `"420000199206230937"`           |
+| `@guid`                        | 随机 GUID           | `"662C63B4-FD43-66F4-3328"`      |
+| `@cname`                       | 随机中文姓名        | `"王芳"`                         |
+| `@name`                        | 随机英文姓名        | `"Charles Lopez"`                |
+| `@email`                       | 随机邮箱            | `"x.fwtue@pbgty.com"`            |
+| `@url`                         | 随机 URL            | `"http://ljwih.io/lxqf"`         |
+| `@ip`                          | 随机 IP 地址        | `"52.249.14.3"`                  |
+| `@integer(min, max)`           | 指定范围的随机整数  | `@integer(1, 100)` → `42`        |
+| `@float(min, max, dMin, dMax)` | 随机浮点数          | `@float(1, 100, 2, 2)` → `36.14` |
+| `@boolean`                     | 随机布尔值          | `true` 或 `false`                |
+| `@date`                        | 随机日期            | `"2021-07-30"`                   |
+| `@datetime`                    | 随机日期时间        | `"2021-07-30 10:42:01"`          |
+| `@now`                         | 当前时间            | `"2026-03-27 14:22:00"`          |
+| `@csentence(min, max)`         | 随机中文句子        | `"学中用称化置速。"`             |
+| `@ctitle(min, max)`            | 随机中文标题        | `"商品名称示例"`                 |
+| `@cparagraph`                  | 随机中文段落        | 一段随机中文                     |
+| `@image('宽x高')`              | 随机占位图片 URL    | `@image('200x100')`              |
+| `@pick(['a','b','c'])`         | 从数组中随机取一个  | `"b"`                            |
+| `@increment(1)`                | 自增数字（从1开始） | `1`, `2`, `3`...                 |
+| `@string('lower', 8)`          | 随机字符串          | `"abcdefgh"`                     |
 
 ### 生成数组（批量数据）
 
@@ -329,17 +340,17 @@ mocks/
 
 使用时在方法名前加 `@` 前缀，例如 `@name`、`@integer(1, 100)`。
 
-| 分类 | 可用方法 |
-|------|----------|
-| 基础（Basic） | `boolean`, `natural`, `integer`, `float`, `character`, `string`, `range`, `date`, `time`, `datetime`, `now` |
-| 图片（Image） | `image`, `dataImage` |
-| 颜色（Color） | `color` |
-| 文本（Text） | `paragraph`, `sentence`, `word`, `title`, `cparagraph`, `csentence`, `cword`, `ctitle` |
-| 姓名（Name） | `first`, `last`, `name`, `cfirst`, `clast`, `cname` |
-| 网络（Web） | `url`, `domain`, `email`, `ip`, `tld` |
-| 地址（Address） | `area`, `region` |
-| 工具（Helper） | `capitalize`, `upper`, `lower`, `pick`, `shuffle` |
-| 其他（Misc） | `guid`, `id` |
+| 分类            | 可用方法                                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------------------- |
+| 基础（Basic）   | `boolean`, `natural`, `integer`, `float`, `character`, `string`, `range`, `date`, `time`, `datetime`, `now` |
+| 图片（Image）   | `image`, `dataImage`                                                                                        |
+| 颜色（Color）   | `color`                                                                                                     |
+| 文本（Text）    | `paragraph`, `sentence`, `word`, `title`, `cparagraph`, `csentence`, `cword`, `ctitle`                      |
+| 姓名（Name）    | `first`, `last`, `name`, `cfirst`, `clast`, `cname`                                                         |
+| 网络（Web）     | `url`, `domain`, `email`, `ip`, `tld`                                                                       |
+| 地址（Address） | `area`, `region`                                                                                            |
+| 工具（Helper）  | `capitalize`, `upper`, `lower`, `pick`, `shuffle`                                                           |
+| 其他（Misc）    | `guid`, `id`                                                                                                |
 
 > 带 `c` 前缀的方法（如 `cname`、`csentence`）生成中文内容，不带前缀的生成英文内容。
 
@@ -354,14 +365,16 @@ mocks/
   "code": 200,
   "data": {
     "total": 100,
-    "list|10": [{
-      "id": "@id",
-      "name": "@cname",
-      "age": "@integer(18, 60)",
-      "email": "@email",
-      "status": "@pick(['active', 'inactive', 'banned'])",
-      "createdAt": "@datetime"
-    }]
+    "list|10": [
+      {
+        "id": "@id",
+        "name": "@cname",
+        "age": "@integer(18, 60)",
+        "email": "@email",
+        "status": "@pick(['active', 'inactive', 'banned'])",
+        "createdAt": "@datetime"
+      }
+    ]
   },
   "message": "success"
 }
@@ -373,23 +386,23 @@ mocks/
 
 插件根据**文件扩展名**自动识别响应类型：
 
-| 文件扩展名 | Content-Type | 说明 |
-|-----------|--------------|------|
-| `.json` | `application/json` | JSON 数据，支持 MockJS 模板语法 |
-| `.sse` | `text/event-stream` | SSE 流式响应，支持 MockJS |
-| `.txt` | `text/plain` | 纯文本 |
-| `.html` | `text/html` | HTML 文档 |
-| `.xml` | `application/xml` | XML 数据 |
-| `.csv` | `text/csv` | CSV 表格数据 |
-| `.md` | `text/markdown` | Markdown 文档 |
-| `.css` | `text/css` | CSS 样式表 |
-| `.js` | `application/javascript` | JavaScript 代码 |
-| `.yaml` / `.yml` | `application/x-yaml` | YAML 配置 |
-| `.png` | `image/png` | PNG 图片 |
-| `.jpg` / `.jpeg` | `image/jpeg` | JPEG 图片 |
-| `.gif` | `image/gif` | GIF 图片 |
-| `.svg` | `image/svg+xml` | SVG 矢量图 |
-| `.pdf` | `application/pdf` | PDF 文档 |
+| 文件扩展名       | Content-Type             | 说明                            |
+| ---------------- | ------------------------ | ------------------------------- |
+| `.json`          | `application/json`       | JSON 数据，支持 MockJS 模板语法 |
+| `.sse`           | `text/event-stream`      | SSE 流式响应，支持 MockJS       |
+| `.txt`           | `text/plain`             | 纯文本                          |
+| `.html`          | `text/html`              | HTML 文档                       |
+| `.xml`           | `application/xml`        | XML 数据                        |
+| `.csv`           | `text/csv`               | CSV 表格数据                    |
+| `.md`            | `text/markdown`          | Markdown 文档                   |
+| `.css`           | `text/css`               | CSS 样式表                      |
+| `.js`            | `application/javascript` | JavaScript 代码                 |
+| `.yaml` / `.yml` | `application/x-yaml`     | YAML 配置                       |
+| `.png`           | `image/png`              | PNG 图片                        |
+| `.jpg` / `.jpeg` | `image/jpeg`             | JPEG 图片                       |
+| `.gif`           | `image/gif`              | GIF 图片                        |
+| `.svg`           | `image/svg+xml`          | SVG 矢量图                      |
+| `.pdf`           | `application/pdf`        | PDF 文档                        |
 
 > **注意**：MockJS 模板语法（`@cname` 等）目前只在 `.json` 和 `.sse` 格式中生效，其他格式返回文件的原始内容。
 
@@ -410,13 +423,15 @@ mocks/
   "code": 200,
   "data": {
     "total": 100,
-    "list|10": [{
-      "id": "@id",
-      "name": "@cname",
-      "age": "@integer(18, 60)",
-      "email": "@email",
-      "createdAt": "@datetime"
-    }]
+    "list|10": [
+      {
+        "id": "@id",
+        "name": "@cname",
+        "age": "@integer(18, 60)",
+        "email": "@email",
+        "createdAt": "@datetime"
+      }
+    ]
   },
   "message": "success"
 }
@@ -551,25 +566,27 @@ ORD003,王五,AirPods,2,1598.00,待付款
  */
 {
   "interval": 100,
-  "items|15": [{
-    "id": "@increment(1)",
-    "data": {
-      "content": "@csentence(2, 5)"
+  "items|15": [
+    {
+      "id": "@increment(1)",
+      "data": {
+        "content": "@csentence(2, 5)"
+      }
     }
-  }]
+  ]
 }
 ```
 
 **字段说明：**
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `interval` | number | 每条消息之间的间隔（毫秒）。支持 MockJS 表达式，如 `"@integer(100, 500)"` |
-| `items` | array | 要推送的消息列表，也支持 `|数量` 语法生成批量数据 |
-| `items[].id` | string/number | SSE 消息的 `id` 字段（可选） |
-| `items[].event` | string | SSE 消息的 `event` 字段（可选） |
-| `items[].data` | any | SSE 消息的 `data` 字段，会被序列化为 JSON 字符串 |
-| `items[].retry` | number | 重连时间（可选） |
+| 字段            | 类型          | 说明                                                                      |
+| --------------- | ------------- | ------------------------------------------------------------------------- | ---------------------- |
+| `interval`      | number        | 每条消息之间的间隔（毫秒）。支持 MockJS 表达式，如 `"@integer(100, 500)"` |
+| `items`         | array         | 要推送的消息列表，也支持 `                                                | 数量` 语法生成批量数据 |
+| `items[].id`    | string/number | SSE 消息的 `id` 字段（可选）                                              |
+| `items[].event` | string        | SSE 消息的 `event` 字段（可选）                                           |
+| `items[].data`  | any           | SSE 消息的 `data` 字段，会被序列化为 JSON 字符串                          |
+| `items[].retry` | number        | 重连时间（可选）                                                          |
 
 前端接收示例（JavaScript）：
 
@@ -604,7 +621,7 @@ module.exports = {
   plugins: [
     new MockServicePlugin({
       path: path.join(__dirname, "./mocks"), // mock 文件夹路径（注意参数名是 path）
-      port: 3008,                            // mock 服务端口
+      port: 3008, // mock 服务端口
     }),
   ],
 };
@@ -673,8 +690,8 @@ module.exports = override(
     new MockServicePlugin({
       path: path.join(__dirname, "./mocks"),
       port: 3008,
-    })
-  )
+    }),
+  ),
 );
 ```
 
@@ -707,6 +724,7 @@ startServer({ mockDir: "./mocks", port: 3009 }); // 换个端口
 **Q: 请求没有命中 mock，返回了 404？**
 
 检查以下几点：
+
 1. mock 文件中的 `@url` 路径是否和前端请求路径完全一致（注意大小写和斜杠）
 2. `@method` 是否和请求方法一致（默认是 `GET`）
 3. 代理配置是否正确，前端请求是否真的转发到了 Mock 服务
